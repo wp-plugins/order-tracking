@@ -33,6 +33,7 @@ Demo videos will be posted as soon as they are available.
 1. Upload the `order-tracking` folder to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Use the newly created admin menu to input and update orders, or create new order statuses
+4. Put a tracking form on the front-end of your site with the "[tracking-form]" shortcode
 
 --------------------------------------------------------------
 
@@ -40,7 +41,9 @@ Demo videos will be posted as soon as they are available.
 
 == Frequently Asked Questions ==
 
-None
+= What attributes does the "[tracking-form]" shortcode accept? =
+
+You can specify the label for the field and the value of the submit button with "order_field_text" and "submit_text" respectively.
 
 
 == Screenshots ==
