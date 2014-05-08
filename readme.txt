@@ -53,6 +53,9 @@ You can specify the label for the field and the value of the submit button with 
 
 == Changelog ==
 
+= 0.2 =
+- Fixed the tabs errors
+
 = 0.1 =
 - Initial beta version. Please make comments/suggestions in the "Support" forum.
 

@@ -6,7 +6,7 @@ Description: A plugin that lets visitors place and track order numbers, as well 
 Author: Tim Ruse
 Author URI: http://www.EtoileWebDesign.com/
 Text Domain: EWD_OTP
-Version: 0.1
+Version: 0.2
 */
 
 global $EWD_OTP_db_version;
@@ -16,7 +16,7 @@ global $message;
 global $Full_Version;
 $EWD_OTP_orders_table_name = $wpdb->prefix . "EWD_OTP_Orders";
 $EWD_OTP_order_statuses_table_name = $wpdb->prefix . "EWD_OTP_Order_Statuses";
-$EWD_OTP_db_version = "0.1";
+$EWD_OTP_db_version = "0.2";
 
 define('WP_DEBUG', true);
 $wpdb->show_errors();
