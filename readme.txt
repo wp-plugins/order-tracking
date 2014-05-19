@@ -52,6 +52,8 @@ You can specify the label for the field and the value of the submit button with 
 2. Sample order tracking page
 
 == Changelog ==
+= 0.3 =
+- Removed extra CSS that could cause compatibility issues
 
 = 0.2 =
 - Fixed the tabs errors

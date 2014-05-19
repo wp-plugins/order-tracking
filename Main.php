@@ -6,7 +6,7 @@ Description: A plugin that lets visitors place and track order numbers, as well 
 Author: Tim Ruse
 Author URI: http://www.EtoileWebDesign.com/
 Text Domain: EWD_OTP
-Version: 0.2
+Version: 0.3
 */
 
 global $EWD_OTP_db_version;
@@ -78,9 +78,17 @@ function Add_EWD_OTP_Scripts() {
 add_action( 'wp_enqueue_scripts', 'EWD_OTP_Add_Stylesheet' );
 function EWD_OTP_Add_Stylesheet() {
     wp_register_style( 'ewd-otp-style', plugins_url('css/otp-styles.css', __FILE__) );
-		wp_register_style( 'yahoo-pure-css', plugins_url('css/pure.css', __FILE__) );
+		wp_register_style( 'yahoo-pure-buttons', plugins_url('css/pure-buttons.css', __FILE__) );
+		wp_register_style( 'yahoo-pure-forms', plugins_url('css/pure-forms.css', __FILE__) );
+		wp_register_style( 'yahoo-pure-forms-nr', plugins_url('css/pure-forms-nr.css', __FILE__) );
+		wp_register_style( 'yahoo-pure-grids', plugins_url('css/pure-grids.css', __FILE__) );
+		wp_register_style( 'yahoo-pure-grids-nr', plugins_url('css/pure-grids-nr.css', __FILE__) );
     wp_enqueue_style( 'ewd-otp-style' );
-		wp_enqueue_style( 'yahoo-pure-css' );
+		wp_enqueue_style( 'yahoo-pure-buttons' );
+		wp_enqueue_style( 'yahoo-pure-forms' );
+		wp_enqueue_style( 'yahoo-pure-forms-nr' );
+		wp_enqueue_style( 'yahoo-pure-grids' );
+		wp_enqueue_style( 'yahoo-pure-grids-nr' );
 }
 
 
