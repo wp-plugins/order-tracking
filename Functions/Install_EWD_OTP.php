@@ -11,6 +11,9 @@ function Install_EWD_OTP() {
 		Order_Name text DEFAULT '' NOT NULL,
 		Order_Number text DEFAULT '' NOT NULL,
 		Order_Status text DEFAULT '' NOT NULL,
+		Order_Notes_Public text DEFAULT '' NOT NULL,
+		Order_Notes_Private text DEFAULT '' NOT NULL,
+		Order_Email text DEFAULT '' NOT NULL,
 		Order_Status_Updated datetime DEFAULT '0000-00-00 00:00:00' NULL,
 		Order_Display text DEFAULT '' NOT NULL,
   	UNIQUE KEY id (Order_ID)
@@ -32,6 +35,12 @@ function Install_EWD_OTP() {
    	dbDelta($sql);
  		
 		update_option("EWD_OTP_Full_Version", "Yes");
+		update_option("EWD_OTP_Custom_CSS", "");
+		update_option("EWD_OTP_AJAX_Reload", "No");
+		update_option("EWD_OTP_New_Window", "No");
+		update_option("EWD_OTP_Order_Email", "Never");
+		update_option("EWD_OTP_Order_Information", "Order_Status,Order_Updated");
+		
    	add_option("EWD_OTP_db_version", $EWD_OTP_db_version);
 		//add_option("EWD_OTP_Time_Frame", 60);
 }

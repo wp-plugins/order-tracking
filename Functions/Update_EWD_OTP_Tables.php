@@ -11,6 +11,9 @@ function Update_EWD_OTP_Tables() {
 		Order_Name text DEFAULT '' NOT NULL,
 		Order_Number text DEFAULT '' NOT NULL,
 		Order_Status text DEFAULT '' NOT NULL,
+		Order_Notes_Public text DEFAULT '' NOT NULL,
+		Order_Notes_Private text DEFAULT '' NOT NULL,
+		Order_Email text DEFAULT '' NOT NULL,
 		Order_Status_Updated datetime DEFAULT '0000-00-00 00:00:00' NULL,
 		Order_Display text DEFAULT '' NOT NULL,
   	UNIQUE KEY id (Order_ID)
@@ -30,7 +33,17 @@ function Update_EWD_OTP_Tables() {
 		DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
    	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
    	dbDelta($sql);
- 
+ 		
+		$Message = "Hello,
+						 	 Your order was shipped at [order-time]. Your order number is [order-number] and it's current status is [order-status]. Your order has the following notes:
+							 [order-notes]
+							 Thanks for trusting us with your business.";
+		
+		update_option("EWD_OTP_Custom_CSS", "");
+		update_option("EWD_OTP_AJAX_Reload", "No");
+		update_option("EWD_OTP_New_Window", "No");
+		update_option("EWD_OTP_Order_Email", "Never");
+		update_option("EWD_OTP_Message_Body", $Message);
    	update_option("EWD_OTP_db_version", $EWD_OTP_db_version);
 }
 ?>

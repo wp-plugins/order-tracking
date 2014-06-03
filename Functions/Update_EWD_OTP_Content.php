@@ -4,14 +4,20 @@
 * stored either in Prepare_Data_For_Insertion.php or Update_Admin_Databases.php */
 
 function Update_EWD_OTP_Content() {
-global $message;
+global $ewd_otp_message;
 if (isset($_GET['Action'])) {
 				switch ($_GET['Action']) {
-    				case "UpdateOptions":
+    				case "UpdateStatuses":
+        				$message = Update_EWD_OTP_Statuses();
+								break;
+						case "DeleteStatus":
+        				$message = Delete_EWD_OTP_Status($_GET['Status']);
+								break;
+						case "UpdateOptions":
         				$message = Update_EWD_OTP_Options();
 								break;
-						case "DeleteOption":
-        				$message = Delete_EWD_OTP_Option($_GET['Status']);
+						case "UpdateEmailSettings":
+        				$message = Update_EWD_OTP_Email_Settings();
 								break;
 						case "AddOrder":
 						case "EditOrder":

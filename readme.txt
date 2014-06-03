@@ -2,7 +2,7 @@
 Contributors: Rustaurius 
 Tags: order tracking, customer orders, customer support, ticket tracking
 Requires at least: 3.5.0
-Tested up to: 3.8
+Tested up to: 3.9.1
 License: GPLv3
 License URI:http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -52,6 +52,14 @@ You can specify the label for the field and the value of the submit button with 
 2. Sample order tracking page
 
 == Changelog ==
+= 1.0 =
+- First of 2 big updates to be released in June
+- Order E-mails added (can send out e-mails automatically when an order is created or updated)
+- Allow admins to select what information is displayed when an order is searched
+- CSS customization through the option page
+- Added in "Public" and "Private" order notes
+- Option to open search results in a new window/tab
+
 = 0.3 =
 - Removed extra CSS that could cause compatibility issues
 

@@ -16,3 +16,8 @@
 a {
   cursor:pointer;
 }
+
+.ewd-otp-textarea {
+  height:150px;
+	width:450px;
+}

@@ -10,6 +10,12 @@
 .mb-6 {
   margin-bottom: 6px;
 }
+.mt-12 {
+  margin-top: 12px;
+}
 .ewd-otp-bold {
   font-weight: 800;
+}
+#ewd-otp-order-number-div {
+  text-align: left;
 }

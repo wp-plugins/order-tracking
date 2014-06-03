@@ -194,6 +194,11 @@
 	<input name="Order_Number" id="Order_Number" />
 	<p><?php _e("The number that visitors will search to find the order.", 'EWD_OTP') ?></p>
 </div>
+<div class="form-field">
+	<label for="Order_Email"><?php _e("Order Email", 'EWD_OTP') ?></label>
+	<input type='text' name="Order_Email" id="Order_Email" />
+	<p><?php _e("The e-mail address to send order updates to, if you have selected that option.", 'EWD_OTP') ?></p>
+</div>
 <div>
 		<label for="Order_Status"><?php _e("Order Status", 'EWD_OTP') ?></label>
 		<select name="Order_Status" id="Order_Status" />
@@ -203,6 +208,16 @@
 		<?php } ?>
 		</select>
 		<p><?php _e("The status that visitors will see if they enter the order number.", 'EWD_OTP') ?></p>
+</div>
+<div>
+		<label for="Order_Notes_Public"><?php _e("Public Order Notes", 'EWD_OTP') ?></label>
+		<input name="Order_Notes_Public" id="Order_Notes_Public" />
+		<p><?php _e("The notes that visitors will see if they enter the order number, and you've included 'Notes' on the options page.", 'EWD_OTP') ?></p>
+</div>
+<div>
+		<label for="Order_Notes_Private"><?php _e("Private Order Notes", 'EWD_OTP') ?></label>
+		<input name="Order_Notes_Private" id="Order_Notes_Private" />
+		<p><?php _e("The notes about an order visible only to admins.", 'EWD_OTP') ?></p>
 </div>
 <div>
 		<label for="Order_Display"><?php _e("Show in Admin Table?", 'EWD_OTP') ?></label>

@@ -6,17 +6,20 @@ Description: A plugin that lets visitors place and track order numbers, as well 
 Author: Tim Ruse
 Author URI: http://www.EtoileWebDesign.com/
 Text Domain: EWD_OTP
-Version: 0.3
+Version: 1.0
 */
 
 global $EWD_OTP_db_version;
 global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name;
 global $wpdb;
-global $message;
+global $ewd_otp_message;
 global $Full_Version;
 $EWD_OTP_orders_table_name = $wpdb->prefix . "EWD_OTP_Orders";
 $EWD_OTP_order_statuses_table_name = $wpdb->prefix . "EWD_OTP_Order_Statuses";
-$EWD_OTP_db_version = "0.2";
+$EWD_OTP_db_version = "1.0.2";
+
+define( 'EWD_OTP_CD_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+define( 'EWD_OTP_CD_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 define('WP_DEBUG', true);
 $wpdb->show_errors();
@@ -34,6 +37,7 @@ if ( is_admin() ){
 		add_action('admin_head', 'EWD_OTP_Admin_Options');
 		add_action('admin_init', 'Add_EWD_OTP_Scripts');
 		add_action('widgets_init', 'Update_EWD_OTP_Content');
+		add_action('admin_notices', 'EWD_OTP_Error_Notices');
 }
 
 function EWD_OTP_Default_Statuses() {
@@ -109,6 +113,7 @@ $Full_Version = get_option("EWD_OTP_Full_Version");
 	  add_action('admin_init', 'Upgrade_To_Full');
 }*/
 
+include "Functions/Error_Notices.php";
 include "Functions/EWD_OTP_Output_Options.php";
 include "Functions/Install_EWD_OTP.php";
 include "Functions/Prepare_Data_For_Insertion.php";
