@@ -16,6 +16,9 @@ if (isset($_GET['Action'])) {
 						case "UpdateOptions":
         				$message = Update_EWD_OTP_Options();
 								break;
+						case "AddOrderSpreadsheet":
+        				$upcp_message = Add_Orders_From_Spreadsheet();
+								break;
 						case "UpdateEmailSettings":
         				$message = Update_EWD_OTP_Email_Settings();
 								break;

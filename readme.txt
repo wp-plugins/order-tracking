@@ -52,6 +52,10 @@ You can specify the label for the field and the value of the submit button with 
 2. Sample order tracking page
 
 == Changelog ==
+= 1.1 =
+- Added an option to allow AJAX order retrieval
+- Orders can be created and updated via uploading a spreadsheet
+
 = 1.0 =
 - First of 2 big updates to be released in June
 - Order E-mails added (can send out e-mails automatically when an order is created or updated)

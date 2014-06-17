@@ -34,16 +34,6 @@ function Update_EWD_OTP_Tables() {
    	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
    	dbDelta($sql);
  		
-		$Message = "Hello,
-						 	 Your order was shipped at [order-time]. Your order number is [order-number] and it's current status is [order-status]. Your order has the following notes:
-							 [order-notes]
-							 Thanks for trusting us with your business.";
-		
-		update_option("EWD_OTP_Custom_CSS", "");
-		update_option("EWD_OTP_AJAX_Reload", "No");
-		update_option("EWD_OTP_New_Window", "No");
-		update_option("EWD_OTP_Order_Email", "Never");
-		update_option("EWD_OTP_Message_Body", $Message);
    	update_option("EWD_OTP_db_version", $EWD_OTP_db_version);
 }
 ?>

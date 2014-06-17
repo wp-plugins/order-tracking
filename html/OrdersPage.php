@@ -228,6 +228,15 @@
 
 <p class="submit"><input type="submit" name="submit" id="submit" class="button-primary" value="<?php _e('Add New Order', 'EWD_OTP') ?>"  /></p></form>
 
+<h3><?php _e("Add/Update Orders from Spreadsheet", 'EWD_OTP') ?></h3>
+<form id="addtag" method="post" action="admin.php?page=EWD-OTP-options&Action=AddOrderSpreadsheet&DisplayPage=Orders" class="validate" enctype="multipart/form-data">
+<div class="form-field form-required">
+		<label for="Orders_Spreadsheet"><?php _e("Spreadhseet Containing Orders", 'EWD_OTP') ?></label>
+		<input name="Orders_Spreadsheet" id="Orders_Spreadsheet" type="file" value=""/>
+		<p><?php _e("The spreadsheet containing all of the orders you wish to add. Make sure that the column title names are the same as the field names for orders (ex: Name, Number, Status, etc.), and that any statuses are written exactly the same as they are online. To update an order, make sure the order numbers are exactly the same.", 'EWD_OTP') ?></p>
+</div>
+<p class="submit"><input type="submit" name="submit" id="submit" class="button-primary" value="<?php _e('Add New Orders', 'EWD_OTP') ?>"  /></p>
+</form>
 </div>
 
 <br class="clear" />

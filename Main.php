@@ -1,12 +1,12 @@
 <?php
 /*
 Plugin Name: Order Tracking Plugin
-Plugin URI: http://www.EtoileWebDesign.com/order-tracking-plugin/
+Plugin URI: http://www.EtoileWebDesign.com/wordpress-plugins/
 Description: A plugin that lets visitors place and track order numbers, as well as to check the status of the orders
 Author: Tim Ruse
 Author URI: http://www.EtoileWebDesign.com/
 Text Domain: EWD_OTP
-Version: 1.0
+Version: 1.1
 */
 
 global $EWD_OTP_db_version;
@@ -79,6 +79,15 @@ function Add_EWD_OTP_Scripts() {
 		}
 }
 
+$AJAX_Reload = get_option("EWD_OTP_AJAX_Reload");
+if ($AJAX_Reload == "Yes") {
+	  add_action( 'wp_enqueue_scripts', 'Add_EWD_OTP_FrontEnd_Scripts' );
+}
+function Add_EWD_OTP_FrontEnd_Scripts() {
+	wp_enqueue_script('ewd-otp-js', plugins_url( '/js/ewd-otp-js.js' , __FILE__ ), array( 'jquery' ));
+}
+
+
 add_action( 'wp_enqueue_scripts', 'EWD_OTP_Add_Stylesheet' );
 function EWD_OTP_Add_Stylesheet() {
     wp_register_style( 'ewd-otp-style', plugins_url('css/otp-styles.css', __FILE__) );
@@ -115,6 +124,7 @@ $Full_Version = get_option("EWD_OTP_Full_Version");
 
 include "Functions/Error_Notices.php";
 include "Functions/EWD_OTP_Output_Options.php";
+include "Functions/EWD_OTP_Return_Results.php";
 include "Functions/Install_EWD_OTP.php";
 include "Functions/Prepare_Data_For_Insertion.php";
 include "Functions/Process_Ajax.php";

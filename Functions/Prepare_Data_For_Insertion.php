@@ -90,6 +90,75 @@ function EWD_OTP_Send_Email($Order_Email, $Order_Number, $Order_Status, $Order_N
 		}
 }
 
+/* Prepare the data to add multiple products from a spreadsheet */
+function Add_Orders_From_Spreadsheet() {
+		
+		/* Test if there is an error with the uploaded spreadsheet and return that error if there is */
+		if (!empty($_FILES['Orders_Spreadsheet']['error']))
+		{
+				switch($_FILES['Orders_Spreadsheet']['error'])
+				{
+
+				case '1':
+						$error = __('The uploaded file exceeds the upload_max_filesize directive in php.ini', 'EWD_OTP');
+						break;
+				case '2':
+						$error = __('The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form', 'EWD_OTP');
+						break;
+				case '3':
+						$error = __('The uploaded file was only partially uploaded', 'EWD_OTP');
+						break;
+				case '4':
+						$error = __('No file was uploaded.', 'EWD_OTP');
+						break;
+
+				case '6':
+						$error = __('Missing a temporary folder', 'EWD_OTP');
+						break;
+				case '7':
+						$error = __('Failed to write file to disk', 'EWD_OTP');
+						break;
+				case '8':
+						$error = __('File upload stopped by extension', 'EWD_OTP');
+						break;
+				case '999':
+						default:
+						$error = __('No error code avaiable', 'EWD_OTP');
+				}
+		}
+		/* Make sure that the file exists */ 	 	
+		elseif (empty($_FILES['Orders_Spreadsheet']['tmp_name']) || $_FILES['Orders_Spreadsheet']['tmp_name'] == 'none') {
+				$error = __('No file was uploaded here..', 'EWD_OTP');
+		}
+		/* Move the file and store the URL to pass it onwards*/ 	 	
+		else {				 
+				 	  $msg .= $_FILES['Orders_Spreadsheet']['name'];
+						//for security reason, we force to remove all uploaded file
+						$target_path = ABSPATH . "wp-content/plugins/order-tracking/order-sheets/";
+						//plugins_url("order-tracking/product-sheets/");
+
+						$target_path = $target_path . basename( $_FILES['Orders_Spreadsheet']['name']); 
+
+						if (!move_uploaded_file($_FILES['Orders_Spreadsheet']['tmp_name'], $target_path)) {
+						//if (!$upload = wp_upload_bits($_FILES["Item_Image"]["name"], null, file_get_contents($_FILES["Item_Image"]["tmp_name"]))) {
+				 			  $error .= "There was an error uploading the file, please try again!";
+						}
+						else {
+				 				$Excel_File_Name = basename( $_FILES['Orders_Spreadsheet']['name']);
+						}	
+		}
+
+		/* Pass the data to the appropriate function in Update_Admin_Databases.php to create the products */
+		if (!isset($error)) {
+				$user_update = Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name);
+				return $user_update;
+		}
+		else {
+				$output_error = array("Message_Type" => "Error", "Message" => $error);
+				return $output_error;
+		}
+}
+
 function Mass_EWD_OTP_Action() {
 		if (isset($_POST['action'])) {
 				switch ($_POST['action']) {

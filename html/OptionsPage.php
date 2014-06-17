@@ -44,7 +44,7 @@
 	</fieldset>
 </td>
 </tr>
-<!--<tr>
+<tr>
 <th scope="row">AJAX Reloads</th>
 <td>
 	<fieldset><legend class="screen-reader-text"><span>AJAX Reloads</span></legend>
@@ -53,7 +53,7 @@
 	<p>Should search results use AJAX to display without reloading the page?</p>
 	</fieldset>
 </td>
-</tr>-->
+</tr>
 <tr>
 <th scope="row"></th>
 <td>
