@@ -42,7 +42,10 @@ if ( is_admin() ){
 
 function EWD_OTP_Default_Statuses() {
 		$StatusString = get_option("EWD_OTP_Statuses");
-		if ($StatusString == "") {update_option("EWD_OTP_Statuses", "Received,Processed,Shipped,Completed");}
+		if ($StatusString == "") {
+			  update_option("EWD_OTP_Statuses", "Received,Processed,Shipped,Completed");
+				update_option("EWD_OTP_Percentages", "25,50,75,100");
+		}
 }
 
 function Remove_EWD_OTP() {
