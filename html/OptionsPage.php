@@ -41,7 +41,7 @@
 	<label title='On Change'><input type='radio' name='order_email' value='Change' <?php if($Order_Email == "Change") {echo "checked='checked'";} ?> /> <span>On Change</span></label><br />
 	<label title='On Creation'><input type='radio' name='order_email' value='Creation' <?php if($Order_Email == "Creation") {echo "checked='checked'";} ?> /> <span>On Creation</span></label><br />
 	<label title='Never'><input type='radio' name='order_email' value='Never' <?php if($Order_Email == "Never") {echo "checked='checked'";} ?> /> <span>Never</span></label><br />
-	<p>Should search results display in a new window or open in the same one? (Doesn't work with AJAX reloads)</p>
+	<p>How often should e-mails be sent to customers about the status of their orders?</p>
 	</fieldset>
 </td>
 </tr>
