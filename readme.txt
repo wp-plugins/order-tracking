@@ -12,6 +12,8 @@ Allows a site's administrators to post updates about the status of orders or sup
 
 Allows a site's administrators to post updates about the status of orders or support tickets that can be accessed through the front-end of the WordPress site.
 
+[youtube http://www.youtube.com/watch?v=rMULYuPjVXU]
+
 Through the WordPress admin panel, you can
 
 * Set up order or ticket numbers which customers can search
@@ -49,6 +51,10 @@ Demo videos will be posted as soon as they are available.
 = What attributes does the "[tracking-form]" shortcode accept? =
 
 You can specify the label for the field and the value of the submit button with "order_field_text" and "submit_text" respectively.
+
+= Tutorial Videos = 
+[youtube http://www.youtube.com/watch?v=YySDJa69HAE]
+[youtube http://www.youtube.com/watch?v=IdfsGa0You0]
 
 
 == Screenshots ==
