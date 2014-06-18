@@ -1,6 +1,6 @@
 === Plugin Name ===
 Contributors: Rustaurius 
-Tags: order tracking, customer orders, customer support, ticket tracking
+Tags: order tracking, customer orders, customer support, ticket tracking, helpdesk, support software, help desk, help desk software
 Requires at least: 3.5.0
 Tested up to: 3.9.1
 License: GPLv3
@@ -15,16 +15,21 @@ Allows a site's administrators to post updates about the status of orders or sup
 Through the WordPress admin panel, you can
 
 * Set up order or ticket numbers which customers can search
+* Automatic e-mailing when the status of an order/ticket changes
+* Ability to create/update orders by uploading a spreadsheet
 * Update the status of an order or ticket
 * Create custom statuses that suit your business
 * Hide or delete orders/tickets
+* Options to decide what order information is displayed, whether the information should be displayed in a new window, with AJAX, etc.
+* Responsive, clean CSS that's completely customizable
 
-Features coming soon:
+Upcoming features:
+* Ability to create customers, assign a group of orders to a customer, automatically contact for follow X days after order shipment, etc.
+* Custom order fields
+* PayPal integration
+* Product catalogue integration
+* Quickbooks online integration (potentially, depending on community interest level)
 
-* Automatic e-mailing when the status of an order/ticket changes
-* Ability to create/update orders by uploading a spreadsheet
-
-This plugin is at the beta development stage, and as such not all features may be working correctly despite internal testing of the plugin.
 Please head to the "Support" tab to report errors or make suggestions.
 Demo videos will be posted as soon as they are available.
 
@@ -52,6 +57,11 @@ You can specify the label for the field and the value of the submit button with 
 2. Sample order tracking page
 
 == Changelog ==
+= 1.2 =
+- Made managing order statuses easier
+- Added an optional graphic to show the progress of orders
+- Update/Error messages have been fixed, so that they should now diplay
+
 = 1.1 =
 - Added an option to allow AJAX order retrieval
 - Orders can be created and updated via uploading a spreadsheet

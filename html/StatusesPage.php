@@ -1,38 +1,56 @@
 <?php 
 		$StatusString = get_option("EWD_OTP_Statuses");
+		$PercentageString = get_option("EWD_OTP_Percentages");
 ?>
 <div class="wrap">
 <div id="icon-options-general" class="icon32"><br /></div><h2>Statuses</h2>
 
 <form method="post" action="admin.php?page=EWD-OTP-options&DisplayPage=Statuses&Action=UpdateStatuses">
-<table class="form-table">
-<tr>
-<th scope="row"></th>
-<td>Status</td>
-</tr>
 
+		<table class="wp-list-table widefat tags sorttable status-list">
+		<thead>
+				<tr>
+						<th><?php _e("Delete", 'EWD_OTP') ?></th>
+						<th><?php _e("Status", 'EWD_OTP') ?></th>
+						<th><?php _e("Percentage Complete", 'EWD_OTP') ?></th>
+				</tr>
+		</thead>
+		<tfoot>
+				<tr>
+						<th><?php _e("Delete", 'EWD_OTP') ?></th>
+						<th><?php _e("Status", 'EWD_OTP') ?></th>
+						<th><?php _e("Percentage Complete", 'EWD_OTP') ?></th>
+				</tr>
+		</tfoot>
+			
 <?php 
 $Statuses = explode(",", $StatusString);
-foreach ($Statuses as $Status) { ?>
-<tr>
-<th scope="row"><a href='admin.php?page=EWD-OTP-options&DisplayPage=Options&Action=DeleteStatus&Status=<?php echo $Status ?>'>Delete</a></th>
-<td>
-	<legend class="screen-reader-text"><label title='Status'><?php echo $Status; ?></label></legend>
-	<?php echo $Status; ?>
-	<input type='hidden' name='status[]' value='<?php echo $Status; ?>' /><br />
-</td></tr>
+$Percentages = explode(",", $PercentageString);
+foreach ($Statuses as $key => $Status) { ?>
+		<tr id="list-item-<?php echo $CatalogueItem->Catalogue_Item_ID; ?>" class="list-item">
+				<input type='hidden' name='status[]' value='<?php echo $Statuses[$key]; ?>' />
+				<input type='hidden' name='status_percentages[]' value='<?php echo $Percentages[$key]; ?>' />
+				<td class="status-delete"><a href="admin.php?page=EWD-OTP-options&Action=DeleteStatus&DisplayPage=Statuses&Status=<?php echo $Statuses[$key]; ?>"><?php _e("Delete", 'EWD_OTP') ?></a></td>
+				<td class="status"><?php echo $Statuses[$key]; ?></td>
+				<td class="status-completed"><?php echo $Percentages[$key]; ?></td>
+		</tr>	
 <?php } ?>
 
-<tr>
-<th scope="row">New Status:</th>
-<td>
-	<legend class="screen-reader-text"><label title='Status'>New Status</label></legend>
-	<input type='text' name='status[]' value='' /><br />
-	<p>The name of the status you'd like to add.</p>
-</td></tr>
-</table>
+</table>	
+
+<h3>Add New Status:</h3>
+<div class="form-field form-required">
+		<label for="Status"><?php _e("New Status", 'EWD_OTP') ?></label>
+		<input name="status[]" id="Status" type="text" size="60" />
+		<p><?php _e("The name of the status you'd like to add.", 'EWD_OTP') ?></p>
+</div>
+<div class="form-field form-required">
+		<label for="Status_Percentage"><?php _e("Percentage Complete", 'EWD_OTP') ?></label>
+		<input name="status_percentages[]" id="Status_Percentage" type="text" size="60" />
+		<p><?php _e("The percentage of the shipping process completed when this status is reached; used in the shipping graphic.", 'EWD_OTP') ?></p>
+</div>
 
 
-<p class="submit"><input type="submit" name="Options_Submit" id="submit" class="button button-primary" value="Save Changes"  /></p></form>
+<p class="submit"><input type="submit" name="Statuses_Submit" id="submit" class="button button-primary" value="Save Changes"  /></p></form>
 
 </div>

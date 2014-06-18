@@ -13,6 +13,12 @@ function EWD_OTP_Return_Results($TrackingNumber) {
 				$user_message .= __("There are no order statuses for tracking number: ", 'EWD_OTP') . $TrackingNumber . ".<br />";
 		}
 		else {					
+				if (in_array("Order_Graphic", $Order_Information)) {
+					  $ReturnString .= "<div class='ewd-otp-status-graphic pure-u-1'>";
+						$ReturnString .= "<img src='" . plugins_url() . "/order-tracking/Functions/DisplayGraph.php?OrderNumber=" . $TrackingNumber . "' alt='OTP-Graph' id='ewd-otp-graph /'>";
+						$ReturnString .= "</div>";
+						$ReturnString .= "<div class='ewd-otp-clear'></div>";
+				}
 				if (in_array("Order_Number", $Order_Information)) {
 						$ReturnString .= "<div id='ewd-otp-order-number-label' class='ewd-otp-order-label ewd-otp-bold pure-u-1-8'>";
 						$ReturnString .= __("Order Number", 'EWD_OTP') . ":";

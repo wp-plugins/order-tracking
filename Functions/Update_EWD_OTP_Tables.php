@@ -33,6 +33,19 @@ function Update_EWD_OTP_Tables() {
 		DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
    	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
    	dbDelta($sql);
+		
+		//Update status percentages if they haven't been created yet
+		$PercentageString = get_option("EWD_OTP_Percentages");
+		if ($PercentageString == "") {
+			  $StatusString = get_option("EWD_OTP_Statuses");
+				$Statuses = explode(",", $StatusString);
+				foreach ($Statuses as $key => $Status) {
+						$Percent = round(($key+1)/sizeOf($Statuses)*100,0);
+						$PercentageString .= $Percent . ",";
+				}
+				$PercentageString = substr($PercentageString, 0, -1);
+				update_option("EWD_OTP_Percentages", $PercentageString);
+		}
  		
    	update_option("EWD_OTP_db_version", $EWD_OTP_db_version);
 }

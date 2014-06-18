@@ -8,32 +8,32 @@ global $ewd_otp_message;
 if (isset($_GET['Action'])) {
 				switch ($_GET['Action']) {
     				case "UpdateStatuses":
-        				$message = Update_EWD_OTP_Statuses();
+        				$ewd_otp_message = Update_EWD_OTP_Statuses();
 								break;
 						case "DeleteStatus":
-        				$message = Delete_EWD_OTP_Status($_GET['Status']);
+        				$ewd_otp_message = Delete_EWD_OTP_Status($_GET['Status']);
 								break;
 						case "UpdateOptions":
-        				$message = Update_EWD_OTP_Options();
+        				$ewd_otp_message = Update_EWD_OTP_Options();
 								break;
 						case "AddOrderSpreadsheet":
-        				$upcp_message = Add_Orders_From_Spreadsheet();
+        				$ewd_otp_message = Add_Orders_From_Spreadsheet();
 								break;
 						case "UpdateEmailSettings":
-        				$message = Update_EWD_OTP_Email_Settings();
+        				$ewd_otp_message = Update_EWD_OTP_Email_Settings();
 								break;
 						case "AddOrder":
 						case "EditOrder":
-        				$message = Add_Edit_EWD_OTP_Order();
+        				$ewd_otp_message = Add_Edit_EWD_OTP_Order();
 								break;
 						case "DeleteOrder":
-        				$message = Delete_EWD_OTP_Order($_POST['Order_ID']);
+        				$ewd_otp_message = Delete_EWD_OTP_Order($_POST['Order_ID']);
 								break;
 						case "MassAction":
-        				$message = Mass_EWD_OTP_Action();
+        				$ewd_otp_message = Mass_EWD_OTP_Action();
 								break;
 						default:
-								$message = __("The form has not worked correctly. Please contact the plugin developer.", 'EWD_OTP');
+								$ewd_otp_message = __("The form has not worked correctly. Please contact the plugin developer.", 'EWD_OTP');
 								break;
 				}
 		}

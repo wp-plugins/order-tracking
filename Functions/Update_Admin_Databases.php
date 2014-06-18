@@ -215,9 +215,31 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 }
 
 function Update_EWD_OTP_Statuses() {
-		foreach ($_POST['status'] as $stat) {if ($stat != "") {$StatusString .= $stat . ",";}}
+		foreach ($_POST['status'] as $key => $stat) {
+				if ($stat != "") {
+					  $StatusStringOriginal .= $stat . ",";
+						$PercentageStringOriginal .= $_POST['status_percentages'][$key] . ",";
+				}
+		}
+		
+		$StatusStringOriginal = substr($StatusStringOriginal, 0, -1);
+		$PercentageStringOriginal = substr($PercentageStringOriginal, 0, -1);
+		
+		//Turn the statuses and percentages into arrays, so that they can be ordered by percentage
+		$Statuses = explode(",", $StatusStringOriginal);
+		$Percentages = explode(",", $PercentageStringOriginal);
+		
+		asort($Percentages);
+		foreach ($Percentages as $key => $Percent) {
+				$PercentageString .= $Percent . ",";
+				$StatusString .= $Statuses[$key] . ",";
+		}
+		
 		$StatusString = substr($StatusString, 0, -1);
+		$PercentageString = substr($PercentageString, 0, -1);
+		
 		update_option("EWD_OTP_Statuses", $StatusString);
+		update_option("EWD_OTP_Percentages", $PercentageString);
 		
 		$update = __("Options have been successfully updated.", 'EWD_OTP');
 		return $update;
@@ -225,11 +247,23 @@ function Update_EWD_OTP_Statuses() {
 
 function Delete_EWD_OTP_Status($Status) {
 		$OriginalStatusString = get_option("EWD_OTP_Statuses");
-		$Statuses = explode(",", $OriginalStatusString);
+		$OriginalPercentageString = get_option("EWD_OTP_Percentages");
 		
-		foreach ($Statuses as $stat) {if ($stat != $Status) {$StatusString .= $stat . ",";}}
+		$Statuses = explode(",", $OriginalStatusString);
+		$Percentages = explode(",", $OriginalPercentageString);
+		
+		foreach ($Statuses as $key => $stat) {
+				if ($stat != $Status) {
+					  $StatusString .= $stat . ",";
+						$PercentageString .= $Percentages[$key] . ",";
+				}
+		}
+		
 		$StatusString = substr($StatusString, 0, -1);
+		$PercentageString = substr($PercentageString, 0, -1);
+		
 		update_option("EWD_OTP_Statuses", $StatusString);
+		update_option("EWD_OTP_Percentages", $PercentageString);
 		
 		$update = __("Option has been successfully deleted.", 'EWD_OTP');
 		return $update;
