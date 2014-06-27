@@ -9,12 +9,14 @@ function Insert_Tracking_Form($atts) {
 		$Custom_CSS = get_option('EWD_OTP_Custom_CSS');
 		$New_Window = get_option("EWD_OTP_New_Window");
 		$AJAX_Reload = get_option("EWD_OTP_AJAX_Reload");
+		$Order_Instructions = get_option("EWD_OTP_Form_Instructions");
 		
 		$ReturnString = "";
 		
 		// Get the attributes passed by the shortcode, and store them in new variables for processing
 		extract( shortcode_atts( array(
-						 								 		'order_field_text' => __('Order Number', 'EWD_OTP'),
+						 								 		'order_form_title' => __('Track an Order', 'EWD_OTP'),
+																'order_field_text' => __('Order Number', 'EWD_OTP'),
 																'submit_text' => __('Track', 'EWD_OTP')),
 																$atts
 														)
@@ -38,13 +40,13 @@ function Insert_Tracking_Form($atts) {
 				$ReturnString .= "<div class='ewd-otp-ajax-results'></div>";
 				$ReturnString .= "</div>";
 		}
-		
+		echo "Instructions: " . $order_instructions . "<br>";
 		//Put in the tracking form
 		$ReturnString .= "<div id='ewd-otp-tracking-form-div' class='mt-12'>";
-		$ReturnString .= "<h3>" . __("Track an Order", 'EWD_OTP') . "</h3>";
+		$ReturnString .= "<h3>" . $order_form_title . "</h3>";
 		$ReturnString .= "<div class='ewd-otp-message mb-6'>";
 		$ReturnString .= $user_message;
-		$ReturnString .= __("Enter the order number you would like to track in the form below.", 'EWD_OTP');
+		$ReturnString .= $Order_Instructions;
 		$ReturnString .= "</div>";
 		if ($New_Window == "Yes") {$ReturnString .= "<form action='#' method='post' target='_blank' id='ewd-otp-tracking-form' class='pure-form pure-form-aligned'>";}
 		else {$ReturnString .= "<form action='#' method='post' id='ewd-otp-tracking-form' class='pure-form pure-form-aligned'>";}

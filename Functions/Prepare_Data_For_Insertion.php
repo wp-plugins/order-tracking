@@ -3,7 +3,9 @@ function Add_Edit_EWD_OTP_Order() {
 		global $wpdb, $EWD_OTP_orders_table_name;
 		
 		$Order_Email = get_option("EWD_OTP_Order_Email");
-		
+		$Timezone = get_option("EWD_OTP_Timezone");
+		date_default_timezone_set($Timezone);
+
 		$Order_ID = $_POST['Order_ID'];
 		$Order_Name = $_POST['Order_Name'];
 		$Order_Number = $_POST['Order_Number'];
@@ -210,6 +212,9 @@ function Mass_Hide_EWD_OTP_Orders() {
 }
 
 function Mass_Status_EWD_OTP_Orders() {
+		$Timezone = get_option("EWD_OTP_Timezone");
+		date_default_timezone_set($Timezone);
+		
 		$Orders = $_POST['Orders_Bulk'];
 		$Status = $_POST['action'];
 		$Update_Time = date("Y-m-d H:i:s");

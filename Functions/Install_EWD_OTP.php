@@ -40,6 +40,8 @@ function Install_EWD_OTP() {
 		update_option("EWD_OTP_New_Window", "No");
 		update_option("EWD_OTP_Order_Email", "Never");
 		update_option("EWD_OTP_Order_Information", "Order_Status,Order_Updated");
+		update_option("EWD_OTP_Form_Instructions", "Enter the order number you would like to track in the form below.");
+		update_option("EWD_OTP_Timezone", "Europe/London");
 		
    	add_option("EWD_OTP_db_version", $EWD_OTP_db_version);
 		//add_option("EWD_OTP_Time_Frame", 60);

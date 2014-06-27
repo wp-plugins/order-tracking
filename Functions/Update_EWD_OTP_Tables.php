@@ -48,5 +48,7 @@ function Update_EWD_OTP_Tables() {
 		}
  		
    	update_option("EWD_OTP_db_version", $EWD_OTP_db_version);
+		if (get_option("EWD_OTP_Form_Instructions") == "") {update_option("EWD_OTP_Form_Instructions", "Enter the order number you would like to track in the form below.");}
+		if (get_option("EWD_OTP_Timezone") == "") {update_option("EWD_OTP_Timezone", "Europe/London");}
 }
 ?>

@@ -7,29 +7,29 @@ function Update_EWD_OTP_Content() {
 global $ewd_otp_message;
 if (isset($_GET['Action'])) {
 				switch ($_GET['Action']) {
-    				case "UpdateStatuses":
+    				case "EWD_OTP_UpdateStatuses":
         				$ewd_otp_message = Update_EWD_OTP_Statuses();
 								break;
-						case "DeleteStatus":
+						case "EWD_OTP_DeleteStatus":
         				$ewd_otp_message = Delete_EWD_OTP_Status($_GET['Status']);
 								break;
-						case "UpdateOptions":
+						case "EWD_OTP_UpdateOptions":
         				$ewd_otp_message = Update_EWD_OTP_Options();
 								break;
-						case "AddOrderSpreadsheet":
+						case "EWD_OTP_AddOrderSpreadsheet":
         				$ewd_otp_message = Add_Orders_From_Spreadsheet();
 								break;
-						case "UpdateEmailSettings":
+						case "EWD_OTP_UpdateEmailSettings":
         				$ewd_otp_message = Update_EWD_OTP_Email_Settings();
 								break;
-						case "AddOrder":
-						case "EditOrder":
+						case "EWD_OTP_AddOrder":
+						case "EWD_OTP_EditOrder":
         				$ewd_otp_message = Add_Edit_EWD_OTP_Order();
 								break;
-						case "DeleteOrder":
+						case "EWD_OTP_DeleteOrder":
         				$ewd_otp_message = Delete_EWD_OTP_Order($_POST['Order_ID']);
 								break;
-						case "MassAction":
+						case "EWD_OTP_MassAction":
         				$ewd_otp_message = Mass_EWD_OTP_Action();
 								break;
 						default:

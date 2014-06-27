@@ -10,7 +10,7 @@
 <div class="wrap">
 <div id="icon-options-general" class="icon32"><br /></div><h2>Email Settings</h2>
 
-<form method="post" action="admin.php?page=EWD-OTP-options&DisplayPage=Emails&Action=UpdateEmailSettings">
+<form method="post" action="admin.php?page=EWD-OTP-options&DisplayPage=Emails&Action=EWD_OTP_UpdateEmailSettings">
 <table class="form-table">
 <tr>
 <th scope="row">"Send-From" Email Address</th>

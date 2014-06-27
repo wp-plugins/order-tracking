@@ -41,6 +41,7 @@ Demo videos will be posted as soon as they are available.
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Use the newly created admin menu to input and update orders, or create new order statuses
 4. Put a tracking form on the front-end of your site with the "[tracking-form]" shortcode
+5. You can add the following attributes to the shortcode: order_form_title, order_field_text, submit_text
 
 --------------------------------------------------------------
 
@@ -63,6 +64,13 @@ You can specify the label for the field and the value of the submit button with 
 2. Sample order tracking page
 
 == Changelog ==
+= 1.3 =
+- Added an atribute to set the order form title
+- Added an option to change the order form instructions
+- Added an option to set the timezone order statuses are calculated for (only applies to new statuses)
+- Fixed an error that was limiting the number of orders displayed to 20
+- Fixed an escaping error with order names and notes
+
 = 1.2 =
 - Made managing order statuses easier
 - Added an optional graphic to show the progress of orders

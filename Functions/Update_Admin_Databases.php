@@ -276,18 +276,24 @@ function Update_EWD_OTP_Options() {
 		$Order_Information_Array = $_POST['order_information'];
 		$Order_Information = implode(",", $Order_Information_Array);
 		$Order_Email = $_POST['order_email'];
+		$Form_Instructions = $_POST['form_instructions'];
+		$Timezone = $_POST['timezone'];
 		
 		$Custom_CSS = stripslashes_deep($Custom_CSS);
 		$AJAX_Reload = stripslashes_deep($AJAX_Reload);
 		$New_Window = stripslashes_deep($New_Window);
 		$Order_Information = stripslashes_deep($Order_Information);
 		$Order_Email = stripslashes_deep($Order_Email);
+		$Form_Instructions = stripslashes_deep($Form_Instructions);
+		$Timezone = stripslashes_deep($Timezone);
 		
 		update_option('EWD_OTP_Custom_CSS', $Custom_CSS);
 		update_option('EWD_OTP_AJAX_Reload', $AJAX_Reload);
 		update_option('EWD_OTP_New_Window', $New_Window);
 		update_option('EWD_OTP_Order_Information', $Order_Information);
 		update_option('EWD_OTP_Order_Email', $Order_Email);
+		update_option('EWD_OTP_Form_Instructions', $Form_Instructions);
+		update_option('EWD_OTP_Timezone', $Timezone);
 }
 
 function Update_EWD_OTP_Email_Settings() {

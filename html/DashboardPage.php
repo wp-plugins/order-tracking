@@ -50,12 +50,12 @@ $Statuses = explode(",", $StatusString);
 				else {$Sql .= "ORDER BY Order_Number ";}
 				$Sql .= "LIMIT " . ($Page - 1)*20 . ",20";
 				$myrows = $wpdb->get_results($Sql);
-				$num_rows = $wpdb->num_rows; 
+				$TotalOrders = $wpdb->get_results("SELECT Order_ID FROM $EWD_OTP_orders_table_name WHERE Order_Display='Yes'");
 				$Number_of_Pages = ceil($wpdb->num_rows/20);
 				$Current_Page_With_Order_By = "admin.php?page=EWD-OTP-options&DisplayPage=Dashboard";
 				if (isset($_GET['OrderBy'])) {$Current_Page_With_Order_By .= "&OrderBy=" .$_GET['OrderBy'] . "&Order=" . $_GET['Order'];}?>
 
-<form action="admin.php?page=EWD-OTP-options&Action=MassAction" method="post">    
+<form action="admin.php?page=EWD-OTP-options&Action=EWD_OTP_MassAction" method="post">    
 <div class="tablenav top">
 		<div class="alignleft actions">
 				<select name='action'>
@@ -158,20 +158,20 @@ $Statuses = explode(",", $StatusString);
 								echo "</th>";
 								echo "<td class='name column-name'>";
 								echo "<strong>";
-								echo "<a class='row-title' href='admin.php?page=EWD-OTP-options&Action=Order_Details&Selected=Order&Order_ID=" . $Order->Order_ID ."' title='Edit " . $Order->Order_Number . "'>" . $Order->Order_Number . "</a></strong>";
+								echo "<a class='row-title' href='admin.php?page=EWD-OTP-options&Action=EWD_OTP_Order_Details&Selected=Order&Order_ID=" . $Order->Order_ID ."' title='Edit " . $Order->Order_Number . "'>" . $Order->Order_Number . "</a></strong>";
 								echo "<br />";
 								echo "<div class='row-actions'>";
 								echo "<span class='delete'>";
-								echo "<a class='delete-tag' href='admin.php?page=EWD-OTP-options&Action=HideOrder&DisplayPage=Dashboard&Order_ID=" . $Order->Order_ID ."'>" . __("Hide", 'EWD_OTP') . "</a>";
+								echo "<a class='delete-tag' href='admin.php?page=EWD-OTP-options&Action=EWD_OTP_HideOrder&DisplayPage=Dashboard&Order_ID=" . $Order->Order_ID ."'>" . __("Hide", 'EWD_OTP') . "</a>";
 		 						echo "</span>";
 								echo "</div>";
 								echo "<div class='hidden' id='inline_" . $Order->Order_ID ."'>";
-								echo "<div class='number'>" . $Order->Order_Number . "</div>";
+								echo "<div class='number'>" . stripslashes($Order->Order_Number) . "</div>";
 								echo "</div>";
 								echo "</td>";
-								echo "<td class='description column-name'>" . $Order->Order_Name . "</td>";
-								echo "<td class='description column-status'>" . $Order->Order_Status . "</td>";
-								echo "<td class='users column-updated'>" . $Order->Order_Status_Updated . "</td>";
+								echo "<td class='description column-name'>" . stripslashes($Order->Order_Name) . "</td>";
+								echo "<td class='description column-status'>" . stripslashes($Order->Order_Status) . "</td>";
+								echo "<td class='users column-updated'>" . stripslashes($Order->Order_Status_Updated) . "</td>";
 								echo "</tr>";
 						}
 				}

@@ -7,7 +7,7 @@ Author: Tim Ruse
 Author URI: http://www.EtoileWebDesign.com/order-tracking/
 Terms and Conditions: http://www.etoilewebdesign.com/plugin-terms-and-conditions/
 Text Domain: EWD_OTP
-Version: 1.2
+Version: 1.3
 */
 
 global $EWD_OTP_db_version;
@@ -17,7 +17,7 @@ global $ewd_otp_message;
 global $Full_Version;
 $EWD_OTP_orders_table_name = $wpdb->prefix . "EWD_OTP_Orders";
 $EWD_OTP_order_statuses_table_name = $wpdb->prefix . "EWD_OTP_Order_Statuses";
-$EWD_OTP_db_version = "1.2";
+$EWD_OTP_db_version = "1.3";
 
 define( 'EWD_OTP_CD_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'EWD_OTP_CD_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
