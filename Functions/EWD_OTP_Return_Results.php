@@ -1,5 +1,5 @@
 <?php
-function EWD_OTP_Return_Results($TrackingNumber) {
+function EWD_OTP_Return_Results($TrackingNumber, $Fields = array()) {
 		global $wpdb;
 		global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name;
 		
@@ -14,43 +14,53 @@ function EWD_OTP_Return_Results($TrackingNumber) {
 		}
 		else {					
 				if (in_array("Order_Graphic", $Order_Information)) {
-					  $ReturnString .= "<div class='ewd-otp-status-graphic pure-u-1'>";
+						$ReturnString .= "<div class='ewd-otp-status-graphic pure-u-1'>";
 						$ReturnString .= "<img src='" . plugins_url() . "/order-tracking/Functions/DisplayGraph.php?OrderNumber=" . $TrackingNumber . "' alt='OTP-Graph' id='ewd-otp-graph /'>";
 						$ReturnString .= "</div>";
 						$ReturnString .= "<div class='ewd-otp-clear'></div>";
 				}
 				if (in_array("Order_Number", $Order_Information)) {
+						if (in_array("Order Number", $Fields)) {$Number_Label = $Fields['Order Number'];}
+						else {$Number_Label = __("Order Number", 'EWD_OTP');}
 						$ReturnString .= "<div id='ewd-otp-order-number-label' class='ewd-otp-order-label ewd-otp-bold pure-u-1-8'>";
-						$ReturnString .= __("Order Number", 'EWD_OTP') . ":";
+						$ReturnString .= $Number_Label . ":";
 						$ReturnString .= "</div>";
 						$ReturnString .= "<div id='ewd-otp-order-number' class='ewd-otp-order-content pure-u-7-8'>";
 						$ReturnString .= $Order->Order_Number;
 						$ReturnString .= "</div>";
 				}
 				if (in_array("Order_Name", $Order_Information)) {
-					  $ReturnString .= "<div id='ewd-otp-order-name-label' class='ewd-otp-order-label ewd-otp-bold pure-u-1-8'>";
-						$ReturnString .= __("Order Name", 'EWD_OTP') . ":";
+					  if (in_array("Order Name", $Fields)) {$Name_Label = $Fields['Order Name'];}
+						else {$Name_Label = __("Order Name", 'EWD_OTP');}
+						$ReturnString .= "<div id='ewd-otp-order-name-label' class='ewd-otp-order-label ewd-otp-bold pure-u-1-8'>";
+						$ReturnString .= $Name_Label . ":";
 						$ReturnString .= "</div>";
 						$ReturnString .= "<div id='ewd-otp-order-name' class='ewd-otp-order-content pure-u-7-8'>";
 						$ReturnString .= $Order->Order_Name;
 						$ReturnString .= "</div>";
 				}
 				if (in_array("Order_Notes", $Order_Information)) {
-					  $ReturnString .= "<div id='ewd-otp-order-notes-label' class='ewd-otp-order-label ewd-otp-bold pure-u-1-8'>";
-						$ReturnString .= __("Order Notes", 'EWD_OTP') . ":";
+					  if (in_array("Order Notes", $Fields)) {$Notes_Label = $Fields['Order Notes'];}
+						else {$Notes_Label = __("Order Notes", 'EWD_OTP');}
+						$ReturnString .= "<div id='ewd-otp-order-notes-label' class='ewd-otp-order-label ewd-otp-bold pure-u-1-8'>";
+						$ReturnString .= $Notes_Label . ":";
 						$ReturnString .= "</div>";
 						$ReturnString .= "<div id='ewd-otp-order-notes' class='ewd-otp-order-content pure-u-7-8'>";
 						$ReturnString .= $Order->Order_Notes_Public;
 						$ReturnString .= "</div>";
 				}
 				if (in_array("Order_Status", $Order_Information)) {
+						if (in_array("Order Status", $Fields)) {$Status_Label = $Fields['Order Status'];}
+						else {$Status_Label = __("Order Status", 'EWD_OTP');}
 						$ReturnString .= "<div id='ewd-otp-status-header' class='ewd-otp-status-message pure-u-1-5 mt-12 mb-6 ewd-otp-bold'>";
-						$ReturnString .= __("Status", 'EWD_OTP');
+						$ReturnString .= $Status_Label;
 						$ReturnString .= "</div>";
 				}
 				if (in_array("Order_Updated", $Order_Information)) {
+						if (in_array("Order Updated", $Fields)) {$Updated_Label = $Fields['Order Updated'];}
+						else {$Updated_Label = __("Order Updated", 'EWD_OTP');}
 						$ReturnString .= "<div id='ewd-otp-date-header' class='ewd-otp-status-time pure-u-1-5 mt-12 mb-6 ewd-otp-bold'>";
-						$ReturnString .= __("Date/Time", 'EWD_OTP');
+						$ReturnString .= $Updated_Label;
 						$ReturnString .= "</div>";
 				}
 				if (in_array("Order_Status", $Order_Information) and in_array("Order_Updated", $Order_Information)) {$ReturnString .= "<div class='pure-u-3-5'></div>";}

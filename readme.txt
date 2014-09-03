@@ -64,6 +64,10 @@ You can specify the label for the field and the value of the submit button with 
 2. Sample order tracking page
 
 == Changelog ==
+= 1.4 =
+- Added an attribute to allow admins to set the field labels for order results
+- Fixed an error with the order form instructions attribute
+
 = 1.3 =
 - Added an atribute to set the order form title
 - Added an option to change the order form instructions

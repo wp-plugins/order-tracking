@@ -17,6 +17,8 @@ function Insert_Tracking_Form($atts) {
 		extract( shortcode_atts( array(
 						 								 		'order_form_title' => __('Track an Order', 'EWD_OTP'),
 																'order_field_text' => __('Order Number', 'EWD_OTP'),
+																'order_instructions' => __('Enter the order number you would like to track in the form below.', 'EWD_OTP'),
+																'field_names' => '',
 																'submit_text' => __('Track', 'EWD_OTP')),
 																$atts
 														)
@@ -26,11 +28,18 @@ function Insert_Tracking_Form($atts) {
 		$ReturnString .= $Custom_CSS;
 		$ReturnString .= "</style>";
 		
+		$Field_Names_Array = explode(",", $field_names);
+		foreach ($Field_Names_Array as $Field_Name) {
+				$Field_Name_Key = trim(substr($Field_Name, 0, strpos($Field_Name, "=>")));
+				$Field_Name_Value = trim(substr($Field_Name, strpos($Field_Name, "=>")+2));
+				$Fields[$Field_Name_Key] = $Field_Name_Value;
+		}
+		
 		//If there's a tracking number that's already been submitted, display the results
 		if (isset($_POST['Tracking_Number'])) {
 			  $ReturnString .= "<div class='ewd-otp-tracking-results pure-g'>";
 				$ReturnString .= "<div class='pure-u-1'><h3>" . __("Order Information", 'EWD_OTP') . "</h3></div>";
-				$ReturnString .= EWD_OTP_Return_Results($_POST['Tracking_Number']);
+				$ReturnString .= EWD_OTP_Return_Results($_POST['Tracking_Number'], $Fields);
 				$ReturnString .= "</div>";
 		}
 		
@@ -40,13 +49,13 @@ function Insert_Tracking_Form($atts) {
 				$ReturnString .= "<div class='ewd-otp-ajax-results'></div>";
 				$ReturnString .= "</div>";
 		}
-		echo "Instructions: " . $order_instructions . "<br>";
+		
 		//Put in the tracking form
 		$ReturnString .= "<div id='ewd-otp-tracking-form-div' class='mt-12'>";
 		$ReturnString .= "<h3>" . $order_form_title . "</h3>";
 		$ReturnString .= "<div class='ewd-otp-message mb-6'>";
 		$ReturnString .= $user_message;
-		$ReturnString .= $Order_Instructions;
+		$ReturnString .= $order_instructions;
 		$ReturnString .= "</div>";
 		if ($New_Window == "Yes") {$ReturnString .= "<form action='#' method='post' target='_blank' id='ewd-otp-tracking-form' class='pure-form pure-form-aligned'>";}
 		else {$ReturnString .= "<form action='#' method='post' id='ewd-otp-tracking-form' class='pure-form pure-form-aligned'>";}

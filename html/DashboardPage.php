@@ -28,7 +28,7 @@ $Statuses = explode(",", $StatusString);
 		<div class="handlediv" title="Click to toggle"></div><h3 class='hndle'><span><?php _e("Thank You!", 'EWD_OTP') ?></span></h3>
 		<div class="inside">
 				<ul>
-						<li><?php _e("Thanks for being an early adopter! Anyone who installs before July 15th will always have access to new features, updates and full product support.", 'EWD_OTP'); ?></li>
+						<li><?php _e("Thanks for being an early adopter! Anyone who installs before September 31st will always have access to new features, updates and full product support.", 'EWD_OTP'); ?></li>
 						<li><a href="https://www.facebook.com/EtoileWebDesign"><?php _e("Follow us on Facebook ", "EWD_OTP");?></a><?php _e("to stay up to date with new features and plugins.", "EWD_OTP"); ?></li>
 				</ul>
 		</div>
