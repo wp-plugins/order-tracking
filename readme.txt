@@ -64,6 +64,9 @@ You can specify the label for the field and the value of the submit button with 
 2. Sample order tracking page
 
 == Changelog ==
+= 1.5 =
+- Added a .pot file to the lang folder
+
 = 1.4 =
 - Added an attribute to allow admins to set the field labels for order results
 - Fixed an error with the order form instructions attribute
