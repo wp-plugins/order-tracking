@@ -5,6 +5,7 @@
 		$Order_Information_String = get_option("EWD_OTP_Order_Information");
 		$Order_Information = explode(",", $Order_Information_String);
 		$Form_Instructions = get_option("EWD_OTP_Form_Instructions");
+		$Email_Confirmation = get_option("EWD_OTP_Email_Confirmation");
 		$Timezone = get_option("EWD_OTP_Timezone");
 		$Order_Email = get_option("EWD_OTP_Order_Email");
 ?>
@@ -172,6 +173,16 @@
 	<fieldset><legend class="screen-reader-text"><span>New Window for Results</span></legend>
 	<label title='Yes'><input type='radio' name='new_window' value='Yes' <?php if($New_Window == "Yes") {echo "checked='checked'";} ?> /> <span>Yes</span></label><br />
 	<label title='No'><input type='radio' name='new_window' value='No' <?php if($New_Window == "No") {echo "checked='checked'";} ?> /> <span>No</span></label><br />
+	<p>Should search results display in a new window or open in the same one? (Doesn't work with AJAX reloads)</p>
+	</fieldset>
+</td>
+</tr>
+<tr>
+<th scope="row">Order E-mail Confirmation</th>
+<td>
+	<fieldset><legend class="screen-reader-text"><span>Order E-mail Confirmation</span></legend>
+	<label title='Yes'><input type='radio' name='email_confirmation' value='Order_Email' <?php if($Email_Confirmation == "Order_Email") {echo "checked='checked'";} ?> /> <span>Yes</span></label><br />
+	<label title='No'><input type='radio' name='email_confirmation' value='None' <?php if($Email_Confirmation == "None") {echo "checked='checked'";} ?> /> <span>No</span></label><br />
 	<p>Should search results display in a new window or open in the same one? (Doesn't work with AJAX reloads)</p>
 	</fieldset>
 </td>

@@ -276,6 +276,7 @@ function Update_EWD_OTP_Options() {
 		$Order_Information_Array = $_POST['order_information'];
 		$Order_Information = implode(",", $Order_Information_Array);
 		$Order_Email = $_POST['order_email'];
+		$Email_Confirmation = $_POST['email_confirmation'];
 		$Form_Instructions = $_POST['form_instructions'];
 		$Timezone = $_POST['timezone'];
 		
@@ -284,6 +285,7 @@ function Update_EWD_OTP_Options() {
 		$New_Window = stripslashes_deep($New_Window);
 		$Order_Information = stripslashes_deep($Order_Information);
 		$Order_Email = stripslashes_deep($Order_Email);
+		$Email_Confirmation = stripslashes_deep($Email_Confirmation);
 		$Form_Instructions = stripslashes_deep($Form_Instructions);
 		$Timezone = stripslashes_deep($Timezone);
 		
@@ -292,6 +294,7 @@ function Update_EWD_OTP_Options() {
 		update_option('EWD_OTP_New_Window', $New_Window);
 		update_option('EWD_OTP_Order_Information', $Order_Information);
 		update_option('EWD_OTP_Order_Email', $Order_Email);
+		update_option("EWD_OTP_Email_Confirmation", $Email_Confirmation);
 		update_option('EWD_OTP_Form_Instructions', $Form_Instructions);
 		update_option('EWD_OTP_Timezone', $Timezone);
 }

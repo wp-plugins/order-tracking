@@ -7,7 +7,7 @@ Author: Tim Ruse
 Author URI: http://www.EtoileWebDesign.com/order-tracking/
 Terms and Conditions: http://www.etoilewebdesign.com/plugin-terms-and-conditions/
 Text Domain: EWD_OTP
-Version: 1.5
+Version: 1.6
 */
 
 global $EWD_OTP_db_version;

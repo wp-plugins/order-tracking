@@ -1,16 +1,21 @@
 <?php
-function EWD_OTP_Return_Results($TrackingNumber, $Fields = array()) {
+function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '') {
 		global $wpdb;
 		global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name;
 		
 		$Order_Information_String = get_option("EWD_OTP_Order_Information");
+		$Email_Confirmation = get_option("EWD_OTP_Email_Confirmation");
 		$Order_Information = explode(",", $Order_Information_String);
 		
-		$Order = $wpdb->get_row($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_Number='%s'", $TrackingNumber));
-		$Statuses = $wpdb->get_results($wpdb->prepare("SELECT Order_Status, Order_Status_Created FROM $EWD_OTP_order_statuses_table_name WHERE Order_ID='%s' ORDER BY Order_Status_Created ASC", $Order->Order_ID));
-		
+		if ($Email_Confirmation == "Order_Email") {$Order = $wpdb->get_row($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_Number='%s' and Order_Email='%s'", $TrackingNumber, $Email));}
+		else {$Order = $wpdb->get_row($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_Number='%s'", $TrackingNumber));}
+		if (isset($Order->Order_ID)) {$Statuses = $wpdb->get_results($wpdb->prepare("SELECT Order_Status, Order_Status_Created FROM $EWD_OTP_order_statuses_table_name WHERE Order_ID='%s' ORDER BY Order_Status_Created ASC", $Order->Order_ID));}
+
 		if ($wpdb->num_rows == 0) {
-				$user_message .= __("There are no order statuses for tracking number: ", 'EWD_OTP') . $TrackingNumber . ".<br />";
+				$ReturnString .= "<div class='pure-u-1'>";
+				if ($Email_Confirmation == "Order_Email") {$ReturnString .= __("There are no order statuses for tracking number: ", 'EWD_OTP') . $TrackingNumber . " and e-mail: " . $Email . ".<br />";}
+				else {$ReturnString .= __("There are no order statuses for tracking number: ", 'EWD_OTP') . $TrackingNumber . ".<br />";}
+				$ReturnString .= "</div>";
 		}
 		else {					
 				if (in_array("Order_Graphic", $Order_Information)) {

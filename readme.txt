@@ -35,6 +35,9 @@ Upcoming features:
 Please head to the "Support" tab to report errors or make suggestions.
 Demo videos will be posted as soon as they are available.
 
+Translation:
+- Italian (thanks to MD Ariful)
+
 == Installation ==
 
 1. Upload the `order-tracking` folder to the `/wp-content/plugins/` directory
@@ -64,6 +67,13 @@ You can specify the label for the field and the value of the submit button with 
 2. Sample order tracking page
 
 == Changelog ==
+= 1.6 =
+- Included an Italian translation
+- Added an optoin to require verification of the e-mail address associated with an order
+- Added a message for when there are no results found
+- In the admin area, it is now possible to search the order list by order number
+- Fixed an error that didn't allow the order form instructions to be changed via attribute
+
 = 1.5 =
 - Added a .pot file to the lang folder
 

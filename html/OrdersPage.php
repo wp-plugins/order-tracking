@@ -10,6 +10,7 @@
 			else {$Page = 1;}
 			
 			$Sql = "SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_Display='Yes' ";
+				if (isset($_POST['OrderNumber'])) {$Sql .= "AND Order_Number LIKE '%" . $_POST['OrderNumber'] . "%' ";}
 				if (isset($_GET['OrderBy']) and $_GET['DisplayPage'] == "Dashboard") {$Sql .= "ORDER BY " . $_GET['OrderBy'] . " " . $_GET['Order'] . " ";}
 				else {$Sql .= "ORDER BY Order_Number ";}
 				$Sql .= "LIMIT " . ($Page - 1)*20 . ",20";
@@ -19,7 +20,12 @@
 				$Current_Page_With_Order_By = "admin.php?page=EWD-OTP-options&DisplayPage=Dashboard";
 				if (isset($_GET['OrderBy'])) {$Current_Page_With_Order_By .= "&OrderBy=" .$_GET['OrderBy'] . "&Order=" . $_GET['Order'];}?>
 
-<form action="admin.php?page=EWD-OTP-options&Action=EWD_OTP_MassAction" method="post">    
+<form action="admin.php?page=EWD-OTP-options&DisplayPage=Orders&Action=EWD_OTP_MassAction" method="post">    
+<p class="search-box">
+	<label class="screen-reader-text" for="post-search-input">Search Orders:</label>
+	<input type="search" id="post-search-input" name="OrderNumber" value="">
+	<input type="submit" name="" id="search-submit" class="button" value="Search Orders">
+</p>
 <div class="tablenav top">
 		<div class="alignleft actions">
 				<select name='action'>

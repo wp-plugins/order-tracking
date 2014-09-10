@@ -10,6 +10,7 @@ function Insert_Tracking_Form($atts) {
 		$New_Window = get_option("EWD_OTP_New_Window");
 		$AJAX_Reload = get_option("EWD_OTP_AJAX_Reload");
 		$Order_Instructions = get_option("EWD_OTP_Form_Instructions");
+		$Email_Confirmation = get_option("EWD_OTP_Email_Confirmation");
 		
 		$ReturnString = "";
 		
@@ -17,12 +18,15 @@ function Insert_Tracking_Form($atts) {
 		extract( shortcode_atts( array(
 						 								 		'order_form_title' => __('Track an Order', 'EWD_OTP'),
 																'order_field_text' => __('Order Number', 'EWD_OTP'),
+																'email_field_text' => __('Order E-mail Address', 'EWD_OTP'),
 																'order_instructions' => __('Enter the order number you would like to track in the form below.', 'EWD_OTP'),
 																'field_names' => '',
 																'submit_text' => __('Track', 'EWD_OTP')),
 																$atts
 														)
 												);
+		
+		if ($order_instructions != "Enter the order number you would like to track in the form below." or $Order_Instructions == "") {$Order_Instructions = $order_instructions;}
 		
 		$ReturnString .= "<style type='text/css'>";
 		$ReturnString .= $Custom_CSS;
@@ -39,7 +43,7 @@ function Insert_Tracking_Form($atts) {
 		if (isset($_POST['Tracking_Number'])) {
 			  $ReturnString .= "<div class='ewd-otp-tracking-results pure-g'>";
 				$ReturnString .= "<div class='pure-u-1'><h3>" . __("Order Information", 'EWD_OTP') . "</h3></div>";
-				$ReturnString .= EWD_OTP_Return_Results($_POST['Tracking_Number'], $Fields);
+				$ReturnString .= EWD_OTP_Return_Results($_POST['Tracking_Number'], $Fields, $_POST['Order_Email']);
 				$ReturnString .= "</div>";
 		}
 		
@@ -55,7 +59,7 @@ function Insert_Tracking_Form($atts) {
 		$ReturnString .= "<h3>" . $order_form_title . "</h3>";
 		$ReturnString .= "<div class='ewd-otp-message mb-6'>";
 		$ReturnString .= $user_message;
-		$ReturnString .= $order_instructions;
+		$ReturnString .= $Order_Instructions;
 		$ReturnString .= "</div>";
 		if ($New_Window == "Yes") {$ReturnString .= "<form action='#' method='post' target='_blank' id='ewd-otp-tracking-form' class='pure-form pure-form-aligned'>";}
 		else {$ReturnString .= "<form action='#' method='post' id='ewd-otp-tracking-form' class='pure-form pure-form-aligned'>";}
@@ -64,6 +68,12 @@ function Insert_Tracking_Form($atts) {
 		$ReturnString .= "<label for='Order_Number' id='ewd-otp-order-number-div' class='ewd-otp-field-label ewd-otp-bold'>" . $order_field_text . ": </label>";
 		$ReturnString .= "<input type='text' class='ewd-otp-text-input' name='Tracking_Number' placeholder='" . $order_field_text . "...'>";
 		$ReturnString .= "</div>";
+		if ($Email_Confirmation == "Order_Email") {
+			  $ReturnString .= "<div class='pure-control-group'>";
+				$ReturnString .= "<label for='Order_Email' id='ewd-otp-order-number-div' class='ewd-otp-field-label ewd-otp-bold'>" . $email_field_text . ": </label>";
+				$ReturnString .= "<input type='email' class='ewd-otp-text-input' name='Order_Email' placeholder='" . $email_field_text . "...'>";
+				$ReturnString .= "</div>";
+		}
 		$ReturnString .= "<div class='pure-control-group'>";
 		$ReturnString .= "<label for='Submit'></label><input type='submit' class='ewd-otp-submit pure-button pure-button-primary' name='Login_Submit' value='" . $submit_text . "'>";
 		$ReturnString .= "</div>";
