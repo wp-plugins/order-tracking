@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Order Tracking Plugin
-Plugin URI: http://www.EtoileWebDesign.com/wordpress-plugins/
+Plugin URI: http://www.EtoileWebDesign.com/order-tracking/
 Description: A plugin that lets visitors track an order's status by putting in its numbers, as well as send out order e-mail updates
-Author: Tim Ruse
+Author: Étoile Web Design
 Author URI: http://www.EtoileWebDesign.com/order-tracking/
 Terms and Conditions: http://www.etoilewebdesign.com/plugin-terms-and-conditions/
 Text Domain: EWD_OTP
