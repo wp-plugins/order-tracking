@@ -7,17 +7,21 @@ Author: Tim Ruse
 Author URI: http://www.EtoileWebDesign.com/order-tracking/
 Terms and Conditions: http://www.etoilewebdesign.com/plugin-terms-and-conditions/
 Text Domain: EWD_OTP
-Version: 1.6
+Version: 2.0
 */
 
 global $EWD_OTP_db_version;
-global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name;
+global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name, $EWD_OTP_fields_table_name, $EWD_OTP_fields_meta_table_name, $EWD_OTP_sales_reps, $EWD_OTP_customers;
 global $wpdb;
 global $ewd_otp_message;
-global $Full_Version;
+global $EWD_OTP_Full_Version;
 $EWD_OTP_orders_table_name = $wpdb->prefix . "EWD_OTP_Orders";
 $EWD_OTP_order_statuses_table_name = $wpdb->prefix . "EWD_OTP_Order_Statuses";
-$EWD_OTP_db_version = "1.3";
+$EWD_OTP_sales_reps = $wpdb->prefix . "EWD_OTP_Sales_Reps";
+$EWD_OTP_customers = $wpdb->prefix . "EWD_OTP_Customers";
+$EWD_OTP_fields_table_name = $wpdb->prefix . "EWD_OTP_Custom_Fields";
+$EWD_OTP_fields_meta_table_name = $wpdb->prefix . "EWD_OTP_Fields_Meta";
+$EWD_OTP_db_version = "2.0";
 
 define( 'EWD_OTP_CD_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'EWD_OTP_CD_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -80,6 +84,10 @@ function Add_EWD_OTP_Scripts() {
 		if (isset($_GET['page']) && $_GET['page'] == 'EWD-OTP-options') {
 			  $url_one = plugins_url("order-tracking/js/Admin.js");
 				wp_enqueue_script('PageSwitch', $url_one, array('jquery'));
+				$url_two = plugins_url("order-tracking/js/jquery.confirm.min.js");
+				wp_enqueue_script('EWD_OTP_Confirmation', $url_two, array('jquery'));
+				$url_three = plugins_url("order-tracking/js/bootstrap.min.js");
+				wp_enqueue_script('EWD_OTP_Bootstrap', $url_three, array('jquery'));
 		}
 }
 
@@ -120,21 +128,24 @@ function save_otp_error(){
 		file_put_contents("Error.txt", ob_get_contents());
 }
 
-$Full_Version = get_option("EWD_OTP_Full_Version");
+$EWD_OTP_Full_Version = get_option("EWD_OTP_Full_Version");
 
-/*if (isset($_POST['Upgrade_To_Full'])) {
-	  add_action('admin_init', 'Upgrade_To_Full');
-}*/
+if (isset($_POST['EWD_OTP_Upgrade_To_Full'])) {
+	  add_action('admin_init', 'EWD_OTP_Upgrade_To_Full');
+}
 
 include "Functions/Error_Notices.php";
+include "Functions/EWD_OTP_Export_To_Excel.php";
 include "Functions/EWD_OTP_Output_Options.php";
 include "Functions/EWD_OTP_Return_Results.php";
+include "Functions/Full_Upgrade.php";
 include "Functions/Install_EWD_OTP.php";
 include "Functions/Prepare_Data_For_Insertion.php";
 include "Functions/Process_Ajax.php";
 include "Functions/Update_Admin_Databases.php";
 include "Functions/Update_EWD_OTP_Content.php";
 include "Functions/Update_EWD_OTP_Tables.php";
+include "Functions/Version_Upgrade.php";
 
 include "Shortcodes/InsertTrackingForm.php";
 

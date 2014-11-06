@@ -33,6 +33,14 @@
 	<label title='Update Date'><input type='checkbox' name='order_information[]' value='Order_Updated' <?php if(in_array("Order_Updated", $Order_Information)) {echo "checked='checked'";} ?> /> <span>Updated Date</span></label><br />
 	<label title='Notes'><input type='checkbox' name='order_information[]' value='Order_Notes' <?php if(in_array("Order_Notes", $Order_Information)) {echo "checked='checked'";} ?> /> <span>Notes</span></label><br />
 	<label title='Graphic'><input type='checkbox' name='order_information[]' value='Order_Graphic' <?php if(in_array("Order_Graphic", $Order_Information)) {echo "checked='checked'";} ?> /> <span>Status Graphic</span></label><br />
+	<?php  $Sql = "SELECT * FROM $EWD_OTP_fields_table_name";
+				 $Fields = $wpdb->get_results($Sql);
+				 foreach ($Fields as $Field) {
+				 		 echo "<label title='" . $Field->Field_ID . "'><input type='checkbox' name='order_information[]' value='" . $Field->Field_ID . "'";
+						 if (in_array($Field->Field_ID, $Order_Information)) {echo "checked='checked'";}
+						 echo "/> <span>" . $Field->Field_Name . "</span></label><br />";
+				 }
+	?>
 	<p>Select what information should be displayed for each order.</p>
 	</fieldset>
 </td>
@@ -181,9 +189,10 @@
 <th scope="row">Order E-mail Confirmation</th>
 <td>
 	<fieldset><legend class="screen-reader-text"><span>Order E-mail Confirmation</span></legend>
-	<label title='Yes'><input type='radio' name='email_confirmation' value='Order_Email' <?php if($Email_Confirmation == "Order_Email") {echo "checked='checked'";} ?> /> <span>Yes</span></label><br />
+	<label title='User Entered'><input type='radio' name='email_confirmation' value='Order_Email' <?php if($Email_Confirmation == "Order_Email") {echo "checked='checked'";} ?> /> <span>User Entered</span></label><br />
+	<label title='Auto Entered'><input type='radio' name='email_confirmation' value='Auto_Entered' <?php if($Email_Confirmation == "Auto_Entered") {echo "checked='checked'";} ?> /> <span>Auto Entered (via attribute)</span></label><br />
 	<label title='No'><input type='radio' name='email_confirmation' value='None' <?php if($Email_Confirmation == "None") {echo "checked='checked'";} ?> /> <span>No</span></label><br />
-	<p>Should search results display in a new window or open in the same one? (Doesn't work with AJAX reloads)</p>
+	<p>Do visitors need to also enter the e-mail address associated with an order to be able to view order information?</p>
 	</fieldset>
 </td>
 </tr>

@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: Rustaurius 
+Contributors: Rustaurius, EtoileWebDesign
 Tags: order tracking, customer orders, customer support, ticket tracking, support tickets, support ticket, tickets, client, customer, helpdesk, support software, help desk, help desk software
 Requires at least: 3.5.0
 Tested up to: 3.9.1
@@ -14,11 +14,15 @@ Allows a site's administrators to post updates about the status of orders or sup
 
 [youtube http://www.youtube.com/watch?v=rMULYuPjVXU]
 
-Through the WordPress admin panel, you can
+Through the WordPress admin panel, you can:
 
 * Set up order or ticket numbers which customers can search
 * Automatic e-mailing when the status of an order/ticket changes
+* Ability to create customers, assign a group of orders to a customer
+* Ability to create sales rep and assign customers and orders to them
+* Custom order fields to display information such as weight, estimated delivery, price, insurance options, etc.
 * Ability to create/update orders by uploading a spreadsheet
+* Ability to export orders to a spreadsheet
 * Update the status of an order or ticket
 * Create custom statuses that suit your business
 * Hide or delete orders/tickets
@@ -26,8 +30,6 @@ Through the WordPress admin panel, you can
 * Responsive, clean CSS that's completely customizable
 
 Upcoming features:
-* Ability to create customers, assign a group of orders to a customer, automatically contact for follow X days after order shipment, etc.
-* Custom order fields
 * PayPal integration
 * Product catalogue integration
 * Quickbooks online integration (potentially, depending on community interest level)
@@ -36,7 +38,8 @@ Please head to the "Support" tab to report errors or make suggestions.
 Demo videos will be posted as soon as they are available.
 
 Translation:
-- Italian (thanks to MD Ariful)
+* Italian (thanks to MD Ariful)
+* German (thanks to Benko)
 
 == Installation ==
 
@@ -67,6 +70,16 @@ You can specify the label for the field and the value of the submit button with 
 2. Sample order tracking page
 
 == Changelog ==
+= 2.0 =
+- MAJOR UPDATE
+- Added Custom Fields which can display any type of information associated with an order (weight, size, estimated delivery, etc.)
+- Added Customers tab, lets you create customers and assign orders to them
+- Added Sales Rep tab, lets you create sales rep, assign orders and customers to them
+- Added the ability to export orders to Excel
+- Added the ability to delete all orders
+- Included a German translation
+- Fixed a confirmation error
+
 = 1.6 =
 - Included an Italian translation
 - Added an optoin to require verification of the e-mail address associated with an order

@@ -19,6 +19,9 @@ function Insert_Tracking_Form($atts) {
 						 								 		'order_form_title' => __('Track an Order', 'EWD_OTP'),
 																'order_field_text' => __('Order Number', 'EWD_OTP'),
 																'email_field_text' => __('Order E-mail Address', 'EWD_OTP'),
+																'email_field_shortcode' => '',
+																'email_field_shortcode_attribute' => '',
+																'email_field_attribute_value' => '',
 																'order_instructions' => __('Enter the order number you would like to track in the form below.', 'EWD_OTP'),
 																'field_names' => '',
 																'submit_text' => __('Track', 'EWD_OTP')),
@@ -73,6 +76,9 @@ function Insert_Tracking_Form($atts) {
 				$ReturnString .= "<label for='Order_Email' id='ewd-otp-order-number-div' class='ewd-otp-field-label ewd-otp-bold'>" . $email_field_text . ": </label>";
 				$ReturnString .= "<input type='email' class='ewd-otp-text-input' name='Order_Email' placeholder='" . $email_field_text . "...'>";
 				$ReturnString .= "</div>";
+		}
+		if ($Email_Confirmation == "Auto_Entered") {
+				$ReturnString .= "<input type='hidden' class='ewd-otp-text-input' name='Order_Email' value='[" . $email_field_shortcode . " " . $email_field_shortcode_attribute . "=" . $email_field_attribute_value . "]'>";
 		}
 		$ReturnString .= "<div class='pure-control-group'>";
 		$ReturnString .= "<label for='Submit'></label><input type='submit' class='ewd-otp-submit pure-button pure-button-primary' name='Login_Submit' value='" . $submit_text . "'>";

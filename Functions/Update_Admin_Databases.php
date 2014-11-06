@@ -2,9 +2,13 @@
 /* The file contains all of the functions which make changes to the OTP tables */
 
 /* Adds a single new order to the OTP database */
-function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated) {
+
+/* The file contains all of the functions which make changes to the OTP tables */
+
+/* Adds a single new order to the OTP database */
+function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID) {
 		global $wpdb;
-		global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name;
+		global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name, $EWD_OTP_fields_table_name, $EWD_OTP_fields_meta_table_name;
 		
 		$wpdb->insert( $EWD_OTP_orders_table_name, 
 						array( 'Order_Name' => $Order_Name,
@@ -14,21 +18,64 @@ function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Stat
 									 'Order_Notes_Private' => $Order_Notes_Private,
 									 'Order_Email' => $Order_Email,
 									 'Order_Display' => $Order_Display,
+									 'Customer_ID' => $Customer_ID,
+									 'Sales_Rep_ID' => $Sales_Rep_ID,
 									 'Order_Status_Updated' => $Order_Status_Updated)
 					 );
+		
+		$Order_ID = $wpdb->insert_id;
+		
 		$wpdb->insert( $EWD_OTP_order_statuses_table_name, 
-						array( 'Order_ID' => $wpdb->insert_id,
+						array( 'Order_ID' => $Order_ID,
 									 'Order_Status' => $Order_Status,
 									 'Order_Status_Created' => $Order_Status_Updated)
 					 );
+					 
+		//Add the custom fields to the meta table
+		$Fields = $wpdb->get_results("SELECT Field_ID, Field_Name, Field_Values FROM $EWD_OTP_fields_table_name");
+		if (is_array($Fields)) {
+			  foreach ($Fields as $Field) {
+						$FieldName = str_replace(" ", "_", $Field->Field_Name);
+						if (isset($_POST[$FieldName]) or isset($_FILES[$FieldName])) {
+							  // If it's a file, pass back to Prepare_Data_For_Insertion.php to upload the file and get the name
+								if ($Field->Field_Type == "file") {
+										$File_Upload_Return = EWD_OTP_Handle_File_Upload($FieldName);
+										if ($File_Upload_Return['Success'] == "No") {return $File_Upload_Return['Data'];}
+										elseif ($File_Upload_Return['Success'] == "N/A") {$NoFile = "Yes";}
+										else {$Value = $File_Upload_Return['Data'];}
+								}
+								else {
+									  $Value = trim($_POST[$FieldName]);
+										$Options = explode(",", $Field->Field_Values);
+										if (sizeOf($Options) > 0 and $Options[0] != "") {
+									  	  array_walk($Options, create_function('&$val', '$val = trim($val);'));
+												$InArray = in_array($Value, $Options);
+										}
+								}		
+								if (!isset($InArray) or $InArray) {
+									  if ($NoFile != "Yes") {
+											  $wpdb->insert($EWD_OTP_fields_meta_table_name,
+															array( 'Field_ID' => $Field->Field_ID,
+																		 'Order_ID' => $Order_ID,
+																		 'Meta_Value' => $Value)
+												);
+										}
+								}
+								elseif ($InArray == false) {$CustomFieldError = __(" One or more custom field values were incorrect.", 'EWD_OTP');}
+								unset($InArray);
+								unset($NoFile);
+						}
+				}
+		}
+		
 		$update = __("Order has been successfully created.", 'EWD_OTP');
 		return $update;
 }
 
 /* Edits a single order with a given ID in the OTP database */
-function Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated) {
+function Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID) {
 		global $wpdb;
-		global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name;
+		global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name, $EWD_OTP_fields_table_name, $EWD_OTP_fields_meta_table_name;
 		
 		$wpdb->update( $EWD_OTP_orders_table_name, 
 						array( 'Order_Name' => $Order_Name,
@@ -38,6 +85,8 @@ function Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email,
 									 'Order_Notes_Private' => $Order_Notes_Private,
 									 'Order_Email' => $Order_Email,
 									 'Order_Display' => $Order_Display,
+									 'Customer_ID' => $Customer_ID,
+									 'Sales_Rep_ID' => $Sales_Rep_ID,
 									 'Order_Status_Updated' => $Order_Status_Updated),
 					 	array( 'Order_ID' => $Order_ID)
 					 );
@@ -46,6 +95,50 @@ function Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email,
 									 'Order_Status' => $Order_Status,
 									 'Order_Status_Created' => $Order_Status_Updated)
 					 );
+					 
+		// Delete the custom field values for the given Item_ID
+		$wpdb->delete(
+				$EWD_OTP_fields_meta_table_name,
+				array('Order_ID' => $Order_ID)
+		);
+		
+				//Add the custom fields to the meta table
+		$Fields = $wpdb->get_results("SELECT Field_ID, Field_Name, Field_Values, Field_Type FROM $EWD_OTP_fields_table_name");
+		if (is_array($Fields)) {
+			  foreach ($Fields as $Field) {
+						$FieldName = str_replace(" ", "_", $Field->Field_Name);
+						if (isset($_POST[$FieldName]) or isset($_FILES[$FieldName])) {
+							  // If it's a file, pass back to Prepare_Data_For_Insertion.php to upload the file and get the name
+								if ($Field->Field_Type == "file") {
+										$File_Upload_Return = EWD_OTP_Handle_File_Upload($FieldName);
+										if ($File_Upload_Return['Success'] == "No") {return $File_Upload_Return['Data'];}
+										elseif ($File_Upload_Return['Success'] == "N/A") {$NoFile = "Yes";}
+										else {$Value = $File_Upload_Return['Data'];}
+								}
+								else {
+									  $Value = trim($_POST[$FieldName]);
+										$Options = explode(",", $Field->Field_Values);
+										if (sizeOf($Options) > 0 and $Options[0] != "") {
+									  	  array_walk($Options, create_function('&$val', '$val = trim($val);'));
+												$InArray = in_array($Value, $Options);
+										}
+								}
+								if (!isset($InArray) or $InArray) {
+									  if ($NoFile != "Yes") {
+											  $wpdb->insert($EWD_OTP_fields_meta_table_name,
+															array( 'Field_ID' => $Field->Field_ID,
+																		 'Order_ID' => $Order_ID,
+																		 'Meta_Value' => $Value)
+												);
+										}
+								}
+								elseif ($InArray == false) {$CustomFieldError = __(" One or more custom field values were incorrect.", 'UPCP');}
+								unset($InArray);
+								unset($NoFile);
+						}
+				}
+		}
+		
 		$update = __("Order has been successfully edited.", 'EWD_OTP');
 		return $update;
 }
@@ -84,7 +177,7 @@ function Hide_EWD_OTP_Order($Order_ID) {
 /* Deletes a single prder with a given ID in the OTP database */
 function Delete_EWD_OTP_Order($Order_ID) {
 		global $wpdb;
-		global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name;
+		global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name, $EWD_OTP_fields_meta_table_name;
 		
 		$wpdb->delete(
 						$EWD_OTP_orders_table_name,
@@ -92,6 +185,10 @@ function Delete_EWD_OTP_Order($Order_ID) {
 					);
 		$wpdb->delete(
 						$EWD_OTP_order_statuses_table_name,
+						array('Order_ID' => $Order_ID)
+					);
+		$wpdb->delete(
+						$EWD_OTP_fields_meta_table_name,
 						array('Order_ID' => $Order_ID)
 					);
 
@@ -106,6 +203,8 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 		global $wpdb;
 		global $EWD_OTP_orders_table_name;
 		global $EWD_OTP_order_statuses_table_name;
+		global $EWD_OTP_fields_table_name;
+		global $EWD_OTP_fields_meta_table_name;
 		
 		$Order_Email = get_option("EWD_OTP_Order_Email");
 		
@@ -122,8 +221,16 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 		// Create a worksheet object out of the product sheet in the workbook
 		$sheet = $objWorkBook->getActiveSheet();
 		
+		$Allowable_Custom_Fields = array();
 		//List of fields that can be accepted via upload
-		$Allowed_Fields = array ("Name" => "Order_Name", "Number" => "Order_Number", "Status" => "Order_Status", "Display" => "Order_Display", "Public Notes" => "Order_Notes_Public", "Private Notes" => "Order_Notes_Private", "Email" => "Order_Email");
+		$Allowed_Fields = array ("Patient Name" => "Order_Name", "Customer Name" => "Order_Number", "Order Status" => "Order_Status", "Order Display" => "Order_Display", "Order Notes Public" => "Order_Notes_Public", "Order Notes Private" => "Order_Notes_Private", "Order Email" => "Order_Email");
+		$Custom_Fields_From_DB = $wpdb->get_results("SELECT Field_ID, Field_Name, Field_Values, Field_Type FROM $EWD_OTP_fields_table_name");
+		if (is_array($Custom_Fields_From_DB)) {
+			  foreach ($Custom_Fields_From_DB as $Custom_Field_From_DB) {
+						$Allowable_Custom_Fields[$Custom_Field_From_DB->Field_Name] = $Custom_Field_From_DB->Field_Name;
+						$Field_IDs[$Custom_Field_From_DB->Field_Name] = $Custom_Field_From_DB->Field_ID;
+				}
+		}
 		
 		// Get column names
 		$highestColumn = $sheet->getHighestColumn();
@@ -133,8 +240,8 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 		}
 
 		// Make sure all columns are acceptable based on the acceptable fields above
-		foreach ($Titles as $Title) {
-				if ($Title != "" and !array_key_exists($Title, $Allowed_Fields)) {
+		foreach ($Titles as $key => $Title) {
+				if ($Title != "" and !array_key_exists($Title, $Allowed_Fields) and !array_key_exists($Title, $Allowable_Custom_Fields)) {
 					  $Error = __("You have a column which is not recognized: ", 'EWD_OTP') . $Title . __(". <br>Please make sure that the column names match the order field labels exactly (without the word order).", 'EWD_OTP');
 						$user_update = array("Message_Type" => "Error", "Message" => $Error);
 						return $user_update;
@@ -144,7 +251,12 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 						$user_update = array("Message_Type" => "Error", "Message" => $Error);
 						return $user_update;
 				}
+				if (array_key_exists($Title, $Allowable_Custom_Fields)) {
+					  $Custom_Fields[$key] = $Title;
+						unset($Titles[$key]);
+				}
 		}
+		if (!is_array($Custom_Fields)) {$Custom_Fields = array();}
 		
 		// Put the spreadsheet data into a multi-dimensional array to facilitate processing
 		$highestRow = $sheet->getHighestRow();
@@ -157,7 +269,7 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 		// Creates an array of the field names which are going to be inserted into the database
 		// and then turns that array into a string so that it can be used in the query
 		for ($column = 0; $column < $highestColumnIndex; $column++) {
-				$Fields[] = $Allowed_Fields[$Titles[$column]];
+				if (!array_key_exists($column, $Custom_Fields)) {$Fields[] = $Allowed_Fields[$Titles[$column]];}
 				if ($Allowed_Fields[$Titles[$column]] == "Order_Status") {$Status_Column = $column;}
 				if ($Allowed_Fields[$Titles[$column]] == "Order_Number") {$Number_Column = $column;}
 		}
@@ -171,7 +283,7 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 				// Create an array of the values that are being inserted for each order,
 				// edit if it's a current order, otherwise add it
 				foreach ($Order as $Col_Index => $Value) {
-						$Values[] = esc_sql($Value);
+						if (!array_key_exists($Col_Index, $Custom_Fields)) {$Values[] = esc_sql($Value);}
 						if (isset($Status_Column) and $Status_Column == $Col_Index) {$Status = $Value;}
 						if (isset($Number_Column) and $Number_Column == $Col_Index) {$Number = $Value;}
 				}
@@ -266,6 +378,151 @@ function Delete_EWD_OTP_Status($Status) {
 		update_option("EWD_OTP_Percentages", $PercentageString);
 		
 		$update = __("Option has been successfully deleted.", 'EWD_OTP');
+		return $update;
+}
+
+/* Adds a single new custom field to the EWD_OTP database */
+function Add_EWD_OTP_Custom_Field($Field_Name, $Field_Slug, $Field_Type, $Field_Description, $Field_Values) {
+		global $wpdb;
+		global $EWD_OTP_fields_table_name;
+		$Date = date("Y-m-d H:i:s");
+		global $Full_Version;
+		
+		if ($Full_Version != "Yes") {exit();}		
+		$wpdb->insert($EWD_OTP_fields_table_name,
+				array( 'Field_Name' => $Field_Name,
+							 'Field_Slug' => $Field_Slug,
+							 'Field_Type' => $Field_Type,
+							 'Field_Description' => $Field_Description,
+							 'Field_Values' => $Field_Values,
+							 'Field_Values' => $Field_Values,
+							 'Field_Date_Created' => $Date)
+		);
+		$update = __("Field has been successfully created.", 'EWD_OTP');
+		return $update;
+}
+
+/* Edits a single custom field with a given ID in the EWD_OTP database */
+function  Edit_EWD_OTP_Custom_Field($Field_ID, $Field_Name, $Field_Slug, $Field_Type, $Field_Description, $Field_Values) {
+		global $wpdb;
+		global $EWD_OTP_fields_table_name;
+		global $Full_Version;
+		
+		if ($Full_Version != "Yes") {exit();}		
+		$wpdb->update(
+						$EWD_OTP_fields_table_name,
+						array( 'Field_Name' => $Field_Name,
+									 'Field_Slug' => $Field_Slug,
+									 'Field_Type' => $Field_Type,
+							 		 'Field_Description' => $Field_Description,
+									 'Field_Values' => $Field_Values),
+						array( 'Field_ID' => $Field_ID)
+		);
+		$update = __("Field has been successfully edited.", 'EWD_OTP');
+		return $update;
+}
+
+/* Deletes a single tag with a given ID in the EWD_OTP database, and then eliminates 
+*  all of the occurrences of that tag from the tagged items table.  */
+function Delete_EWD_OTP_Custom_Field($Field_ID) {
+		global $wpdb;
+		global $EWD_OTP_fields_table_name;
+		global $Full_Version;
+		
+		if ($Full_Version != "Yes") {exit();}		
+		$wpdb->delete(
+						$EWD_OTP_fields_table_name,
+						array('Field_ID' => $Field_ID)
+					);
+					
+
+		$update = __("Field has been successfully deleted.", 'EWD_OTP');
+		return $update;
+}
+
+function Add_EWD_OTP_Sales_Rep($Sales_Rep_First_Name, $Sales_Rep_Last_Name, $Sales_Rep_Created) {
+		global $wpdb;
+		global $EWD_OTP_sales_reps;
+		
+		$wpdb->insert( $EWD_OTP_sales_reps, 
+						array( 'Sales_Rep_First_Name' => $Sales_Rep_First_Name,
+									 'Sales_Rep_Last_Name' => $Sales_Rep_Last_Name,
+									 'Sales_Rep_Created' => $Sales_Rep_Created)
+					 );
+		
+		$update = __("Sales Rep has been successfully created.", 'EWD_OTP');
+		return $update;
+}
+
+/* Edits a single order with a given ID in the OTP database */
+function Edit_EWD_OTP_Sales_Rep($Sales_Rep_ID, $Sales_Rep_First_Name, $Sales_Rep_Last_Name) {
+		global $wpdb;
+		global $EWD_OTP_sales_reps;
+		
+		$wpdb->update( $EWD_OTP_sales_reps, 
+						array( 'Sales_Rep_First_Name' => $Sales_Rep_First_Name,
+									 'Sales_Rep_Last_Name' => $Sales_Rep_Last_Name),
+					 	array( 'Sales_Rep_ID' => $Sales_Rep_ID)
+					 ); 
+		
+		$update = __("Sales Rep has been successfully edited.", 'EWD_OTP');
+		return $update;
+}
+
+function Delete_EWD_OTP_Sales_Rep($Sales_Rep_ID) {
+		global $wpdb;
+		global $EWD_OTP_sales_reps;
+			
+		$wpdb->delete(
+						$EWD_OTP_sales_reps,
+						array('Sales_Rep_ID' => $Sales_Rep_ID)
+					);
+					
+
+		$update = __("Sales Rep has been successfully deleted.", 'EWD_OTP');
+		return $update;
+}
+
+function Add_EWD_OTP_Customer($Customer_Name, $Sales_Rep_ID, $Customer_Created) {
+		global $wpdb;
+		global $EWD_OTP_customers;
+		
+		$wpdb->insert( $EWD_OTP_customers, 
+						array( 'Customer_Name' => $Customer_Name,
+									 'Sales_Rep_ID' => $Sales_Rep_ID,
+									 'Customer_Created' => $Customer_Created)
+					 );
+		
+		$update = __("Customer has been successfully created.", 'EWD_OTP');
+		return $update;
+}
+
+/* Edits a single order with a given ID in the OTP database */
+function Edit_EWD_OTP_Customer($Customer_ID, $Customer_Name, $Sales_Rep_ID) {
+		global $wpdb;
+		global $EWD_OTP_customers;
+		
+		$wpdb->update( $EWD_OTP_customers, 
+						array( 'Customer_Name' => $Customer_Name,
+									 'Sales_Rep_ID' => $Sales_Rep_ID),
+					 	array( 'Customer_ID' => $Customer_ID)
+					 ); 
+		
+		$update = __("Customer has been successfully edited.", 'EWD_OTP');
+		return $update;
+}
+
+function Delete_EWD_OTP_Customer($Customer_ID) {
+		global $wpdb;
+		global $EWD_OTP_customers;
+			
+		$wpdb->delete(
+						$EWD_OTP_customers,
+						array('Customer_ID' => $Customer_ID)
+					);
+					
+
+		$update = __("Customer has been successfully deleted.", 'EWD_OTP');
 		return $update;
 }
 

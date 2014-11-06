@@ -1,5 +1,8 @@
-<?php $StatusString = get_option("EWD_OTP_Statuses"); 
+<?php 
+$StatusString = get_option("EWD_OTP_Statuses"); 
 $Order = $wpdb->get_row($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_ID='%d'", $_GET['Order_ID']));
+$Customers = $wpdb->get_results("SELECT * FROM $EWD_OTP_customers");
+$Sales_Reps = $wpdb->get_results("SELECT * FROM $EWD_OTP_sales_reps");
 ?>
 
 <div id="col-left">
@@ -38,6 +41,26 @@ $Order = $wpdb->get_row($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name
 		</select>
 		<p><?php _e("The status that visitors will see if they enter the order number.", 'EWD_OTP') ?></p>
 </div>
+<div>
+		<label for="Customer_ID"><?php _e("Customer", 'EWD_OTP') ?></label>
+		<select name="Customer_ID" id="Customer_ID" />
+		<option value='0'>None</option>
+		<?php foreach ($Customers as $Customer) { ?>
+					<option value='<?php echo $Customer->Customer_ID; ?>' <?php if ($Order->Customer_ID == $Customer->Customer_ID) {echo "selected='selected'";} ?>><?php echo $Customer->Customer_Name; ?></option>
+		<?php } ?>
+		</select>
+		<p><?php _e("The customer that this order is associated with.", 'EWD_OTP') ?></p>
+</div>
+<div>
+		<label for="Sales_Rep_ID"><?php _e("Sales Rep", 'EWD_OTP') ?></label>
+		<select name="Sales_Rep_ID" id="Sales_Rep_ID" />
+		<option value='0'>None</option>
+		<?php foreach ($Sales_Reps as $Sales_Rep) { ?>
+					<option value='<?php echo $Sales_Rep->Sales_Rep_ID; ?>' <?php if ($Order->Sales_Rep_ID == $Sales_Rep->Sales_Rep_ID) {echo "selected='selected'";} ?>><?php echo $Sales_Rep->Sales_Rep_First_Name . " " . $Sales_Rep->Sales_Rep_Last_Name; ?></option>
+		<?php } ?>
+		</select>
+		<p><?php _e("The sales rep that this order is associated with.", 'EWD_OTP') ?></p>
+</div>
 <div class="form-field">
 	<label for="Order_Notes_Public"><?php _e("Public Order Notes", 'EWD_OTP') ?></label>
 	<input type='text' name="Order_Notes_Public" id="Order_Notes_Public" value="<?php echo stripslashes($Order->Order_Notes_Public); ?>" />
@@ -55,6 +78,75 @@ $Order = $wpdb->get_row($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name
 		<p><?php _e("Should this order appear in the orders table in the admin area?", 'EWD_OTP') ?></p>
 </div>
 
+<?php
+						
+						$Sql = "SELECT * FROM $EWD_OTP_fields_table_name ";
+						$Fields = $wpdb->get_results($Sql);
+						$MetaValues = $wpdb->get_results($wpdb->prepare("SELECT Field_ID, Meta_Value FROM $EWD_OTP_fields_meta_table_name WHERE Order_ID=%d", $_GET['Order_ID']));
+						foreach ($Fields as $Field) {
+								$Value = "";
+								if (is_array($MetaValues)) {
+									  foreach ($MetaValues as $Meta) {
+												if ($Field->Field_ID == $Meta->Field_ID) {$Value = $Meta->Meta_Value;}
+										}
+								}
+								$ReturnString .= "<tr><th><label for='" . $Field->Field_Name . "'>" . $Field->Field_Name . ":</label></th>";
+								if ($Field->Field_Type == "text" or $Field->Field_Type == "mediumint") {
+					  			  $ReturnString .= "<td><input name='" . $Field->Field_Name . "' id='ewd-otp-input-" . $Field->Field_ID . "' class='ewd-otp-text-input' type='text' value='" . $Value . "' /></td>";
+								}
+								elseif ($Field->Field_Type == "textarea") {
+										$ReturnString .= "<td><textarea name='" . $Field->Field_Name . "' id='ewd-otp-input-" . $Field->Field_ID . "' class='ewd-otp-textarea'>" . $Value . "</textarea></td>";
+								} 
+								elseif ($Field->Field_Type == "select") { 
+										$Options = explode(",", $Field->Field_Values);
+										$ReturnString .= "<td><select name='" . $Field->Field_Name . "' id='ewd-otp-input-" . $Field->Field_ID . "' class='ewd-otp-select'>";
+			 							foreach ($Options as $Option) {
+												$ReturnString .= "<option value='" . $Option . "' ";
+												if (trim($Option) == trim($Value)) {$ReturnString .= "selected='selected'";}
+												$ReturnString .= ">" . $Option . "</option>";
+										}
+										$ReturnString .= "</select></td>";
+								} 
+								elseif ($Field->Field_Type == "radio") {
+										$Counter = 0;
+										$Options = explode(",", $Field->Field_Values);
+										$ReturnString .= "<td>";
+										foreach ($Options as $Option) {
+												if ($Counter != 0) {$ReturnString .= "<label class='radio'></label>";}
+												$ReturnString .= "<input type='radio' name='" . $Field->Field_Name . "' value='" . $Option . "' class='ewd-otp-radio' ";
+												if (trim($Option) == trim($Value)) {$ReturnString .= "checked";}
+												$ReturnString .= ">" . $Option;
+												$Counter++;
+										} 
+										$ReturnString .= "</td>";
+								} 
+								elseif ($Field->Field_Type == "checkbox") {
+  									$Counter = 0;
+										$Options = explode(",", $Field->Field_Values);
+										$Values = explode(",", $Value);
+										$ReturnString .= "<td>";
+										foreach ($Options as $Option) {
+												if ($Counter != 0) {$ReturnString .= "<label class='radio'></label>";}
+												$ReturnString .= "<input type='checkbox' name='" . $Field->Field_Name . "[]' value='" . $Option . "' class='ewd-otp-checkbox' ";
+												if (in_array($Option, $Values)) {$ReturnString .= "checked";}
+												$ReturnString .= ">" . $Option . "</br>";
+												$Counter++;
+										}
+										$ReturnString .= "</td>";
+								}
+								elseif ($Field->Field_Type == "file") {
+										$ReturnString .= "<td><input name='" . $Field->Field_Name . "' class='ewd-otp-file-input' type='file' value='" . $Value . "' /></td>";
+								}
+								elseif ($Field->Field_Type == "date") {
+										$ReturnString .= "<td><input name='" . $Field->Field_Name . "' class='ewd-otp-date-input' type='date' value='" . $Value . "' /></td>";
+								} 
+								elseif ($Field->Field_Type == "datetime") {
+										$ReturnString .= "<td><input name='" . $Field->Field_Name . "' class='ewd-otp-datetime-input' type='datetime-local' value='" . $Value . "' /></td>";
+  							}
+						}
+						echo $ReturnString;
+						?>
+						
 <p class="submit"><input type="submit" name="submit" id="submit" class="button-primary" value="<?php _e('Edit Order', 'EWD_OTP') ?>"  /></p></form>
 
 </div>

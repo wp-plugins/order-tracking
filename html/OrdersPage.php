@@ -6,6 +6,9 @@
 <?php wp_referer_field(); ?>
 
 <?php 
+			$Customers = $wpdb->get_results("SELECT * FROM $EWD_OTP_customers");
+			$Sales_Reps = $wpdb->get_results("SELECT * FROM $EWD_OTP_sales_reps");
+			
 			if (isset($_GET['Page'])) {$Page = $_GET['Page'];}
 			else {$Page = 1;}
 			
@@ -35,6 +38,7 @@
 						<option value='delete'><?php _e("Delete", 'EWD_OTP') ?></option>
 				</select>
 				<input type="submit" name="" id="doaction" class="button-secondary action" value="<?php _e('Apply', 'EWD_OTP') ?>"  />
+				<a class='confirm button-secondary action' href='admin.php?page=EWD-OTP-options&Action=EWD_OTP_DeleteAllOrders&DisplayPage=Orders'>Delete All Orders</a>
 		</div>
 		<div class='tablenav-pages <?php if ($Number_of_Pages == 1) {echo "one-page";} ?>'>
 				<span class="displaying-num"><?php echo $wpdb->num_rows; ?> <?php _e("items", 'EWD_OTP') ?></span>
@@ -216,6 +220,26 @@
 		<p><?php _e("The status that visitors will see if they enter the order number.", 'EWD_OTP') ?></p>
 </div>
 <div>
+		<label for="Customer_ID"><?php _e("Customer", 'EWD_OTP') ?></label>
+		<select name="Customer_ID" id="Customer_ID" />
+		<option value='0'>None</option>
+		<?php foreach ($Customers as $Customer) { ?>
+					<option value='<?php echo $Customer->Customer_ID; ?>'><?php echo $Customer->Customer_Name; ?></option>
+		<?php } ?>
+		</select>
+		<p><?php _e("The customer that this order is associated with.", 'EWD_OTP') ?></p>
+</div>
+<div>
+		<label for="Sales_Rep_ID"><?php _e("Sales Rep", 'EWD_OTP') ?></label>
+		<select name="Sales_Rep_ID" id="Sales_Rep_ID" />
+		<option value='0'>None</option>
+		<?php foreach ($Sales_Reps as $Sales_Rep) { ?>
+					<option value='<?php echo $Sales_Rep->Sales_Rep_ID; ?>'><?php echo $Sales_Rep->Sales_Rep_First_Name . " " . $Sales_Rep->Sales_Rep_Last_Name; ?></option>
+		<?php } ?>
+		</select>
+		<p><?php _e("The sales rep that this order is associated with.", 'EWD_OTP') ?></p>
+</div>
+<div>
 		<label for="Order_Notes_Public"><?php _e("Public Order Notes", 'EWD_OTP') ?></label>
 		<input name="Order_Notes_Public" id="Order_Notes_Public" />
 		<p><?php _e("The notes that visitors will see if they enter the order number, and you've included 'Notes' on the options page.", 'EWD_OTP') ?></p>
@@ -232,9 +256,70 @@
 		<p><?php _e("Should this order appear in the orders table in the admin area?", 'EWD_OTP') ?></p>
 </div>
 
+<?php
+$Sql = "SELECT * FROM $EWD_OTP_fields_table_name ";
+$Fields = $wpdb->get_results($Sql);
+$Value = "";
+foreach ($Fields as $Field) {
+		$ReturnString .= "<div class='form-field'><label for='" . $Field->Field_Name . "'>" . $Field->Field_Name . ":</label>";
+		if ($Field->Field_Type == "text" or $Field->Field_Type == "mediumint") {
+			  $ReturnString .= "<input name='" . $Field->Field_Name . "' id='ewd-otp-input-" . $Field->Field_ID . "' class='ewd-otp-input' type='text' value='" . $Value . "' />";
+		}
+		elseif ($Field->Field_Type == "textarea") {
+				$ReturnString .= "<textarea name='" . $Field->Field_Name . "' id='ewd-otp-input-" . $Field->Field_ID . "' class='ewd-otp-textarea'>" . $Value . "</textarea>";
+		} 
+		elseif ($Field->Field_Type == "select") { 
+				$Options = explode(",", $Field->Field_Values);
+				$ReturnString .= "<select name='" . $Field->Field_Name . "' id='ewd-otp-input-" . $Field->Field_ID . "' class='ewd-otp-select'>";
+				foreach ($Options as $Option) {
+						$ReturnString .= "<option value='" . $Option . "' ";
+						if (trim($Option) == trim($Value)) {$ReturnString .= "selected='selected'";}
+						$ReturnString .= ">" . $Option . "</option>";
+				}
+				$ReturnString .= "</select>";
+		} 
+		elseif ($Field->Field_Type == "radio") {
+				$Counter = 0;
+				$Options = explode(",", $Field->Field_Values);
+				foreach ($Options as $Option) {
+						if ($Counter != 0) {$ReturnString .= "<label class='radio'></label>";}
+						$ReturnString .= "<input type='radio' name='" . $Field->Field_Name . "' value='" . $Option . "' class='ewd-otp-radio' ";
+						if (trim($Option) == trim($Value)) {$ReturnString .= "checked";}
+						$ReturnString .= ">" . $Option;
+						$Counter++;
+				}
+		} 
+		elseif ($Field->Field_Type == "checkbox") {
+  			$Counter = 0;
+				$Options = explode(",", $Field->Field_Values);
+				$Values = explode(",", $Value);
+				foreach ($Options as $Option) {
+						if ($Counter != 0) {$ReturnString .= "<label class='radio'></label>";}
+						$ReturnString .= "<input type='checkbox' name='" . $Field->Field_Name . "[]' value='" . $Option . "' class='ewd-otp-checkbox' ";
+						if (in_array($Option, $Values)) {$ReturnString .= "checked";}
+						$ReturnString .= ">" . $Option . "</br>";
+						$Counter++;
+				}
+		}
+		elseif ($Field->Field_Type == "file") {
+				$ReturnString .= "<input name='" . $Field->Field_Name . "' class='ewd-otp-file-input' type='file' value='' />";
+		}
+		elseif ($Field->Field_Type == "date") {
+				$ReturnString .= "<input name='" . $Field->Field_Name . "' class='ewd-otp-date-input' type='date' value='' />";
+		} 
+		elseif ($Field->Field_Type == "datetime") {
+				$ReturnString .= "<input name='" . $Field->Field_Name . "' class='ewd-otp-datetime-input' type='datetime-local' value='' />";
+  	}
+		$ReturnString .= " </div>";
+}
+echo $ReturnString;
+
+?>
+
 <p class="submit"><input type="submit" name="submit" id="submit" class="button-primary" value="<?php _e('Add New Order', 'EWD_OTP') ?>"  /></p></form>
 
 <h3><?php _e("Add/Update Orders from Spreadsheet", 'EWD_OTP') ?></h3>
+<?php if ($EWD_OTP_Full_Version == "Yes") { ?>
 <form id="addtag" method="post" action="admin.php?page=EWD-OTP-options&Action=EWD_OTP_AddOrderSpreadsheet&DisplayPage=Orders" class="validate" enctype="multipart/form-data">
 <div class="form-field form-required">
 		<label for="Orders_Spreadsheet"><?php _e("Spreadhseet Containing Orders", 'EWD_OTP') ?></label>
@@ -243,7 +328,28 @@
 </div>
 <p class="submit"><input type="submit" name="submit" id="submit" class="button-primary" value="<?php _e('Add New Orders', 'EWD_OTP') ?>"  /></p>
 </form>
+<?php } else { ?>
+<div class="Info-Div">
+		<h2><?php _e("Full Version Required!", 'EWD_OTP') ?></h2>
+		<div class="upcp-full-version-explanation">
+				<?php _e("The full version of Order Tracking is required to use custom fields.", "UPCP");?><a href="http://www.etoilewebdesign.com/order-tracking/"><?php _e(" Please upgrade to unlock this page!", 'EWD_OTP'); ?></a>
+		</div>
 </div>
+<?php } ?>
+</div>
+
+<h3><?php _e("Export Orders to Spreadsheet", 'EWD_OTP') ?></h3>
+<?php if ($EWD_OTP_Full_Version == "Yes") { ?>
+<div class="wrap">
+
+<form method="post" action="admin.php?page=EWD-OTP-options&Action=EWD_OTP_ExportToExcel">
+<p><?php _e("Downloads all orders currently in the database to Excel", 'EWD_OTP') ?></p>
+<p class="submit"><input type="submit" name="Export_Submit" id="submit" class="button button-primary" value="Export to Excel"  /></p>
+</form>
+</div>
+<?php } else { ?>
+
+<?php } ?>
 
 <br class="clear" />
 </div>

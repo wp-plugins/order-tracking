@@ -1,6 +1,6 @@
 <?php
 function Add_Edit_EWD_OTP_Order() {
-		global $wpdb, $EWD_OTP_orders_table_name;
+		global $wpdb, $EWD_OTP_orders_table_name, $EWD_OTP_customers;
 		
 		$Order_Email = get_option("EWD_OTP_Order_Email");
 		$Timezone = get_option("EWD_OTP_Timezone");
@@ -14,18 +14,74 @@ function Add_Edit_EWD_OTP_Order() {
 		$Order_Notes_Private = $_POST['Order_Notes_Private'];
 		$Order_Email_Address = $_POST['Order_Email'];
 		$Order_Display = $_POST['Order_Display'];
+		$Customer_ID = $_POST['Customer_ID'];
+		$Sales_Rep_ID = $_POST['Sales_Rep_ID'];
 		$Order_Status_Updated = date("Y-m-d H:i:s"); 
 
 		if (!isset($error)) {
 				// Pass the data to the appropriate function in Update_Admin_Databases.php to create the product 
 				if ($_POST['action'] == "Add_Order") {
-					  $user_update = Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email_Address, $Order_Status, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated);
+					  $user_update = Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email_Address, $Order_Status, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID);
 						if (($Order_Email == "Change" or $Order_Email == "Creation") and $Order_Email_Address != "") {EWD_OTP_Send_Email($Order_Email_Address, $Order_Number, $Order_Status, $Order_Notes_Public, $Order_Status_Updated, "Yes");}
 				}
 				// Pass the data to the appropriate function in Update_Admin_Databases.php to edit the product 
 				else {
-						$user_update = Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email_Address, $Order_Status, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated);
+						$user_update = Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email_Address, $Order_Status, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID);
 						if ($Order_Email == "Change" and $Order_Email_Address != "") {EWD_OTP_Send_Email($Order_Email_Address, $Order_Number, $Order_Status, $Order_Notes_Public, $Order_Status_Updated);}
+				}
+				$user_update = array("Message_Type" => "Update", "Message" => $user_update);
+				return $user_update;
+		}
+		// Return any error that might have occurred 
+		else {
+				$output_error = array("Message_Type" => "Error", "Message" => $error);
+				return $output_error;
+		}
+}
+
+function Add_Edit_EWD_OTP_Sales_Rep() {
+		global $wpdb, $EWD_OTP_sales_reps;
+
+		$Sales_Rep_ID = $_POST['Sales_Rep_ID'];
+		$Sales_Rep_First_Name = $_POST['Sales_Rep_First_Name'];
+		$Sales_Rep_Last_Name = $_POST['Sales_Rep_Last_Name'];
+		$Sales_Rep_Created = date("Y-m-d H:i:s"); 
+
+		if (!isset($error)) {
+				// Pass the data to the appropriate function in Update_Admin_Databases.php to create the product 
+				if ($_POST['action'] == "Add_Sales_Rep") {
+					  $user_update = Add_EWD_OTP_Sales_Rep($Sales_Rep_First_Name, $Sales_Rep_Last_Name, $Sales_Rep_Created);
+				}
+				// Pass the data to the appropriate function in Update_Admin_Databases.php to edit the product 
+				else {
+						$user_update = Edit_EWD_OTP_Sales_Rep($Sales_Rep_ID, $Sales_Rep_First_Name, $Sales_Rep_Last_Name);
+				}
+				$user_update = array("Message_Type" => "Update", "Message" => $user_update);
+				return $user_update;
+		}
+		// Return any error that might have occurred 
+		else {
+				$output_error = array("Message_Type" => "Error", "Message" => $error);
+				return $output_error;
+		}
+}
+
+function Add_Edit_EWD_OTP_Customer() {
+		global $wpdb, $EWD_OTP_customers;
+
+		$Customer_ID = $_POST['Customer_ID'];
+		$Customer_Name = $_POST['Customer_Name'];
+		$Sales_Rep_ID = $_POST['Sales_Rep_ID'];
+		$Customer_Created = date("Y-m-d H:i:s"); 
+
+		if (!isset($error)) {
+				// Pass the data to the appropriate function in Update_Admin_Databases.php to create the product 
+				if ($_POST['action'] == "Add_Customer") {
+					  $user_update = Add_EWD_OTP_Customer($Customer_Name, $Sales_Rep_ID, $Customer_Created);
+				}
+				// Pass the data to the appropriate function in Update_Admin_Databases.php to edit the product 
+				else {
+						$user_update = Edit_EWD_OTP_Customer($Customer_ID, $Customer_Name, $Sales_Rep_ID);
 				}
 				$user_update = array("Message_Type" => "Update", "Message" => $user_update);
 				return $user_update;
@@ -195,6 +251,38 @@ function Mass_Delete_EWD_OTP_Orders() {
 		return $user_update;
 }
 
+function Mass_Delete_EWD_OTP_Sales_Reps() {
+		$SalesReps = $_POST['Reps_Bulk'];
+		
+		if (is_array($SalesReps)) {
+				foreach ($SalesReps as $SalesRep) {
+						if ($SalesRep != "") {
+								Delete_EWD_OTP_Sales_Rep($SalesRep);
+						}
+				}
+		}
+		
+		$update = __("Sales Reps have been successfully deleted.", 'EWD_OTP');
+		$user_update = array("Message_Type" => "Update", "Message" => $update);
+		return $user_update;
+}
+
+function Mass_Delete_EWD_OTP_Customers() {
+		$Customers = $_POST['Customers_Bulk'];
+		
+		if (is_array($Customers)) {
+				foreach ($Customers as $Customer) {
+						if ($Customer != "") {
+								Delete_EWD_OTP_Customer($Customer);
+						}
+				}
+		}
+		
+		$update = __("Customers have been successfully deleted.", 'EWD_OTP');
+		$user_update = array("Message_Type" => "Update", "Message" => $update);
+		return $user_update;
+}
+
 function Mass_Hide_EWD_OTP_Orders() {
 		$Orders = $_POST['Orders_Bulk'];
 		
@@ -212,6 +300,9 @@ function Mass_Hide_EWD_OTP_Orders() {
 }
 
 function Mass_Status_EWD_OTP_Orders() {
+		global $wpdb, $EWD_OTP_orders_table_name;
+		$Order_Email = get_option("EWD_OTP_Order_Email");
+		
 		$Timezone = get_option("EWD_OTP_Timezone");
 		date_default_timezone_set($Timezone);
 		
@@ -223,11 +314,151 @@ function Mass_Status_EWD_OTP_Orders() {
 				foreach ($Orders as $Order) {
 						if ($Order != "") {
 								Update_EWD_OTP_Order_Status($Order, $Status, $Update_Time);
+								$Order_Info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_ID='%d'", $Order));
+								if ($Order_Email == "Change" and $Order_Info->Order_Email != "") {EWD_OTP_Send_Email($Order_Info->Order_Email, $Order_Info->Order_Number, $Order_Info->Order_Status, $Order_Info->Order_Notes_Public, $Order_Info->Order_Status_Updated);}
 						}
 				}
 		}
 		
 		$update = __("Orders have been successfully hidden.", 'EWD_OTP');
+		$user_update = array("Message_Type" => "Update", "Message" => $update);
+		return $user_update;
+}
+
+function Add_Edit_EWD_OTP_Custom_Field() {
+		/* Process the $_POST data where neccessary before storage */
+		$Field_Name = stripslashes_deep($_POST['Field_Name']);
+		$Field_Slug = stripslashes_deep($_POST['Field_Slug']);
+		$Field_Type = stripslashes_deep($_POST['Field_Type']);
+		$Field_Description = stripslashes_deep($_POST['Field_Description']);
+		$Field_Values = stripslashes_deep($_POST['Field_Values']);
+		$Field_ID = $_POST['Field_ID'];
+
+		if (!isset($error)) {
+				/* Pass the data to the appropriate function in Update_Admin_Databases.php to create the custom field */
+				if ($_POST['action'] == "Add_Custom_Field") {
+					  $user_update = Add_EWD_OTP_Custom_Field($Field_Name, $Field_Slug, $Field_Type, $Field_Description, $Field_Values);
+				}
+				/* Pass the data to the appropriate function in Update_Admin_Databases.php to edit the custom field */
+				else {
+						$user_update = Edit_EWD_OTP_Custom_Field($Field_ID, $Field_Name, $Field_Slug, $Field_Type, $Field_Description, $Field_Values);
+				}
+				$user_update = array("Message_Type" => "Update", "Message" => $user_update);
+				return $user_update;
+		}
+		else {
+				$output_error = array("Message_Type" => "Error", "Message" => $error);
+				return $output_error;
+		}
+}
+
+function Mass_Delete_EWD_OTP_Custom_Fields() {
+		$Fields = $_POST['Fields_Bulk'];
+		
+		if (is_array($Fields)) {
+				foreach ($Fields as $Field) {
+						if ($Field != "") {
+								Delete_EWD_OTP_Custom_Field($Field);
+						}
+				}
+		}
+		
+		$update = __("Field(s) have been successfully deleted.", 'UPCP');
+		$user_update = array("Message_Type" => "Update", "Message" => $update);
+		return $user_update;
+}
+
+function EWD_OTP_Handle_File_Upload($Field_Name) {
+		
+		/* Test if there is an error with the uploaded file and return that error if there is */
+		if (!empty($_FILES[$Field_Name]['error']))
+		{
+				switch($_FILES[$Field_Name]['error'])
+				{
+
+				case '1':
+						$error = __('The uploaded file exceeds the upload_max_filesize directive in php.ini', 'EWD_OTP');
+						break;
+				case '2':
+						$error = __('The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form', 'EWD_OTP');
+						break;
+				case '3':
+						$error = __('The uploaded file was only partially uploaded', 'EWD_OTP');
+						break;
+				case '4':
+						$error = __('No file was uploaded.', 'EWD_OTP');
+						break;
+
+				case '6':
+						$error = __('Missing a temporary folder', 'EWD_OTP');
+						break;
+				case '7':
+						$error = __('Failed to write file to disk', 'EWD_OTP');
+						break;
+				case '8':
+						$error = __('File upload stopped by extension', 'EWD_OTP');
+						break;
+				case '999':
+						default:
+						$error = __('No error code avaiable', 'EWD_OTP');
+				}
+		}
+		/* Make sure that the file exists */ 	 	
+		elseif (empty($_FILES[$Field_Name]['tmp_name']) || $_FILES[$Field_Name]['tmp_name'] == 'none') {
+				$error = __('No file was uploaded here..', 'EWD_OTP');
+		}
+		/* Move the file and store the URL to pass it onwards*/ 	 	
+		else {				 
+				 	  $msg .= $_FILES[$Field_Name]['name'];
+						//for security reason, we force to remove all uploaded file
+						$target_path = ABSPATH . 'wp-content/uploads/order-tracking-uploads/';
+						
+						//create the uploads directory if it doesn't exist
+						if (!file_exists($target_path)) {
+							  mkdir($target_path, 0777, true);
+						}
+
+						$target_path = $target_path . basename( $_FILES[$Field_Name]['name']); 
+
+						if (!move_uploaded_file($_FILES[$Field_Name]['tmp_name'], $target_path)) {
+						//if (!$upload = wp_upload_bits($_FILES["Item_Image"]["name"], null, file_get_contents($_FILES["Item_Image"]["tmp_name"]))) {
+				 			  $error .= "There was an error uploading the file, please try again!";
+						}
+						else {
+				 				$User_Upload_File_Name = basename( $_FILES[$Field_Name]['name']);
+						}	
+		}
+		
+		/* Return the file name, or the error that was generated. */
+		if (isset($error) and $error == __('No file was uploaded.', 'EWD_OTP')) {
+			  $Return['Success'] = "N/A";
+				$Return['Data'] = __('No file was uploaded.', 'EWD_OTP');
+		}
+		elseif (!isset($error)) {
+				$Return['Success'] = "Yes";
+				$Return['Data'] = $User_Upload_File_Name;
+		}
+		else {
+				$Return['Success'] = "No";
+				$Return['Data'] = $error;
+		}
+		return $Return;
+}
+
+function EWD_OTP_Delete_All_Orders() {
+		global $wpdb;
+		global $EWD_OTP_orders_table_name;
+		$Orders = $wpdb->get_results("SELECT Order_ID FROM $EWD_OTP_orders_table_name");
+		
+		if (is_array($Orders)) {
+				foreach ($Orders as $Order) {
+						if ($Order->Order_ID != "") {
+								Delete_EWD_OTP_Order($Order->Order_ID);
+						}
+				}
+		}
+		
+		$update = __("Orders have been successfully deleted.", 'EWD_OTP');
 		$user_update = array("Message_Type" => "Update", "Message" => $update);
 		return $user_update;
 }
