@@ -2,7 +2,7 @@
 Contributors: Rustaurius, EtoileWebDesign
 Tags: order tracking, customer orders, customer support, ticket tracking, support tickets, support ticket, tickets, client, customer, helpdesk, support software, help desk, help desk software
 Requires at least: 3.5.0
-Tested up to: 3.9.1
+Tested up to: 4.0
 License: GPLv3
 License URI:http://www.gnu.org/licenses/gpl-3.0.html
 
