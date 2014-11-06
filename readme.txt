@@ -70,6 +70,9 @@ You can specify the label for the field and the value of the submit button with 
 2. Sample order tracking page
 
 == Changelog ==
+= 2.0.1 = 
+- Fixed a PHPExcel error
+
 = 2.0 =
 - MAJOR UPDATE
 - Added Custom Fields which can display any type of information associated with an order (weight, size, estimated delivery, etc.)
