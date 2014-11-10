@@ -17,7 +17,7 @@
 <td>
 	<fieldset><legend class="screen-reader-text"><span>Email Address</span></legend>
 	<label title='Email Address'><input type='text' name='admin_email' value='<?php echo $Admin_Email; ?>' /> </label><br />
-	<p>The email address that order messages should be sent from.</p>
+	<p>The email address that order messages should be sent from to users.</p>
 	</fieldset>
 </td>
 </tr>
