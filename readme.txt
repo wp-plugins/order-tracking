@@ -1,6 +1,6 @@
 === Plugin Name ===
 Contributors: Rustaurius, EtoileWebDesign
-Tags: order tracking, customer orders, customer support, ticket tracking, support tickets, support ticket, tickets, client, customer, helpdesk, support software, help desk, help desk software
+Tags: order tracking, order tracking system, purchase orders, order processing, order management, inventory management, deliveries, order status, customer orders, customer support, ticket tracking, support tickets, support ticket, tickets, client, customer, helpdesk, support software, help desk, help desk software
 Requires at least: 3.5.0
 Tested up to: 4.0
 License: GPLv3
