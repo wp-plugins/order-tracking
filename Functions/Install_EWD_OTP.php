@@ -87,7 +87,7 @@ function Install_EWD_OTP() {
    	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
    	dbDelta($sql);
  		
-		if (get_option("EWD_OTP_Full_Version") == "") {update_option("EWD_OTP_Full_Version", "Yes");}
+		if (get_option("EWD_OTP_Full_Version") == "") {update_option("EWD_OTP_Full_Version", "No");}
 		if (get_option("EWD_OTP_Custom_CSS") == "") {update_option("EWD_OTP_Custom_CSS", "");}
 		if (get_option("EWD_OTP_AJAX_Reload") == "") {update_option("EWD_OTP_AJAX_Reload", "No");}
 		if (get_option("EWD_OTP_New_Window") == "") {update_option("EWD_OTP_New_Window", "No");}
