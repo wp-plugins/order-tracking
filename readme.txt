@@ -70,6 +70,9 @@ You can specify the label for the field and the value of the submit button with 
 2. Sample order tracking page
 
 == Changelog ==
+= 2.0.4 =
+- Added a missing file for custom fields
+
 = 2.0.3 =
 - Fixed a spreadsheets error
 
