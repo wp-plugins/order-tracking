@@ -7,7 +7,11 @@
 		$Form_Instructions = get_option("EWD_OTP_Form_Instructions");
 		$Email_Confirmation = get_option("EWD_OTP_Email_Confirmation");
 		$Timezone = get_option("EWD_OTP_Timezone");
+		$Localize_Date_Time = get_option("EWD_OTP_Localize_Date_Time");
 		$Order_Email = get_option("EWD_OTP_Order_Email");
+
+
+
 ?>
 <div class="wrap">
 <div id="icon-options-general" class="icon32"><br /></div><h2>Settings</h2>
@@ -152,6 +156,17 @@
 	</select>
 	<p>How often should e-mails be sent to customers about the status of their orders?</p>
 	</fieldset>
+</td>
+</tr>
+
+<tr>
+<th scope="row">Date/Time Format</th>
+<td>
+  <fieldset><legend class="screen-reader-text"><span>Date/Time Format</span></legend>
+  <label title='Localize Date & Time settings'></label><select name='localize_date_time'>
+		<option value="North_American" <?php if($Localize_Date_Time == "North_American") {echo " selected=selected";} ?>>North American (YY-DD-MM)</option>
+    <option value="European" <?php if($Localize_Date_Time == "European") {echo " selected=selected";} ?> >European (DD-MM-YY)</option>
+	</select>
 </td>
 </tr>
 <tr>

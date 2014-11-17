@@ -2,6 +2,7 @@
 		$Admin_Email = get_option("EWD_OTP_Admin_Email");
 		$Encrypted_Admin_Password = get_option("EWD_OTP_Admin_Password");
 		$SMTP_Mail_Server = get_option("EWD_OTP_SMTP_Mail_Server");
+		$Subject_Line = get_option("EWD_OTP_Subject_Line");
 		$Message_Body = get_option("EWD_OTP_Message_Body");
 		
 		$key = 'EWD_OTP';
@@ -21,12 +22,24 @@
 	</fieldset>
 </td>
 </tr>
+
+<tr>
+    <th scope="row">Subject Line</th>
+    <td>
+        <fieldset><legend class="screen-reader-text"><span>Subject Line</span></legend>
+            <label title='Subject Line'><input type='text' name='subject_line' value='<?php echo $Subject_Line; ?>' /> </label><br />
+            <p>The subject line for your e-mails.</p>
+        </fieldset>
+    </td>
+</tr>
+
 <tr>
 <th scope="row">Message Body</th>
 <td>
 	<fieldset><legend class="screen-reader-text"><span>Message Body</span></legend>
 	<label title='Message Body'></label><textarea class='ewd-otp-textarea' name='message_body'> <?php echo $Message_Body; ?></textarea><br />
-	<p>What should be in the messages sent to users? You can put [order-number], [order-status], [order-notes] and [order-time] into the message, to include current order number, order status, public order notes or the time the order was updated.</p>
+	<p>What should be in the messages sent to users? You can put [order-name], [order-number], [order-status], [order-notes] and [order-time] into the message, to include current order name, order number, order status, public order notes or the time the order was updated.</p>
+	<p>You can also use [customer-name], [sales-rep] or the slug of a customer field enclosed in square brackets to include those fields in the e-mail.
 	</fieldset>
 </td>
 </tr>

@@ -23,10 +23,7 @@ $Statuses = explode(",", $StatusString);
 </div>
 <?php } ?>
 
-<?php if (get_option("EWD_OTP_Update_Flag") == "Yes" or get_option("EWD_OTP_Install_Flag") == "Yes") {
-				  update_option('EWD_OTP_Update_Flag', "No");
-					update_option('EWD_OTP_Install_Flag', "No"); 
-				?>
+<?php if (get_option("EWD_OTP_Update_Flag") == "Yes" or get_option("EWD_OTP_Install_Flag") == "Yes") {?>
 					<div id="side-sortables" class="metabox-holder ">
 							<div id="upcp_pro" class="postbox " >
 									<div class="handlediv" title="Click to toggle"></div>
@@ -39,7 +36,7 @@ $Statuses = explode(",", $StatusString);
 											<?php } else { ?><ul><li><?php _e("Thanks for upgrading to version 2.2.9!", 'EWD_OTP'); ?><br> <a href='http://www.facebook.com/EtoileWebDesign'><?php _e("Follow us on Facebook", 'EWD_OTP'); ?></a> <?php _e("to suggest new features or hear about upcoming ones!", 'EWD_OTP');?> </li></ul><?php } */?>
 											
 											<?php if (get_option("EWD_OTP_Install_Flag") == "Yes") { ?><ul><li><?php _e("Thanks for installing Order Tracking.", 'EWD_OTP'); ?><br> <a href='http://www.facebook.com/EtoileWebDesign'><?php _e("Follow us on Facebook", 'EWD_OTP'); ?></a> <?php _e("to suggest new features or hear about upcoming ones!", 'EWD_OTP');?>  </li></ul>
-											<?php } else { ?><ul><li><?php _e("Thanks for upgrading to version 2.0.4!", 'EWD_OTP'); ?><br> <a href='http://wordpress.org/support/view/plugin-reviews/order-tracking'><?php _e("Please rate our plugin", 'EWD_OTP'); ?></a> <?php _e("if you find Order Tracking useful!", 'EWD_OTP');?> </li></ul><?php } ?>
+											<?php } else { ?><ul><li><?php _e("Thanks for upgrading to version 2.0.5!", 'EWD_OTP'); ?><br> <a href='http://wordpress.org/support/view/plugin-reviews/order-tracking'><?php _e("Please rate our plugin", 'EWD_OTP'); ?></a> <?php _e("if you find Order Tracking useful!", 'EWD_OTP');?> </li></ul><?php } ?>
 											
 											<?php /*if (get_option("EWD_OTP_Install_Flag") == "Yes") { ?><ul><li><?php _e("Thanks for installing the Ultimate Product Catalogue Plugin.", 'EWD_OTP'); ?><br> <a href='http://www.facebook.com/EtoileWebDesign'><?php _e("Follow us on Facebook", 'EWD_OTP'); ?></a> <?php _e("to suggest new features or hear about upcoming ones!", 'EWD_OTP');?>  </li></ul>
 											<?php } else { ?><ul><li><?php _e("Thanks for upgrading to version 2.3.9!", 'EWD_OTP'); ?><br> <a href='http://wordpress.org/support/topic/error-hunt'><?php _e("Please let us know about any small display/functionality errors. ", 'EWD_OTP'); ?></a> <?php _e("We've noticed a couple, and would like to eliminate as many as possible.", 'EWD_OTP');?> </li></ul><?php } */?>
@@ -59,7 +56,11 @@ $Statuses = explode(",", $StatusString);
 									</div>
 							</div>
 					</div>
-			<?php  } ?>
+		<?php  
+		update_option('EWD_OTP_Update_Flag', "No");
+		update_option('EWD_OTP_Install_Flag', "No"); 
+	} 
+?>
 
 <div id="col-right">
 <div class="col-wrap">

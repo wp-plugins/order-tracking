@@ -72,6 +72,8 @@ You can specify the label for the field and the value of the submit button with 
 
 == Changelog ==
 = 2.0.5 =
+- Added a new customer orders shortcode
+- Added a new sales rep orders shortcode
 - Added an option to set the subject for order e-mails
 - Added an option to change the date format for fields
 - Included additional fields that can be included in the body of e-mails
