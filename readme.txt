@@ -1,5 +1,6 @@
 === Plugin Name ===
 Contributors: Rustaurius, EtoileWebDesign
+Dontate Link: http://www.etoilewebdesign.com/plugin-donations/
 Tags: order tracking, order tracking system, purchase orders, order processing, order management, inventory management, deliveries, order status, customer orders, customer support, ticket tracking, support tickets, support ticket, tickets, client, customer, helpdesk, support software, help desk, help desk software
 Requires at least: 3.5.0
 Tested up to: 4.0
@@ -70,8 +71,13 @@ You can specify the label for the field and the value of the submit button with 
 2. Sample order tracking page
 
 == Changelog ==
+= 2.0.5 =
+- Added an option to set the subject for order e-mails
+- Added an option to change the date format for fields
+- Included additional fields that can be included in the body of e-mails
+
 = 2.0.4 =
-- Added a missing file for custom fields
+- Included a missing file for the custom fields feature
 
 = 2.0.3 =
 - Fixed a spreadsheets error
