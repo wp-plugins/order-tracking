@@ -71,6 +71,9 @@ You can specify the label for the field and the value of the submit button with 
 2. Sample order tracking page
 
 == Changelog ==
+= 2.0.6 = 
+- Fixed a number of warnings that would appear when fields were re-labelled 
+
 = 2.0.5 =
 - Added a new customer orders shortcode
 - Added a new sales rep orders shortcode
