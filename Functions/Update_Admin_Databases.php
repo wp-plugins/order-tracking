@@ -384,9 +384,9 @@ function Add_EWD_OTP_Custom_Field($Field_Name, $Field_Slug, $Field_Type, $Field_
 	global $wpdb;
 	global $EWD_OTP_fields_table_name;
 	$Date = date("Y-m-d H:i:s");
-	global $Full_Version;
+	global $EWD_OTP_Full_Version;
 		
-	if ($Full_Version != "Yes") {exit();}		
+	if ($EWD_OTP_Full_Version != "Yes") {exit();}		
 	$wpdb->insert($EWD_OTP_fields_table_name,
 		array( 'Field_Name' => $Field_Name,
 			'Field_Slug' => $Field_Slug,
@@ -404,9 +404,9 @@ function Add_EWD_OTP_Custom_Field($Field_Name, $Field_Slug, $Field_Type, $Field_
 function  Edit_EWD_OTP_Custom_Field($Field_ID, $Field_Name, $Field_Slug, $Field_Type, $Field_Description, $Field_Values) {
 	global $wpdb;
 	global $EWD_OTP_fields_table_name;
-	global $Full_Version;
+	global $EWD_OTP_Full_Version;
 		
-	if ($Full_Version != "Yes") {exit();}		
+	if ($EWD_OTP_Full_Version != "Yes") {exit();}		
 	$wpdb->update(
 		$EWD_OTP_fields_table_name,
 		array( 'Field_Name' => $Field_Name,
@@ -425,9 +425,9 @@ function  Edit_EWD_OTP_Custom_Field($Field_ID, $Field_Name, $Field_Slug, $Field_
 function Delete_EWD_OTP_Custom_Field($Field_ID) {
 	global $wpdb;
 	global $EWD_OTP_fields_table_name;
-	global $Full_Version;
+	global $EWD_OTP_Full_Version;
 		
-	if ($Full_Version != "Yes") {exit();}		
+	if ($EWD_OTP_Full_Version != "Yes") {exit();}		
 	$wpdb->delete(
 		$EWD_OTP_fields_table_name,
 		array('Field_ID' => $Field_ID)

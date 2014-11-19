@@ -38,8 +38,8 @@ function Insert_Tracking_Form($atts) {
 	$Fields = array();
 	$Field_Names_Array = explode(",", $field_names);
 	foreach ($Field_Names_Array as $Field_Name) {
-		$Field_Name_Key = trim(substr($Field_Name, 0, strpos($Field_Name, "=>")));
-		$Field_Name_Value = trim(substr($Field_Name, strpos($Field_Name, "=>")+2));
+		$Field_Name_Key = trim(substr($Field_Name, 0, strpos($Field_Name, "=")));
+		$Field_Name_Value = trim(substr($Field_Name, strpos($Field_Name, "=")+5));
 		$Fields[$Field_Name_Key] = $Field_Name_Value;
 	}
 		
