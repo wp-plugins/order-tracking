@@ -11,8 +11,6 @@ function EWD_OTP_Ajax_Reload() {
 		jQuery('.ewd-otp-ajax-results').html('<h3>Retrieving results...</h3>');
 		
 		var data = 'Tracking_Number=' + OrderNumber + '&action=ewd_otp_update_orders';
-		alert(data);
-		alert(ajaxurl);
 		jQuery.post(ajaxurl, data, function(response) {
 				response = response.substring(0, response.length - 1);
 				jQuery('.ewd-otp-ajax-results').html(response);

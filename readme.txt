@@ -71,6 +71,9 @@ You can specify the label for the field and the value of the submit button with 
 2. Sample order tracking page
 
 == Changelog ==
+= 2.0.9 =
+- Removed two alerts which were left in from debugging
+
 = 2.0.8 =
 - Fixed an error with AJAX updating of the order information
 - Fixed an error with displaying custom fields
