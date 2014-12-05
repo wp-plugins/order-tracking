@@ -61,7 +61,7 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '')
 		$Custom_Fields = $wpdb->get_results($Sql);
 		foreach ($Custom_Fields as $Custom_Field) {
 			if (in_array($Custom_Field->Field_ID, $Order_Information)) {
-				$MetaValue = $wpdb->get_results($wpdb->prepare("SELECT Meta_Value FROM $EWD_OTP_fields_meta_table_name WHERE Order_ID=%d AND Field_ID=%d", $Order->Order_ID, $Custom_Field->Field_ID));
+				$MetaValue = $wpdb->get_row($wpdb->prepare("SELECT Meta_Value FROM $EWD_OTP_fields_meta_table_name WHERE Order_ID=%d AND Field_ID=%d", $Order->Order_ID, $Custom_Field->Field_ID));
 				if (array_key_exists($Custom_Field->Field_Name, $Fields)) {$Field_Label = $Fields[$Custom_Field->Field_Name];}
 				else {$Field_Label = $Custom_Field->Field_Name;}
 				$ReturnString .= "<div id='ewd-otp-order-" . $Custom_Field->Field_ID . "-label' class='ewd-otp-order-label ewd-otp-bold pure-u-1-8'>";

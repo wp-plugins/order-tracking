@@ -332,7 +332,7 @@ echo $ReturnString;
 <div class="Info-Div">
 		<h2><?php _e("Full Version Required!", 'EWD_OTP') ?></h2>
 		<div class="upcp-full-version-explanation">
-				<?php _e("The full version of Order Tracking is required to use custom fields.", "UPCP");?><a href="http://www.etoilewebdesign.com/order-tracking/"><?php _e(" Please upgrade to unlock this page!", 'EWD_OTP'); ?></a>
+				<?php _e("The full version of Order Tracking is required to use custom fields.", "EWD_OTP");?><a href="http://www.etoilewebdesign.com/order-tracking/"><?php _e(" Please upgrade to unlock this page!", 'EWD_OTP'); ?></a>
 		</div>
 </div>
 <?php } ?>
