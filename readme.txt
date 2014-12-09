@@ -71,6 +71,9 @@ You can specify the label for the field and the value of the submit button with 
 2. Sample order tracking page
 
 == Changelog ==
+= 2.0.10 =
+- Made it possible to align the text towards the bottom of the top information divs
+
 = 2.0.9 =
 - Removed two alerts which were left in from debugging
 

@@ -19,6 +19,12 @@
 .ewd-otp-bold {
   font-weight: 800;
 }
+.ewd-otp-order-content {
+  position: relative;
+}
+.ewd-otp-bottom-align {
+  position: absolute;
+}
 #ewd-otp-order-number-div {
   text-align: left;
 }

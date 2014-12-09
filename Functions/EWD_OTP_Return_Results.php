@@ -34,7 +34,7 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '')
 			$ReturnString .= $Number_Label . ":";
 			$ReturnString .= "</div>";
 			$ReturnString .= "<div id='ewd-otp-order-number' class='ewd-otp-order-content pure-u-7-8'>";
-			$ReturnString .= $Order->Order_Number;
+			$ReturnString .= "<div class='ewd-otp-bottom-align'>" . $Order->Order_Number . "</div>";
 			$ReturnString .= "</div>";
 		}
 		if (in_array("Order_Name", $Order_Information)) {
@@ -44,7 +44,7 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '')
 			$ReturnString .= $Name_Label . ":";
 			$ReturnString .= "</div>";
 			$ReturnString .= "<div id='ewd-otp-order-name' class='ewd-otp-order-content pure-u-7-8'>";
-			$ReturnString .= $Order->Order_Name;
+			$ReturnString .= "<div class='ewd-otp-bottom-align'>" . $Order->Order_Name . "</div>";
 			$ReturnString .= "</div>";
 		}
 		if (in_array("Order_Notes", $Order_Information)) {
@@ -54,7 +54,7 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '')
 			$ReturnString .= $Notes_Label . ":";
 			$ReturnString .= "</div>";
 			$ReturnString .= "<div id='ewd-otp-order-notes' class='ewd-otp-order-content pure-u-7-8'>";
-			$ReturnString .= $Order->Order_Notes_Public;
+			$ReturnString .= "<div class='ewd-otp-bottom-align'>" . $Order->Order_Notes_Public . "</div>";
 			$ReturnString .= "</div>";
 		}
 		$Sql = "SELECT * FROM $EWD_OTP_fields_table_name";
@@ -68,7 +68,7 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '')
 				$ReturnString .= $Field_Label . ":";
 				$ReturnString .= "</div>";
 				$ReturnString .= "<div id='ewd-otp-order-" . $Custom_Field->Field_ID . "' class='ewd-otp-order-content pure-u-7-8'>";
-				$ReturnString .= $MetaValue->Meta_Value;
+				$ReturnString .= "<div class='ewd-otp-bottom-align'>" . $MetaValue->Meta_Value . "</div>";
 				$ReturnString .= "</div>";
 			}
 		}
