@@ -135,7 +135,8 @@ $Sales_Reps = $wpdb->get_results("SELECT * FROM $EWD_OTP_sales_reps");
 										$ReturnString .= "</td>";
 								}
 								elseif ($Field->Field_Type == "file") {
-										$ReturnString .= "<td><input name='" . $Field->Field_Name . "' class='ewd-otp-file-input' type='file' value='" . $Value . "' /></td>";
+										$ReturnString .= "<td><input name='" . $Field->Field_Name . "' class='ewd-otp-file-input' type='file' value='" . $Value . "' /><br />";
+										$ReturnString .= "Current File: " . $Value . "</td>";
 								}
 								elseif ($Field->Field_Type == "date") {
 										$ReturnString .= "<td><input name='" . $Field->Field_Name . "' class='ewd-otp-date-input' type='date' value='" . $Value . "' /></td>";

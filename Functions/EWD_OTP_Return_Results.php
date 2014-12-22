@@ -68,7 +68,11 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '')
 				$ReturnString .= $Field_Label . ":";
 				$ReturnString .= "</div>";
 				$ReturnString .= "<div id='ewd-otp-order-" . $Custom_Field->Field_ID . "' class='ewd-otp-order-content pure-u-7-8'>";
-				$ReturnString .= "<div class='ewd-otp-bottom-align'>" . $MetaValue->Meta_Value . "</div>";
+				if ($Custom_Field->Field_Type == "file") {$ReturnString .= "<div class='ewd-otp-bottom-align'>";
+					$ReturnString .= "<a href='" . site_url("/wp-content/uploads/order-tracking-uploads/") . $MetaValue->Meta_Value . "' download>";
+					$ReturnString .= $MetaValue->Meta_Value . "</a></div>";
+				}
+				else {$ReturnString .= "<div class='ewd-otp-bottom-align'>" . $MetaValue->Meta_Value . "</div>";}
 				$ReturnString .= "</div>";
 			}
 		}
@@ -233,7 +237,11 @@ function EWD_OTP_Return_Customer_Results($Customer_ID, $Fields = array(), $Custo
 				if (in_array($Custom_Field->Field_ID, $Order_Information)) {
 					$MetaValue = $wpdb->get_row($wpdb->prepare("SELECT Meta_Value FROM $EWD_OTP_fields_meta_table_name WHERE Order_ID=%d AND Field_ID=%d", $Order->Order_ID, $Custom_Field->Field_ID));
 					$ReturnString .= "<td>";
-					$ReturnString .= $MetaValue->Meta_Value;
+					if ($Custom_Field->Field_Type == "file") {
+						$ReturnString .= "<a href='" . site_url("/wp-content/uploads/order-tracking-uploads/") . $MetaValue->Meta_Value . "' download>";
+						$ReturnString .= $MetaValue->Meta_Value . "</a>";
+					}
+					else {$ReturnString .= $MetaValue->Meta_Value;}
 					$ReturnString .= "</td>";
 				}
 			}
@@ -393,7 +401,11 @@ function EWD_OTP_Return_Sales_Rep_Results($Sales_Rep_ID, $Fields = array(), $Sal
 				if (in_array($Custom_Field->Field_ID, $Order_Information)) {
 					$MetaValue = $wpdb->get_row($wpdb->prepare("SELECT Meta_Value FROM $EWD_OTP_fields_meta_table_name WHERE Order_ID=%d AND Field_ID=%d", $Order->Order_ID, $Custom_Field->Field_ID));
 					$ReturnString .= "<td>";
-					$ReturnString .= $MetaValue->Meta_Value;
+					if ($Custom_Field->Field_Type == "file") {
+						$ReturnString .= "<a href='" . site_url("/wp-content/uploads/order-tracking-uploads/") . $MetaValue->Meta_Value . "' download>";
+						$ReturnString .= $MetaValue->Meta_Value . "</a>";
+					}
+					else {$ReturnString .= $MetaValue->Meta_Value;}
 					$ReturnString .= "</td>";
 				}
 			}

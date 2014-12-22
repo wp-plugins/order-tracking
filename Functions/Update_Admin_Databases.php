@@ -28,7 +28,7 @@ function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Stat
 	);
 					 
 	//Add the custom fields to the meta table
-	$Fields = $wpdb->get_results("SELECT Field_ID, Field_Name, Field_Values FROM $EWD_OTP_fields_table_name");
+	$Fields = $wpdb->get_results("SELECT Field_ID, Field_Name, Field_Values, Field_Type FROM $EWD_OTP_fields_table_name");
 	if (is_array($Fields)) {
 		foreach ($Fields as $Field) {
 			$FieldName = str_replace(" ", "_", $Field->Field_Name);
