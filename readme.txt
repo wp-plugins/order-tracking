@@ -71,6 +71,9 @@ You can specify the label for the field and the value of the submit button with 
 2. Sample order tracking page
 
 == Changelog ==
+= 2.0.12 =
+- Fixed an e-mailing bug with mass status changes
+
 = 2.0.11 =
 - Fixed a number of errors with the "file" custom field type
 

@@ -332,7 +332,7 @@ function Mass_Status_EWD_OTP_Orders() {
 						if ($Order != "") {
 								Update_EWD_OTP_Order_Status($Order, $Status, $Update_Time);
 								$Order_Info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_ID='%d'", $Order));
-								if ($Order_Email == "Change" and $Order_Info->Order_Email != "") {EWD_OTP_Send_Email($Order_Info->Order_Email, $Order_Info->Order_Number, $Order_Info->Order_Status, $Order_Info->Order_Notes_Public, $Order_Info->Order_Status_Updated);}
+								if ($Order_Email == "Change" and $Order_Info->Order_Email != "") {EWD_OTP_Send_Email($Order_Info->Order_Email, $Order_Info->Order_Number, $Order_Info->Order_Status, $Order_Info->Order_Notes_Public, $Order_Info->Order_Status_Updated, $Order_Info->Order_Name);}
 						}
 				}
 		}
