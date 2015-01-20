@@ -6,7 +6,8 @@
 		$Message_Body = get_option("EWD_OTP_Message_Body");
 		
 		$key = 'EWD_OTP';
-		$Admin_Password = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($Encrypted_Admin_Password), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
+		if (function_exists('mcrypt_decrypt')) {$Admin_Password = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($Encrypted_Admin_Password), MCRYPT_MODE_CBC, md5(md5($key))), "\0");}
+		else {$Admin_Password = $Encrypted_Admin_Password;}
 ?>
 <div class="wrap">
 <div id="icon-options-general" class="icon32"><br /></div><h2>Email Settings</h2>

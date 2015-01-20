@@ -568,7 +568,8 @@ function Update_EWD_OTP_Email_Settings() {
 	$Admin_Password = stripslashes_deep($Admin_Password);
 		
 	$key = 'EWD_OTP';
-	$Encrypted_Admin_Password = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $Admin_Password, MCRYPT_MODE_CBC, md5(md5($key))));
+	if (function_exists('mcrypt_decrypt')) {$Encrypted_Admin_Password = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $Admin_Password, MCRYPT_MODE_CBC, md5(md5($key))));}
+	else {$Encrypted_Admin_Password = $Admin_Password;}
 		
 	update_option('EWD_OTP_Admin_Email', $Admin_Email);
 	update_option('EWD_OTP_Message_Body', $Message_Body);
