@@ -71,6 +71,11 @@ You can specify the label for the field and the value of the submit button with 
 2. Sample order tracking page
 
 == Changelog ==
+= 2.0.14 =
+- Changed how tracking graphics are created, so that they will be compatible with more sites
+- Tracking pages can now be linked to with an order pre-loaded, by added an argument to the the URL
+- Fixed an ajax error
+
 = 2.0.13 =
 - Fixed an encryption/display bug
 

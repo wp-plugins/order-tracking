@@ -47,7 +47,7 @@ function Insert_Tracking_Form($atts) {
 	if (isset($_POST['Tracking_Number'])) {
 		$ReturnString .= "<div class='ewd-otp-tracking-results pure-g'>";
 		$ReturnString .= "<div class='pure-u-1'><h3>" . __("Order Information", 'EWD_OTP') . "</h3></div>";
-		$ReturnString .= EWD_OTP_Return_Results($_POST['Tracking_Number'], $Fields, $_POST['Order_Email']);
+		$ReturnString .= EWD_OTP_Return_Results($_REQUEST['Tracking_Number'], $Fields, $_REQUEST['Order_Email']);
 		$ReturnString .= "</div>";
 	}
 		
@@ -67,19 +67,20 @@ function Insert_Tracking_Form($atts) {
 	$ReturnString .= "</div>";
 	if ($New_Window == "Yes") {$ReturnString .= "<form action='#' method='post' target='_blank' id='ewd-otp-tracking-form' class='pure-form pure-form-aligned'>";}
 	else {$ReturnString .= "<form action='#' method='post' id='ewd-otp-tracking-form' class='pure-form pure-form-aligned'>";}
-	$ReturnString .= "<input type='hidden' name='ewd-otp-action' value='track'>";
+	$ReturnString .= "<input type='hidden' name='ewd-otp-action' value='track' />";
+	$ReturnString .= "<input type='hidden' id='ewd-otp-field-labels' name='field-labels' value='" . $field_names . "' />";
 	$ReturnString .= "<div class='pure-control-group'>";
 	$ReturnString .= "<label for='Order_Number' id='ewd-otp-order-number-div' class='ewd-otp-field-label ewd-otp-bold'>" . $order_field_text . ": </label>";
-	$ReturnString .= "<input type='text' class='ewd-otp-text-input' name='Tracking_Number' placeholder='" . $order_field_text . "...'>";
+	$ReturnString .= "<input type='text' class='ewd-otp-text-input' id='ewd-otp-tracking-number' name='Tracking_Number' placeholder='" . $order_field_text . "...'>";
 	$ReturnString .= "</div>";
 	if ($Email_Confirmation == "Order_Email") {
 		$ReturnString .= "<div class='pure-control-group'>";
 		$ReturnString .= "<label for='Order_Email' id='ewd-otp-order-number-div' class='ewd-otp-field-label ewd-otp-bold'>" . $email_field_text . ": </label>";
-		$ReturnString .= "<input type='email' class='ewd-otp-text-input' name='Order_Email' placeholder='" . $email_field_text . "...'>";
+		$ReturnString .= "<input type='email' class='ewd-otp-text-input' id='ewd-otp-email' name='Order_Email' placeholder='" . $email_field_text . "...'>";
 		$ReturnString .= "</div>";
 	}
 	if ($Email_Confirmation == "Auto_Entered") {
-		$ReturnString .= "<input type='hidden' class='ewd-otp-text-input' name='Order_Email' value='[" . $email_field_shortcode . " " . $email_field_shortcode_attribute . "=" . $email_field_attribute_value . "]'>";
+		$ReturnString .= "<input type='hidden' class='ewd-otp-text-input' id='ewd-otp-email' name='Order_Email' value='[" . $email_field_shortcode . " " . $email_field_shortcode_attribute . "=" . $email_field_attribute_value . "]'>";
 	}
 	$ReturnString .= "<div class='pure-control-group'>";
 	$ReturnString .= "<label for='Submit'></label><input type='submit' class='ewd-otp-submit pure-button pure-button-primary' name='Login_Submit' value='" . $submit_text . "'>";

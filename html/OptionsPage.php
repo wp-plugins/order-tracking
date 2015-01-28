@@ -1,16 +1,14 @@
 <?php 
-		$Custom_CSS = get_option("EWD_OTP_Custom_CSS");
-		$AJAX_Reload = get_option("EWD_OTP_AJAX_Reload");
-		$New_Window = get_option("EWD_OTP_New_Window");
-		$Order_Information_String = get_option("EWD_OTP_Order_Information");
-		$Order_Information = explode(",", $Order_Information_String);
-		$Form_Instructions = get_option("EWD_OTP_Form_Instructions");
-		$Email_Confirmation = get_option("EWD_OTP_Email_Confirmation");
-		$Timezone = get_option("EWD_OTP_Timezone");
-		$Localize_Date_Time = get_option("EWD_OTP_Localize_Date_Time");
-		$Order_Email = get_option("EWD_OTP_Order_Email");
-
-
+	$Custom_CSS = get_option("EWD_OTP_Custom_CSS");
+	$AJAX_Reload = get_option("EWD_OTP_AJAX_Reload");
+	$New_Window = get_option("EWD_OTP_New_Window");
+	$Order_Information_String = get_option("EWD_OTP_Order_Information");
+	$Order_Information = explode(",", $Order_Information_String);
+	$Form_Instructions = get_option("EWD_OTP_Form_Instructions");
+	$Email_Confirmation = get_option("EWD_OTP_Email_Confirmation");
+	$Timezone = get_option("EWD_OTP_Timezone");
+	$Localize_Date_Time = get_option("EWD_OTP_Localize_Date_Time");
+	$Order_Email = get_option("EWD_OTP_Order_Email");
 
 ?>
 <div class="wrap">

@@ -23,7 +23,7 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '')
 	else {					
 		if (in_array("Order_Graphic", $Order_Information)) {
 			$ReturnString .= "<div class='ewd-otp-status-graphic pure-u-1'>";
-			$ReturnString .= "<img src='" . plugins_url() . "/order-tracking/Functions/DisplayGraph.php?OrderNumber=" . $TrackingNumber . "' alt='OTP-Graph' id='ewd-otp-graph /'>";
+			$ReturnString .= EWD_OTP_Display_Graph($_POST['Tracking_Number']);
 			$ReturnString .= "</div>";
 			$ReturnString .= "<div class='ewd-otp-clear'></div>";
 		}

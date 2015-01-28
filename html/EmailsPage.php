@@ -4,6 +4,7 @@
 		$SMTP_Mail_Server = get_option("EWD_OTP_SMTP_Mail_Server");
 		$Subject_Line = get_option("EWD_OTP_Subject_Line");
 		$Message_Body = get_option("EWD_OTP_Message_Body");
+		$Tracking_Page = get_option("EWD_OTP_Tracking_Page");
 		
 		$key = 'EWD_OTP';
 		if (function_exists('mcrypt_decrypt')) {$Admin_Password = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($Encrypted_Admin_Password), MCRYPT_MODE_CBC, md5(md5($key))), "\0");}

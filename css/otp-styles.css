@@ -28,3 +28,58 @@
 #ewd-otp-order-number-div {
   text-align: left;
 }
+
+/*******************************************************************
+* TRACKING GRAPHIC
+*******************************************************************/
+
+.ewd-otp-empty-display {
+  height: 140px;
+  width: 600px;
+  background:url("../images/Arrow.png");
+}
+.ewd-otp-full-display {
+  height: 140px;
+  background:url("../images/Arrow_Full.png");
+  margin-top: -140px;
+}
+
+.ewd-otp-display-length-0 {width: 110px;}
+.ewd-otp-display-length-1 {width: 145px;}
+.ewd-otp-display-length-2 {width: 180px;}
+.ewd-otp-display-length-3 {width: 215px;}
+.ewd-otp-display-length-4 {width: 250px;}
+.ewd-otp-display-length-5 {width: 285px;}
+.ewd-otp-display-length-6 {width: 320px;}
+.ewd-otp-display-length-7 {width: 355px;}
+.ewd-otp-display-length-8 {width: 390px;}
+.ewd-otp-display-length-9 {width: 425px;}
+.ewd-otp-display-length-10 {width: 600px;}
+
+.ewd-otp-display-status {
+  width: 100px;
+  float: left;
+  margin-top: -30px;
+  margin-bottom: -30px;
+  font-weight: 600;
+}
+
+#ewd-otp-initial-status {
+  margin-left: 50px;
+}
+
+#ewd-otp-ending-status {
+  margin-left: 480px;
+}
+
+.ewd-otp-current-status-length-0 {margin-left: 150px}
+.ewd-otp-current-status-length-1 {margin-left: 150px}
+.ewd-otp-current-status-length-2 {margin-left: 150px}
+.ewd-otp-current-status-length-3 {margin-left: 180px}
+.ewd-otp-current-status-length-4 {margin-left: 220px}
+.ewd-otp-current-status-length-5 {margin-left: 250px}
+.ewd-otp-current-status-length-6 {margin-left: 280px}
+.ewd-otp-current-status-length-7 {margin-left: 320px}
+.ewd-otp-current-status-length-8 {margin-left: 360px}
+.ewd-otp-current-status-length-9 {margin-left: 380px}
+.ewd-otp-current-status-length-10 {margin-left: 380px}
