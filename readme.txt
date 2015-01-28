@@ -3,7 +3,7 @@ Contributors: Rustaurius, EtoileWebDesign
 Donate Link: http://www.etoilewebdesign.com/plugin-donations/
 Tags: order tracking, order tracking system, purchase orders, order processing, order management, inventory management, deliveries, order status, customer orders, customer support, ticket tracking, support tickets, support ticket, tickets, client, customer, helpdesk, support software, help desk, help desk software
 Requires at least: 3.5.0
-Tested up to: 4.0
+Tested up to: 4.1
 License: GPLv3
 License URI:http://www.gnu.org/licenses/gpl-3.0.html
 
