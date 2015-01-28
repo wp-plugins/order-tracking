@@ -101,6 +101,7 @@ function EWD_OTP_Send_Email($Order_Email, $Order_Number, $Order_Status, $Order_N
 	$SMTP_Mail_Server = get_option("EWD_OTP_SMTP_Mail_Server");
 	$Message_Body = get_option("EWD_OTP_Message_Body");
     $Subject_Line = get_option("EWD_OTP_Subject_Line"); 
+    $Tracking_Page = get_option("EWD_OTP_Tracking_Page");
 		
 	$key = 'EWD_OTP';
 	$Admin_Password = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($Encrypted_Admin_Password), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
@@ -109,7 +110,8 @@ function EWD_OTP_Send_Email($Order_Email, $Order_Number, $Order_Status, $Order_N
 	$Customer_Name = $wpdb->get_var($wpdb->prepare("SELECT Customer_Name FROM $EWD_OTP_customers WHERE Customer_ID='%d'", $Order_Info->Customer_ID));
 	$Sales_Rep = $wpdb->get_row($wpdb->prepare("SELECT Sales_Rep_First_Name, Sales_Rep_Last_Name FROM $EWD_OTP_sales_reps WHERE Sales_Rep_ID='%d'", $Order_Info->Sales_Rep_ID));
 	$Sales_Rep_Name = $Sales_Rep->Sales_Rep_First_Name . " " . $Sales_Rep->Sales_Rep_Last_Name;
-		
+	$Tracking_Link = $Tracking_Page . "?Tracking_Number=" . $Order_Number . "&Order_Email=" . $Order_Email;
+
 	$Message_Body = str_replace("[order-number]", $Order_Number, $Message_Body);
 	$Message_Body = str_replace("[order-status]", $Order_Status, $Message_Body);
 	$Message_Body = str_replace("[order-notes]", $Order_Notes_Public, $Message_Body);
@@ -117,6 +119,7 @@ function EWD_OTP_Send_Email($Order_Email, $Order_Number, $Order_Status, $Order_N
     $Message_Body = str_replace("[order-name]", $Order_Name, $Message_Body);
     $Message_Body = str_replace("[customer-name]", $Customer_Name, $Message_Body);
 	$Message_Body = str_replace("[sales-rep]", $Sales_Rep_Name, $Message_Body);
+	$Message_Body = str_replace("[tracking-link]", $Tracking_Link, $Message_Body);
 		
 	$Order_Metas = $wpdb->get_results($wpdb->prepare("SELECT Field_ID, Meta_Value FROM $EWD_OTP_fields_meta_table_name WHERE Order_ID='%d'", $Order_Info->Order_ID));
 	foreach ($Order_Metas as $Order_Meta) {

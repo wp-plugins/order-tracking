@@ -41,7 +41,7 @@
 	<fieldset><legend class="screen-reader-text"><span>Message Body</span></legend>
 	<label title='Message Body'></label><textarea class='ewd-otp-textarea' name='message_body'> <?php echo $Message_Body; ?></textarea><br />
 	<p>What should be in the messages sent to users? You can put [order-name], [order-number], [order-status], [order-notes] and [order-time] into the message, to include current order name, order number, order status, public order notes or the time the order was updated.</p>
-	<p>You can also use [customer-name], [sales-rep] or the slug of a customer field enclosed in square brackets to include those fields in the e-mail.
+	<p>You can also use [tracking-link], [customer-name], [sales-rep] or the slug of a customer field enclosed in square brackets to include those fields in the e-mail.</p>
 	</fieldset>
 </td>
 </tr>
@@ -61,6 +61,15 @@
 	<fieldset><legend class="screen-reader-text"><span>SMTP Mail Password</span></legend>
 	<label title='Email Password'><input type='password' name='admin_password' value='<?php echo $Admin_Password; ?>' /> </label><br />
 	<p>The password for your email account, if you'd like to use SMTP to send your e-mails.</p>
+	</fieldset>
+</td>
+</tr>
+<tr>
+<th scope="row">Order Tracking URL</th>
+<td>
+	<fieldset><legend class="screen-reader-text"><span>Order Tracking URL</span></legend>
+	<label title='Tracking URL'><input type='text' name='tracking_page' value='<?php echo $Tracking_Page; ?>' /> </label><br />
+	<p>The URL of your tracking page, required if you want to include a tracking link in your message body.</p>
 	</fieldset>
 </td>
 </tr>

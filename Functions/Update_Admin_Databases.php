@@ -560,12 +560,14 @@ function Update_EWD_OTP_Email_Settings() {
 	$SMTP_Mail_Server = $_POST['smtp_mail_server'];
 	$Subject_Line = $_POST['subject_line'];
 	$Admin_Password = $_POST['admin_password'];
+	$Tracking_Page = $_POST['tracking_page'];
 		
 	$Admin_Email = stripslashes_deep($Admin_Email);
 	$Message_Body = stripslashes_deep($Message_Body);
 	$SMTP_Mail_Server = stripslashes_deep($SMTP_Mail_Server);
 	$Subject_Line = stripslashes_deep($Subject_Line);
 	$Admin_Password = stripslashes_deep($Admin_Password);
+	$Tracking_Page = stripslashes_deep($Tracking_Page);
 		
 	$key = 'EWD_OTP';
 	if (function_exists('mcrypt_decrypt')) {$Encrypted_Admin_Password = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $Admin_Password, MCRYPT_MODE_CBC, md5(md5($key))));}
@@ -576,5 +578,6 @@ function Update_EWD_OTP_Email_Settings() {
 	update_option('EWD_OTP_SMTP_Mail_Server', $SMTP_Mail_Server);
 	update_option('EWD_OTP_Subject_Line', $Subject_Line);
 	update_option('EWD_OTP_Admin_Password', $Encrypted_Admin_Password);
+	update_option('EWD_OTP_Tracking_Page', $Tracking_Page);
 }
 ?>

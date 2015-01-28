@@ -71,6 +71,9 @@ You can specify the label for the field and the value of the submit button with 
 2. Sample order tracking page
 
 == Changelog ==
+= 2.0.15 =
+- Added the ability to include a tracking link in order e-mails
+
 = 2.0.14 =
 - Changed how tracking graphics are created, so that they will be compatible with more sites
 - Tracking pages can now be linked to with an order pre-loaded, by added an argument to the the URL
