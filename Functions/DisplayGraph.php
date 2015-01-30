@@ -1,6 +1,6 @@
 <?php
 function EWD_OTP_Display_Graph($OrderNumber) {
-	require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-load.php');
+	//require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-load.php');
 	
 	global $wpdb;
 	global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name;

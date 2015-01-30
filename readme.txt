@@ -71,6 +71,9 @@ You can specify the label for the field and the value of the submit button with 
 2. Sample order tracking page
 
 == Changelog ==
+= 2.0.16 =
+- Fixed an include call that was failing on a number of server setups
+
 = 2.0.15 =
 - Added the ability to include a tracking link in order e-mails
 
