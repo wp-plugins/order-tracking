@@ -7,7 +7,7 @@ Author: Étoile Web Design
 Author URI: http://www.EtoileWebDesign.com/order-tracking/
 Terms and Conditions: http://www.etoilewebdesign.com/plugin-terms-and-conditions/
 Text Domain: EWD_OTP
-Version: 2.0.16
+Version: 2.0.17
 */
 
 global $EWD_OTP_db_version;
@@ -103,35 +103,35 @@ function Add_EWD_OTP_FrontEnd_Scripts() {
 add_action( 'wp_enqueue_scripts', 'EWD_OTP_Add_Stylesheet' );
 function EWD_OTP_Add_Stylesheet() {
     wp_register_style( 'ewd-otp-style', plugins_url('css/otp-styles.css', __FILE__) );
-		wp_register_style( 'yahoo-pure-buttons', plugins_url('css/pure-buttons.css', __FILE__) );
-		wp_register_style( 'yahoo-pure-forms', plugins_url('css/pure-forms.css', __FILE__) );
-		wp_register_style( 'yahoo-pure-forms-nr', plugins_url('css/pure-forms-nr.css', __FILE__) );
-		wp_register_style( 'yahoo-pure-grids', plugins_url('css/pure-grids.css', __FILE__) );
-		wp_register_style( 'yahoo-pure-grids-nr', plugins_url('css/pure-grids-nr.css', __FILE__) );
+	wp_register_style( 'yahoo-pure-buttons', plugins_url('css/pure-buttons.css', __FILE__) );
+	wp_register_style( 'yahoo-pure-forms', plugins_url('css/pure-forms.css', __FILE__) );
+	wp_register_style( 'yahoo-pure-forms-nr', plugins_url('css/pure-forms-nr.css', __FILE__) );
+	wp_register_style( 'yahoo-pure-grids', plugins_url('css/pure-grids.css', __FILE__) );
+	wp_register_style( 'yahoo-pure-grids-nr', plugins_url('css/pure-grids-nr.css', __FILE__) );
     wp_enqueue_style( 'ewd-otp-style' );
-		wp_enqueue_style( 'yahoo-pure-buttons' );
-		wp_enqueue_style( 'yahoo-pure-forms' );
-		wp_enqueue_style( 'yahoo-pure-forms-nr' );
-		wp_enqueue_style( 'yahoo-pure-grids' );
-		wp_enqueue_style( 'yahoo-pure-grids-nr' );
+	wp_enqueue_style( 'yahoo-pure-buttons' );
+	wp_enqueue_style( 'yahoo-pure-forms' );
+	wp_enqueue_style( 'yahoo-pure-forms-nr' );
+	wp_enqueue_style( 'yahoo-pure-grids' );
+	wp_enqueue_style( 'yahoo-pure-grids-nr' );
 }
 
 
 function EWD_OTP_Admin_Options() {
-		$url = plugins_url("order-tracking/css/Admin.css");
-		echo "<link rel='stylesheet' type='text/css' href='$url' />\n";
+	$url = plugins_url("order-tracking/css/Admin.css");
+	echo "<link rel='stylesheet' type='text/css' href='$url' />\n";
 }
 
 add_action('activated_plugin','save_otp_error');
 function save_otp_error(){
-		update_option('plugin_error',  ob_get_contents());
-		file_put_contents("Error.txt", ob_get_contents());
+	update_option('plugin_error',  ob_get_contents());
+	file_put_contents("Error.txt", ob_get_contents());
 }
 
 $EWD_OTP_Full_Version = get_option("EWD_OTP_Full_Version");
 
 if (isset($_POST['EWD_OTP_Upgrade_To_Full'])) {
-	  add_action('admin_init', 'EWD_OTP_Upgrade_To_Full');
+	add_action('admin_init', 'EWD_OTP_Upgrade_To_Full');
 }
 
 include "Functions/DisplayGraph.php";
@@ -155,7 +155,7 @@ include "Shortcodes/InsertTrackingForm.php";
 
 // Updates the OTP database when required
 if (get_option('EWD_OTP_db_version') != $EWD_OTP_db_version) {
-	  Update_EWD_OTP_Tables();
+	Update_EWD_OTP_Tables();
 }
 
 ?>

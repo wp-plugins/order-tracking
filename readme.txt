@@ -71,6 +71,9 @@ You can specify the label for the field and the value of the submit button with 
 2. Sample order tracking page
 
 == Changelog ==
+= 2.0.17 =
+- Fixed an error with custom fields editing 
+
 = 2.0.16 =
 - Fixed an include call that was failing on a number of server setups
 

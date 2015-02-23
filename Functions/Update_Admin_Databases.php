@@ -405,7 +405,7 @@ function  Edit_EWD_OTP_Custom_Field($Field_ID, $Field_Name, $Field_Slug, $Field_
 	global $wpdb;
 	global $EWD_OTP_fields_table_name;
 	global $EWD_OTP_Full_Version;
-		
+	
 	if ($EWD_OTP_Full_Version != "Yes") {exit();}		
 	$wpdb->update(
 		$EWD_OTP_fields_table_name,
