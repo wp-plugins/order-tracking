@@ -284,6 +284,9 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 			if (!array_key_exists($Col_Index, $Custom_Fields)) {$Values[] = esc_sql($Value);}
 			if (isset($Status_Column) and $Status_Column == $Col_Index) {$Status = $Value;}
 			if (isset($Number_Column) and $Number_Column == $Col_Index) {$Number = $Value;}
+			if (array_key_exists($Col_Index, $Custom_Fields)) {
+				$Custom_Fields_To_Insert[$Custom_Fields[$Col_Index]] = $Value;
+			}
 		}
 		$ValuesString = implode("','", $Values);
 		if (isset($Number)) {
@@ -313,12 +316,21 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 			$wpdb->query($wpdb->prepare("INSERT INTO $EWD_OTP_order_statuses_table_name (Order_ID, Order_Status, Order_Status_Created) VALUES (%d, %s, %s)", $Order_ID, $Status, $Date));
 		}
 
+		if (is_array($Custom_Fields_To_Insert)) {
+			foreach ($Custom_Fields_To_Insert as $Field => $Value) {
+				$Trimmed_Field = trim($Field);
+				$Field_ID = $Field_IDs[$Trimmed_Field];
+				$wpdb->query($wpdb->prepare("INSERT INTO $EWD_OTP_fields_meta_table_name (Field_ID, Order_ID, Meta_Value) VALUES (%d, %d, %s)", $Field_ID, $Order_ID, $Value));
+			}
+		}
+
 		unset($Status);
 		unset($Number);
 		unset($Order_ID);
 		unset($Values);
 		unset($ValuesString);
 		unset($UpdateString);
+		unset($Custom_Fields_To_Insert);
 	}
 
 	return __("Orders added successfully.", 'EWD_OTP');
