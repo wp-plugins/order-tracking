@@ -44,7 +44,7 @@ function Insert_Tracking_Form($atts) {
 	}
 		
 	//If there's a tracking number that's already been submitted, display the results
-	if (isset($_POST['Tracking_Number'])) {
+	if (isset($_REQUEST['Tracking_Number'])) {
 		$ReturnString .= "<div class='ewd-otp-tracking-results pure-g'>";
 		$ReturnString .= "<div class='pure-u-1'><h3>" . __("Order Information", 'EWD_OTP') . "</h3></div>";
 		$ReturnString .= EWD_OTP_Return_Results($_REQUEST['Tracking_Number'], $Fields, $_REQUEST['Order_Email']);
