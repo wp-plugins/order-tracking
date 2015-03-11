@@ -7,40 +7,56 @@ Tested up to: 4.1
 License: GPLv3
 License URI:http://www.gnu.org/licenses/gpl-3.0.html
 
-Allows a site's administrators to post updates about the status of orders or support tickets that can be accessed through the front-end of the WordPress site.
+Easily post status updates on your WordPress site and send automatic email notifications to customers when the status of an order changes.
 
 == Description ==
 
-Allows a site's administrators to post updates about the status of orders or support tickets that can be accessed through the front-end of the WordPress site.
+This plugin allows you to post updates about the status of orders or support tickets that can be viewed through the front-end of your WordPress site. It’s easy to use through the WordPress admin panel and completely customizable with CSS. Orders can be input and updated manually, or entered by uploading a spreadsheet. Options are available to decide what information is displayed, to style the tracking form, to import and export orders via spreadsheet and to send out status update emails and more. Simply insert the ‘order-tracking’ shortcode into any page, and the tracking form will be displayed. 
 
-[youtube http://www.youtube.com/watch?v=rMULYuPjVXU]
+= Key Features =
 
-Through the WordPress admin panel, you can:
+* Create customers and assign orders to them
+* Create sales reps and assign customers and orders to them
+* Update the status of orders
+* Setup searchable orders or ticket numbers for customers
+* Automatical emailing when the status of an order changes
+* Custom order fields to display information such as weight, estimated delivery, price etc.
+* Ability to create and update orders from a spreadsheet
+* Export orders to a spreadsheet
+* Create custom statuses tailored to your business 
+* Hide or delete orders
+* Display options in Settings
+* Responsive and customizable CSS
+* Custom emails
 
-* Set up order or ticket numbers which customers can search
-* Automatic e-mailing when the status of an order/ticket changes
-* Ability to create customers, assign a group of orders to a customer
-* Ability to create sales rep and assign customers and orders to them
-* Custom order fields to display information such as weight, estimated delivery, price, insurance options, etc.
-* Ability to create/update orders by uploading a spreadsheet
-* Ability to export orders to a spreadsheet
-* Update the status of an order or ticket
-* Create custom statuses that suit your business
-* Hide or delete orders/tickets
-* Options to decide what order information is displayed, whether the information should be displayed in a new window, with AJAX, etc.
-* Responsive, clean CSS that's completely customizable
+= Premium Features =
 
-Upcoming features:
-* PayPal integration
-* Product catalogue integration
-* Quickbooks online integration (potentially, depending on community interest level)
+* Custom fields
+* Import and export orders to Excel
+* Assign orders to customers and sales reps
+* Automatically send an email to a customer whenever an order is created or updated 
 
-Please head to the "Support" tab to report errors or make suggestions.
-Demo videos will be posted as soon as they are available.
+Click here to find out more and to purchase the premium version:
+<http://www.etoilewebdesign.com/order-tracking/>
 
-Translation:
+= Additional Languages =
+
 * Italian (thanks to MD Ariful)
 * German (thanks to Benko)
+* Norwegian (thanks to EinarSkaug)
+
+
+Check out our Frequently Asked Questions here: 
+<https://wordpress.org/plugins/order-tracking/faq/>
+
+Please head to the "Support" forum to report issues or make suggestions:
+<https://wordpress.org/support/plugin/order-tracking>
+
+For more OTP videos check out the FAQ page!
+[youtube https://www.youtube.com/watch?v=rMULYuPjVXU]
+
+
+
 
 == Installation ==
 
@@ -56,13 +72,81 @@ Translation:
 
 == Frequently Asked Questions ==
 
-= What attributes does the "[tracking-form]" shortcode accept? =
+= Is there a Premium version available? =
 
-You can specify the label for the field and the value of the submit button with "order_field_text" and "submit_text" respectively.
+Yes, it was released early November 2014. Premium features include custom fields, the ability to import and export orders to Excel, the ability to assign orders to customers and sales reps, and the ability to automatically send an email to a customer whenever an order is created or updated. For more information go to <http://www.etoilewebdesign.com/order-tracking/>
 
-= Tutorial Videos = 
-[youtube http://www.youtube.com/watch?v=YySDJa69HAE]
-[youtube http://www.youtube.com/watch?v=IdfsGa0You0]
+= How do I add the tracking form to the front-end? = 
+
+You can add an order form by putting the following shortcode on whatever page you’d like your tracking form to be: [tracking-form].
+= What attributes does the [tracking-form] shortcode accept? =
+
+You can specify the label for the field and the value of the submit button with the attributes ‘order_field_text’ and ‘submit_text’ respectively.
+= How do I customize the tracking form? = 
+ 
+There is a text area where you can add Custom CSS to customize the form in “Settings” under “Options”.
+
+= How do I access an uploaded excel file? =  
+To access the upload directory, it's: (yourdomainhere.com)/wp-content/plugins/order-tracking/order-sheets/
+= Can I modify the date and hour? =
+
+Yes, under “Options” you can set the Timezone for your orders.
+
+= What are the columns for the spreadsheet and is it possible to add more information? =
+
+There's no way to display additional information about an order other than by using the "Public Notes" at the moment.The columns that can be uploaded currently are:
+* Number
+* Name
+* Status
+* Display
+* Public Notes
+* Private Notes
+* Email
+
+= Is it possible to delete data of an incorrect order completely? =
+If you click the checkbox beside the incorrect order and select "Delete" that should get rid of the order.
+= Is it possible to change the position of the status to show only the most recent? =
+It's not currently possible to load only the most recent status, but we’re keeping this in mind as a future feature.
+= How do I translate the plugin into my language? =
+A great place to start learning about how to translate a plugin is at the link below: <http://premium.wpmudev.org/blog/how-to-translate-a-wordpress-plugin>
+
+Once translated, you'll need to put the translated mo- and po- files directly in the lang folder and make sure they are named properly for your localization.
+If you do translate the plugin, other users would love to have access to the files in your language. You can send them to us at Contact@EtoileWebDesign.com, and we’ll be sure they’re included in a future release.
+= How do I change the title of “Order Form Instructions”? =
+You can edit “Order Form Instructions” on the “Options” page. They can also be set as an attribute, instructions set as an attribute will take priority.
+= How do I change the label “Order Number”  field to, for example, “Job Number” in the front end display? =
+To change the label, try adding these attributes into your shortcode:
+[tracking-form order_field_text='Job Number' field_names='Order Number=>Job Number']
+
+= Is there a way to modify multiple field labels? = 
+
+You can change multiple names by separating them with a comma. 
+
+= My order graph is not displaying properly, all of the statuses are overlapping. How do I fix this? =
+
+Make sure that you set the column “Percentages” on the order statuses page. If the problem persists you can also try editing the spacing using CSS on the “Options” page in the “Custom CSS” box.
+
+For a more in depth list, please visit our FAQ page:
+<http://www.etoilewebdesign.com/order-tracking-faq/>
+
+For more questions and support you can post in the support forum:
+<https://wordpress.org/plugins/order-tracking/>
+
+= Videos =
+
+Tutorial Part 1
+[youtube https://www.youtube.com/watch?v=YySDJa69HAE]
+
+Tutorial Part 2
+[youtube  https://www.youtube.com/watch?v=IdfsGa0You0]
+
+Premium Features
+[youtube https://www.youtube.com/watch?v=GVsrJT1O0X0] 
+
+== Screenshots ==
+
+1. Admin area
+2. Sample order tracking page
 
 
 == Screenshots ==
