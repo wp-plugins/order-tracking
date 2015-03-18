@@ -9,6 +9,7 @@
 	$Timezone = get_option("EWD_OTP_Timezone");
 	$Localize_Date_Time = get_option("EWD_OTP_Localize_Date_Time");
 	$Order_Email = get_option("EWD_OTP_Order_Email");
+	$Access_Role = get_option("EWD_OTP_Access_Role");
 
 ?>
 <div class="wrap">
@@ -206,6 +207,25 @@
 	<label title='Auto Entered'><input type='radio' name='email_confirmation' value='Auto_Entered' <?php if($Email_Confirmation == "Auto_Entered") {echo "checked='checked'";} ?> /> <span>Auto Entered (via attribute)</span></label><br />
 	<label title='No'><input type='radio' name='email_confirmation' value='None' <?php if($Email_Confirmation == "None") {echo "checked='checked'";} ?> /> <span>No</span></label><br />
 	<p>Do visitors need to also enter the e-mail address associated with an order to be able to view order information?</p>
+	</fieldset>
+</td>
+</tr>
+</table>
+
+<h3>Premium Options</h3>
+<table class="form-table">
+<tr>
+<th scope="row">Set Access Role</th>
+<td>
+	<fieldset><legend class="screen-reader-text"><span>Set Access Role</span></legend>
+	<label title='Access Role'></label><select name='access_role' <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>> 
+		<option value="administrator"<?php if($Access_Role == "administrator") {echo " selected=selected";} ?>>Administrator</option>
+		<option value="delete_others_pages"<?php if($Access_Role == "delete_others_pages") {echo " selected=selected";} ?>>Editor</option>
+		<option value="delete_published_posts"<?php if($Access_Role == "delete_published_posts") {echo " selected=selected";} ?>>Author</option>
+		<option value="delete_posts"<?php if($Access_Role == "delete_posts") {echo " selected=selected";} ?>>Contributor</option>
+		<option value="read"<?php if($Access_Role == "read") {echo " selected=selected";} ?>>Subscriber</option>
+	</select>
+	<p>How often should e-mails be sent to customers about the status of their orders?</p>
 	</fieldset>
 </td>
 </tr>

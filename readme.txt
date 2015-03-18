@@ -155,6 +155,11 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.0.20 =
+- Added the ability to put links in order notes
+- Added the ability to set which user role has access to the plugin
+- Changed the export column names, so that they match the upload columns
+
 = 2.0.19 =
 - Fixed an error with adding tracking numbers to URL
 

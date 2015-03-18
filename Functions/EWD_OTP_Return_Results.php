@@ -10,7 +10,14 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '')
 		
 	if ($Email_Confirmation == "Auto_Entered") {$Email = do_shortcode($Email);}
 		
-	if ($Email_Confirmation == "Order_Email" or $Email_Confirmation == "Auto_Entered") {$Order = $wpdb->get_row($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_Number='%s' and Order_Email='%s'", $TrackingNumber, $Email));}
+	if ($Email_Confirmation == "Order_Email" or $Email_Confirmation == "Auto_Entered") {
+		if (strpos($Email, "@") !== false and strpos($Email, ".") !== false) {
+			$Order = $wpdb->get_row($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_Number='%s' and Order_Email LIKE '%s'", $TrackingNumber, '%' . $Email . '%'));
+		}
+		else {
+			$Order = $wpdb->get_row($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_Number='%s' and Order_Email='%s'", $TrackingNumber, $Email));
+		}
+	}
 	else {$Order = $wpdb->get_row($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_Number='%s'", $TrackingNumber));}
 	if (isset($Order->Order_ID)) {$Statuses = $wpdb->get_results($wpdb->prepare("SELECT Order_Status, Order_Status_Created FROM $EWD_OTP_order_statuses_table_name WHERE Order_ID='%s' ORDER BY Order_Status_Created ASC", $Order->Order_ID));}
 
@@ -54,7 +61,7 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '')
 			$ReturnString .= $Notes_Label . ":";
 			$ReturnString .= "</div>";
 			$ReturnString .= "<div id='ewd-otp-order-notes' class='ewd-otp-order-content pure-u-7-8'>";
-			$ReturnString .= "<div class='ewd-otp-bottom-align'>" . $Order->Order_Notes_Public . "</div>";
+			$ReturnString .= "<div class='ewd-otp-bottom-align'>" . stripslashes_deep($Order->Order_Notes_Public) . "</div>";
 			$ReturnString .= "</div>";
 		}
 		$Sql = "SELECT * FROM $EWD_OTP_fields_table_name";
@@ -72,7 +79,7 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '')
 					$ReturnString .= "<a href='" . site_url("/wp-content/uploads/order-tracking-uploads/") . $MetaValue->Meta_Value . "' download>";
 					$ReturnString .= $MetaValue->Meta_Value . "</a></div>";
 				}
-				else {$ReturnString .= "<div class='ewd-otp-bottom-align'>" . $MetaValue->Meta_Value . "</div>";}
+				else {$ReturnString .= "<div class='ewd-otp-bottom-align'>" . stripslashes_deep($MetaValue->Meta_Value) . "</div>";}
 				$ReturnString .= "</div>";
 			}
 		}
@@ -291,7 +298,7 @@ function EWD_OTP_Return_Sales_Rep_Results($Sales_Rep_ID, $Fields = array(), $Sal
 	if ($Sales_Rep_Confirmation == "Auto_Entered") {$Sales_Rep_Email = do_shortcode($Sales_Rep_Email);}
 		
 	if ($Sales_Rep_Confirmation == "Order_Email" or $Sales_Rep_Confirmation == "Auto_Entered") {
-		$Sales_Rep = $wpdb->get_results($wpdb->prepare("SELECT Sales_Rep_ID FROM $EWD_OTP_sales_reps WHERE Sales_Rep_ID='%d' and Customer_Email='%s'", $Sales_Rep_ID, $Sales_Rep_Email));
+		$Sales_Rep = $wpdb->get_results($wpdb->prepare("SELECT Sales_Rep_ID FROM $EWD_OTP_sales_reps WHERE Sales_Rep_ID='%d' and Sales_Rep_Email='%s'", $Sales_Rep_ID, $Sales_Rep_Email));
 		if ($wpdb->num_rows == 0) {
 			$ReturnString = "There is no sales rep with the ID " . $Sales_Rep_ID . " and an e-mail of " . $Sales_Rep_Email;
 			return $Returnstring;

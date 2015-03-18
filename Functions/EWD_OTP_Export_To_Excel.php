@@ -11,14 +11,14 @@ function EWD_OTP_Export_To_Excel() {
 		$objPHPExcel->setActiveSheetIndex(0);  
 
 		// Print out the regular order field labels
-		$objPHPExcel->getActiveSheet()->setCellValue("A1", "Order Name");
-		$objPHPExcel->getActiveSheet()->setCellValue("B1", "Order Number");
+		$objPHPExcel->getActiveSheet()->setCellValue("A1", "Name");
+		$objPHPExcel->getActiveSheet()->setCellValue("B1", "Number");
 		$objPHPExcel->getActiveSheet()->setCellValue("C1", "Order Status");
 		$objPHPExcel->getActiveSheet()->setCellValue("D1", "Order Status Updated");
-		$objPHPExcel->getActiveSheet()->setCellValue("E1", "Order Display");
-		$objPHPExcel->getActiveSheet()->setCellValue("F1", "Order Notes Public");
-		$objPHPExcel->getActiveSheet()->setCellValue("G1", "Order Notes Private");
-		$objPHPExcel->getActiveSheet()->setCellValue("H1", "Order Email");
+		$objPHPExcel->getActiveSheet()->setCellValue("E1", "Display");
+		$objPHPExcel->getActiveSheet()->setCellValue("F1", "Notes Public");
+		$objPHPExcel->getActiveSheet()->setCellValue("G1", "Notes Private");
+		$objPHPExcel->getActiveSheet()->setCellValue("H1", "Email");
 
 		//start of printing column names as names of custom fields  
 		$column = 'I';

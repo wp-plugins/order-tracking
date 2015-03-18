@@ -544,6 +544,7 @@ function Update_EWD_OTP_Options() {
 	$Form_Instructions = $_POST['form_instructions'];
 	$Timezone = $_POST['timezone'];
 	$Localize_Date_Time = $_POST['localize_date_time'];
+	$Access_Role = $_POST['access_role'];
 		
 	$Custom_CSS = stripslashes_deep($Custom_CSS);
 	$AJAX_Reload = stripslashes_deep($AJAX_Reload);
@@ -564,6 +565,8 @@ function Update_EWD_OTP_Options() {
 	update_option('EWD_OTP_Form_Instructions', $Form_Instructions);
 	update_option('EWD_OTP_Timezone', $Timezone);
 	update_option('EWD_OTP_Localize_Date_Time', $Localize_Date_Time);
+
+	if ($EWD_OTP_Full_Version == "Yes") {update_option('EWD_OTP_Access_Role', $Access_Role);}
 }
 
 function Update_EWD_OTP_Email_Settings() {

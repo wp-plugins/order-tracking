@@ -126,45 +126,48 @@ function EWD_OTP_Send_Email($Order_Email, $Order_Number, $Order_Status, $Order_N
 		$Field_Slug = $wpdb->get_var($wpdb->prepare("SELECT Field_Slug FROM $EWD_OTP_fields_table_name WHERE Field_ID='%d'", $Order_Meta->Field_ID));
 		$Message_Body = str_replace("[" . $Field_Slug . "]", $Order_Meta->Meta_Value, $Message_Body);
 	}
-		
-	if ($SMTP_Mail_Server != "") {
-		require_once(EWD_OTP_CD_PLUGIN_PATH . '/PHPMailer/class.phpmailer.php');
-		$mail = new PHPMailer(true);
-		try {
-  			$mail->CharSet = 'UTF-8';
-			$mail->IsSMTP();
-  			$mail->Host = $SMTP_Mail_Server;
-  			$mail->SMTPAuth = true;
-  			$mail->Username = $Admin_Email;
-  			$mail->Password = $Admin_Password;
-  			$mail->WordWrap = 0;
-  			$mail->AddCustomHeader('X-Mailer: EWD_OTP v1.0');
-  			$mail->SetFrom($Admin_Email);
-  			$mail->AddAddress($Order_Email);
-  			$mail->Subject = $Subject_Line;
-			$mail->Body = $Message_Body;
-			$mail->isHTML(true);
-  			//$mail->AltBody = $Text;
-  			
-			if (!$mail->Send()) {
-				//echo "Email not sent.<br>";
-    			//echo $mail->ErrorInfo;
-  			} else {
-    			//echo "Email sent.<br>";
-  			}
-		} catch (phpmailerException $e) {
-    	 	//echo "FAIL:\n";
-    		//echo $e->errorMessage(); // from PHPMailer
-		} catch (Exception $e) {
-    		//echo "FAIL:\n";
-    		//echo $e->getMessage(); // from anything else!
-		}		
+	
+	$Emails = explode(",", $Order_Email);
+	foreach ($Emails as $Email) {
+		if ($SMTP_Mail_Server != "") {
+			require_once(EWD_OTP_CD_PLUGIN_PATH . '/PHPMailer/class.phpmailer.php');
+			$mail = new PHPMailer(true);
+			try {
+  				$mail->CharSet = 'UTF-8';
+				$mail->IsSMTP();
+  				$mail->Host = $SMTP_Mail_Server;
+  				$mail->SMTPAuth = true;
+  				$mail->Username = $Admin_Email;
+  				$mail->Password = $Admin_Password;
+  				$mail->WordWrap = 0;
+  				$mail->AddCustomHeader('X-Mailer: EWD_OTP v1.0');
+  				$mail->SetFrom($Admin_Email);
+  				$mail->AddAddress($Email);
+  				$mail->Subject = $Subject_Line;
+				$mail->Body = $Message_Body;
+				$mail->isHTML(true);
+  				//$mail->AltBody = $Text;
+  				
+				if (!$mail->Send()) {
+					//echo "Email not sent.<br>";
+    				//echo $mail->ErrorInfo;
+  				} else {
+    				//echo "Email sent.<br>";
+  				}
+			} catch (phpmailerException $e) {
+    		 	//echo "FAIL:\n";
+    			//echo $e->errorMessage(); // from PHPMailer
+			} catch (Exception $e) {
+    			//echo "FAIL:\n";
+    			//echo $e->getMessage(); // from anything else!
+			}		
+			}
+		else {
+			$headers = 'From: ' . $Admin_Email . "\r\n" .
+    					'Reply-To: ' . $Admin_Email . "\r\n" .
+    					'X-Mailer: PHP/' . phpversion();
+			$Mail_Success = mail($Order_Email, "Order Update", $Message_Body, $headers);
 		}
-	else {
-		$headers = 'From: ' . $Admin_Email . "\r\n" .
-    				'Reply-To: ' . $Admin_Email . "\r\n" .
-    				'X-Mailer: PHP/' . phpversion();
-		$Mail_Success = mail($Order_Email, "Order Update", $Message_Body, $headers);
 	}
 }
 
