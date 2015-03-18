@@ -11,7 +11,9 @@ Easily post status updates on your WordPress site and send automatic email notif
 
 == Description ==
 
-This plugin allows you to post updates about the status of orders or support tickets that can be viewed through the front-end of your WordPress site. It’s easy to use through the WordPress admin panel and completely customizable with CSS. Orders can be input and updated manually, or entered by uploading a spreadsheet. Options are available to decide what information is displayed, to style the tracking form, to import and export orders via spreadsheet and to send out status update emails and more. Simply insert the ‘order-tracking’ shortcode into any page, and the tracking form will be displayed. 
+This plugin allows you to post updates about the status of orders or tickets that can be viewed through the front-end of your WordPress site. It’s easy to use through the WordPress admin panel and completely customizable with CSS. Orders can be input and updated manually, or entered by uploading a spreadsheet. Options are available to decide what information is displayed, to style the tracking form, to import and export orders via spreadsheet,to send out status update emails and more!
+
+Simply insert the ‘order-tracking’ shortcode into any page, and the tracking form will be displayed. 
 
 = Key Features =
 
@@ -21,7 +23,7 @@ This plugin allows you to post updates about the status of orders or support tic
 * Setup searchable orders or ticket numbers for customers
 * Automatical emailing when the status of an order changes
 * Custom order fields to display information such as weight, estimated delivery, price etc.
-* Ability to create and update orders from a spreadsheet
+* Create and update orders from a spreadsheet
 * Export orders to a spreadsheet
 * Create custom statuses tailored to your business 
 * Hide or delete orders
@@ -74,7 +76,9 @@ For more OTP videos check out the FAQ page!
 
 = Is there a Premium version available? =
 
-Yes, it was released early November 2014. Premium features include custom fields, the ability to import and export orders to Excel, the ability to assign orders to customers and sales reps, and the ability to automatically send an email to a customer whenever an order is created or updated. For more information go to <http://www.etoilewebdesign.com/order-tracking/>
+Yes, it was released early November 2014. Premium features include custom fields, the ability to import and export orders to Excel, the ability to assign orders to customers and sales reps, and the ability to automatically send an email to a customer whenever an order is created or updated. For more information go to:
+
+ <http://www.etoilewebdesign.com/order-tracking/>
 
 = How do I add the tracking form to the front-end? = 
 
@@ -95,13 +99,8 @@ Yes, under “Options” you can set the Timezone for your orders.
 = What are the columns for the spreadsheet and is it possible to add more information? =
 
 There's no way to display additional information about an order other than by using the "Public Notes" at the moment.The columns that can be uploaded currently are:
-* Number
-* Name
-* Status
-* Display
-* Public Notes
-* Private Notes
-* Email
+
+Number, Name, Status, Display, Public Notes, Private Notes, Email.
 
 = Is it possible to delete data of an incorrect order completely? =
 If you click the checkbox beside the incorrect order and select "Delete" that should get rid of the order.
