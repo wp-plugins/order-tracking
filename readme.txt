@@ -154,6 +154,9 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.0.21 =
+- Fixed a small upload error
+
 = 2.0.20 =
 - Added the ability to put links in order notes
 - Added the ability to set which user role has access to the plugin
