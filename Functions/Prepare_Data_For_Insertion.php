@@ -97,15 +97,23 @@ function EWD_OTP_Send_Email($Order_Email, $Order_Number, $Order_Status, $Order_N
 	global $wpdb, $EWD_OTP_orders_table_name, $EWD_OTP_customers, $EWD_OTP_fields_table_name, $EWD_OTP_fields_meta_table_name, $EWD_OTP_sales_reps;
 		
 	$Admin_Email = get_option("EWD_OTP_Admin_Email");
+	$From_Name = get_option("EWD_OTP_From_Name");
+	$Username = get_option("EWD_OTP_Username");
 	$Encrypted_Admin_Password = get_option("EWD_OTP_Admin_Password");
+	$Port = get_option("EWD_OTP_Port");
+	$Use_SMTP = get_option("EWD_OTP_Use_SMTP");
 	$SMTP_Mail_Server = get_option("EWD_OTP_SMTP_Mail_Server");
+	$Encryption_Type = get_option("EWD_OTP_Encryption_Type");
 	$Message_Body = get_option("EWD_OTP_Message_Body");
     $Subject_Line = get_option("EWD_OTP_Subject_Line"); 
     $Tracking_Page = get_option("EWD_OTP_Tracking_Page");
 		
 	$key = 'EWD_OTP';
 	$Admin_Password = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($Encrypted_Admin_Password), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
-		
+	if ($Port == "") {$Port= '25';}
+	if ($Encryption_Type == "") {$Encryption_Type = "ssl";}
+	if ($From_Name == "") {$From_Name = $Admin_Email;}
+
 	$Order_Info = $wpdb->get_row($wpdb->prepare("SELECT Order_ID, Customer_ID, Sales_Rep_ID FROM $EWD_OTP_orders_table_name WHERE Order_Number='%s'", $Order_Number));
 	$Customer_Name = $wpdb->get_var($wpdb->prepare("SELECT Customer_Name FROM $EWD_OTP_customers WHERE Customer_ID='%d'", $Order_Info->Customer_ID));
 	$Sales_Rep = $wpdb->get_row($wpdb->prepare("SELECT Sales_Rep_First_Name, Sales_Rep_Last_Name FROM $EWD_OTP_sales_reps WHERE Sales_Rep_ID='%d'", $Order_Info->Sales_Rep_ID));
@@ -134,14 +142,17 @@ function EWD_OTP_Send_Email($Order_Email, $Order_Number, $Order_Status, $Order_N
 			$mail = new PHPMailer(true);
 			try {
   				$mail->CharSet = 'UTF-8';
-				$mail->IsSMTP();
+				if ($Use_SMTP != "No") {
+					$mail->IsSMTP();
+					$mail->SMTPAuth = true;
+					$mail->Username = $Username;
+  					$mail->Password = $Admin_Password; 
+				}
   				$mail->Host = $SMTP_Mail_Server;
-  				$mail->SMTPAuth = true;
-  				$mail->Username = $Admin_Email;
-  				$mail->Password = $Admin_Password;
+  				$mail->Port = $Port;
   				$mail->WordWrap = 0;
   				$mail->AddCustomHeader('X-Mailer: EWD_OTP v1.0');
-  				$mail->SetFrom($Admin_Email);
+  				$mail->SetFrom($Admin_Email, $From_Name);
   				$mail->AddAddress($Email);
   				$mail->Subject = $Subject_Line;
 				$mail->Body = $Message_Body;

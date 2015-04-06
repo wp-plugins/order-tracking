@@ -154,6 +154,9 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.0.22 =
+- Added additional e-mail settings
+
 = 2.0.21 =
 - Fixed a small upload error
 

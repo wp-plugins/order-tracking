@@ -571,28 +571,43 @@ function Update_EWD_OTP_Options() {
 
 function Update_EWD_OTP_Email_Settings() {
 	$Admin_Email = $_POST['admin_email'];
+	$From_Name = $_POST['from_name'];
 	$Message_Body = $_POST['message_body'];
-	$SMTP_Mail_Server = $_POST['smtp_mail_server'];
 	$Subject_Line = $_POST['subject_line'];
-	$Admin_Password = $_POST['admin_password'];
 	$Tracking_Page = $_POST['tracking_page'];
+	$SMTP_Mail_Server = $_POST['smtp_mail_server'];
+	$Use_SMTP = $_POST['use_smtp'];
+	$Port = $_POST['port'];
+	$Username = $_POST['username'];
+	$Admin_Password = $_POST['admin_password'];
+	$Encryption_Type = $_POST['encryption_type'];
 		
 	$Admin_Email = stripslashes_deep($Admin_Email);
+	$From_Name = stripslashes_deep($From_Name);
 	$Message_Body = stripslashes_deep($Message_Body);
-	$SMTP_Mail_Server = stripslashes_deep($SMTP_Mail_Server);
 	$Subject_Line = stripslashes_deep($Subject_Line);
-	$Admin_Password = stripslashes_deep($Admin_Password);
 	$Tracking_Page = stripslashes_deep($Tracking_Page);
+	$SMTP_Mail_Server = stripslashes_deep($SMTP_Mail_Server);
+	$Use_SMTP = stripslashes_deep($Use_SMTP);
+	$Port = stripslashes_deep($Port);
+	$Username = stripslashes_deep($Username);
+	$Admin_Password = stripslashes_deep($Admin_Password);
+	$Encryption_Type = stripslashes_deep($Encryption_Type);
 		
 	$key = 'EWD_OTP';
 	if (function_exists('mcrypt_decrypt')) {$Encrypted_Admin_Password = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $Admin_Password, MCRYPT_MODE_CBC, md5(md5($key))));}
 	else {$Encrypted_Admin_Password = $Admin_Password;}
 		
 	update_option('EWD_OTP_Admin_Email', $Admin_Email);
+	update_option('EWD_OTP_From_Name', $From_Name);
 	update_option('EWD_OTP_Message_Body', $Message_Body);
-	update_option('EWD_OTP_SMTP_Mail_Server', $SMTP_Mail_Server);
 	update_option('EWD_OTP_Subject_Line', $Subject_Line);
-	update_option('EWD_OTP_Admin_Password', $Encrypted_Admin_Password);
 	update_option('EWD_OTP_Tracking_Page', $Tracking_Page);
+	update_option('EWD_OTP_SMTP_Mail_Server', $SMTP_Mail_Server);
+	update_option('EWD_OTP_Use_SMTP', $Use_SMTP);
+	update_option('EWD_OTP_Port', $Port);
+	update_option('EWD_OTP_Username', $Username);
+	update_option('EWD_OTP_Admin_Password', $Encrypted_Admin_Password);
+	update_option('EWD_OTP_Encryption_Type', $Encryption_Type);
 }
 ?>

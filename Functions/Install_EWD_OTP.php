@@ -101,6 +101,10 @@ function Install_EWD_OTP() {
 	if (get_option("EWD_OTP_Sales_Rep_Confirmation") == "") {update_option("EWD_OTP_Sales_Rep_Confirmation", "None");}
 	if (get_option("EWD_OTP_Cut_Off_Days") == "") {update_option("EWD_OTP_Cut_Off_Days", 60);}
 
+	if (get_option("EWD_OTP_Use_SMTP") == "") {update_option("EWD_OTP_Use_SMTP", "Yes");}
+	if (get_option("EWD_OTP_Port") == "") {update_option("EWD_OTP_Port", "25");}
+	if (get_option("EWD_OTP_Encryption_Type") == "") {update_option("EWD_OTP_Encryption_Type", "ssl");}
+
 		
    	add_option("EWD_OTP_db_version", $EWD_OTP_db_version);
 	update_option('EWD_OTP_Install_Flag', "Yes");
