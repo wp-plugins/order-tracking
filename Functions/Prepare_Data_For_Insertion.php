@@ -39,6 +39,15 @@ function Add_Edit_EWD_OTP_Order() {
 		}
 }
 
+function EWD_OTP_Save_Customer_Note() {
+	$Tracking_Number = $_POST['CN_Order_Number'];
+	$Note = stripslashes_deep($_POST['Customer_Notes']);
+
+	$user_update = Update_EWD_OTP_Customer_Note($Tracking_Number, $Note);
+
+	return $user_update;
+}
+
 function Add_Edit_EWD_OTP_Sales_Rep() {
 		global $wpdb, $EWD_OTP_sales_reps;
 

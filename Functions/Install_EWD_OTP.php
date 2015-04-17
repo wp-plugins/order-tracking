@@ -13,6 +13,7 @@ function Install_EWD_OTP() {
 		Order_Status text DEFAULT '' NOT NULL,
 		Order_Notes_Public text DEFAULT '' NOT NULL,
 		Order_Notes_Private text DEFAULT '' NOT NULL,
+		Order_Customer_Notes text DEFAULT '' NOT NULL,
 		Order_Email text DEFAULT '' NOT NULL,
 		Sales_Rep_ID mediumint(9) DEFAULT 0 NOT NULL,
 		Customer_ID mediumint(9) DEFAULT 0 NOT NULL,

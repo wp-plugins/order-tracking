@@ -154,6 +154,10 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.0.23 =
+- Added "Customer Notes" feature, to get information from visitors about an order
+- Added the ability to add more than 1 e-mail address for an order
+
 = 2.0.22 =
 - Added additional e-mail settings
 

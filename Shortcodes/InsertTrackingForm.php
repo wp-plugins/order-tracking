@@ -24,11 +24,14 @@ function Insert_Tracking_Form($atts) {
 				'email_field_attribute_value' => '',
 				'order_instructions' => __('Enter the order number you would like to track in the form below.', 'EWD_OTP'),
 				'field_names' => '',
-				'submit_text' => __('Track', 'EWD_OTP')),
+				'submit_text' => __('Track', 'EWD_OTP'),
+				'notes_submit' => __('Add Note', 'EWD_OTP')),
 		$atts
 		)
 	);
 		
+	if (isset($_POST['Notes_Submit'])) {EWD_OTP_Save_Customer_Note();}
+	
 	if ($order_instructions != "Enter the order number you would like to track in the form below." or $Order_Instructions == "") {$Order_Instructions = $order_instructions;}
 		
 	$ReturnString .= "<style type='text/css'>";
@@ -47,7 +50,7 @@ function Insert_Tracking_Form($atts) {
 	if (isset($_REQUEST['Tracking_Number'])) {
 		$ReturnString .= "<div class='ewd-otp-tracking-results pure-g'>";
 		$ReturnString .= "<div class='pure-u-1'><h3>" . __("Order Information", 'EWD_OTP') . "</h3></div>";
-		$ReturnString .= EWD_OTP_Return_Results($_REQUEST['Tracking_Number'], $Fields, $_REQUEST['Order_Email']);
+		$ReturnString .= EWD_OTP_Return_Results($_REQUEST['Tracking_Number'], $Fields, $_REQUEST['Order_Email'], $notes_submit);
 		$ReturnString .= "</div>";
 	}
 		

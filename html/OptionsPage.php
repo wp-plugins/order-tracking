@@ -35,14 +35,16 @@
 	<label title='Status'><input type='checkbox' name='order_information[]' value='Order_Status' <?php if(in_array("Order_Status", $Order_Information)) {echo "checked='checked'";} ?> /> <span>Status</span></label><br />
 	<label title='Update Date'><input type='checkbox' name='order_information[]' value='Order_Updated' <?php if(in_array("Order_Updated", $Order_Information)) {echo "checked='checked'";} ?> /> <span>Updated Date</span></label><br />
 	<label title='Notes'><input type='checkbox' name='order_information[]' value='Order_Notes' <?php if(in_array("Order_Notes", $Order_Information)) {echo "checked='checked'";} ?> /> <span>Notes</span></label><br />
+	<label title='Customer_Notes'><input type='checkbox' name='order_information[]' value='Customer_Notes' <?php if(in_array("Customer_Notes", $Order_Information)) {echo "checked='checked'";} ?> /> <span>Customer Notes</span></label><br />
 	<label title='Graphic'><input type='checkbox' name='order_information[]' value='Order_Graphic' <?php if(in_array("Order_Graphic", $Order_Information)) {echo "checked='checked'";} ?> /> <span>Status Graphic</span></label><br />
-	<?php  $Sql = "SELECT * FROM $EWD_OTP_fields_table_name";
-				 $Fields = $wpdb->get_results($Sql);
-				 foreach ($Fields as $Field) {
-				 		 echo "<label title='" . $Field->Field_ID . "'><input type='checkbox' name='order_information[]' value='" . $Field->Field_ID . "'";
-						 if (in_array($Field->Field_ID, $Order_Information)) {echo "checked='checked'";}
-						 echo "/> <span>" . $Field->Field_Name . "</span></label><br />";
-				 }
+	<?php  
+		$Sql = "SELECT * FROM $EWD_OTP_fields_table_name";
+		$Fields = $wpdb->get_results($Sql);
+		foreach ($Fields as $Field) {
+			echo "<label title='" . $Field->Field_ID . "'><input type='checkbox' name='order_information[]' value='" . $Field->Field_ID . "'";
+			if (in_array($Field->Field_ID, $Order_Information)) {echo "checked='checked'";}
+			echo "/> <span>" . $Field->Field_Name . "</span></label><br />";
+		}
 	?>
 	<p>Select what information should be displayed for each order.</p>
 	</fieldset>

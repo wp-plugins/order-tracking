@@ -533,6 +533,19 @@ function Delete_EWD_OTP_Customer($Customer_ID) {
 	return $update;
 }
 
+function Update_EWD_OTP_Customer_Note($Tracking_Number, $Note) {
+	global $wpdb;
+	global $EWD_OTP_orders_table_name;
+		
+	$wpdb->update( $EWD_OTP_orders_table_name, 
+		array( 'Order_Customer_Notes' => $Note),
+		array( 'Order_Number' => $Tracking_Number)
+	); 
+		
+	$update = __("Note has been successfully edited.", 'EWD_OTP');
+	return $update;
+}
+
 function Update_EWD_OTP_Options() {
 	$Custom_CSS = $_POST['custom_css'];
 	$AJAX_Reload = $_POST['ajax_reload'];

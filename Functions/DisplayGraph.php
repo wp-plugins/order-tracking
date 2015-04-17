@@ -1,7 +1,6 @@
 <?php
 function EWD_OTP_Display_Graph($OrderNumber) {
-	//require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-load.php');
-	
+
 	global $wpdb;
 	global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name;
 	$Order = $wpdb->get_row($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_Number='%s'", $OrderNumber));
@@ -64,5 +63,4 @@ function EWD_OTP_Display_Graph($OrderNumber) {
 	return $ReturnString;
 }
 
-EWD_OTP_Display_Graph($_GET['OrderNumber']);
 ?>

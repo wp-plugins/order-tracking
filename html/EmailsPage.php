@@ -68,7 +68,9 @@
 	</fieldset>
 </td>
 </tr>
+</table>
 <h3>SMTP Mail Settings</h3>
+<table class="form-table">
 <tr>
 <th scope="row">Use SMTP</th>
 <td>

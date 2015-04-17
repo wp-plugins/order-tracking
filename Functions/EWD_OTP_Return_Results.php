@@ -1,5 +1,5 @@
 <?php
-function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '') {
+function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '', $notes_submit = '') {
 	global $wpdb;
 	global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name, $EWD_OTP_fields_table_name, $EWD_OTP_fields_meta_table_name;
 		
@@ -64,6 +64,17 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '')
 			$ReturnString .= "<div class='ewd-otp-bottom-align'>" . stripslashes_deep($Order->Order_Notes_Public) . "</div>";
 			$ReturnString .= "</div>";
 		}
+		if (in_array("Customer_Notes", $Order_Information)) {
+			if (array_key_exists("Customer Notes", $Fields)) {$Customers_Label = $Fields['Customer Notes'];}
+			else {$Customers_Label = __("Customer Notes", 'EWD_OTP');}
+			$ReturnString .= "<div id='ewd-otp-customer-notes-label' class='ewd-otp-order-label ewd-otp-bold pure-u-1-8'>";
+			$ReturnString .= $Customers_Label . ":";
+			$ReturnString .= "</div>";
+			$ReturnString .= "<div id='ewd-otp-order-notes' class='ewd-otp-order-content pure-u-7-8'>";
+			$ReturnString .= "<div class='ewd-otp-bottom-align'>" . stripslashes_deep($Order->Order_Customer_Notes) . "</div>";
+			$ReturnString .= "</div>";
+		}
+
 		$Sql = "SELECT * FROM $EWD_OTP_fields_table_name";
 		$Custom_Fields = $wpdb->get_results($Sql);
 		foreach ($Custom_Fields as $Custom_Field) {
@@ -113,9 +124,28 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '')
 					else {$ReturnString .= $Status->Order_Status_Created;}
 					$ReturnString .= "</div>";
 				}
-				if (in_array("Order_Status", $Order_Information) and in_array("Order_Updated", $Order_Information)) {$ReturnString .= "<div class='pure-u-3-5'></div>";}
-				else {$ReturnString .= "<div class='pure-u-4-5'></div>";}
+				if (in_array("Order_Status", $Order_Information) and in_array("Order_Updated", $Order_Information)) {$ReturnString .= "<div class='pure-u-3-5'></div>\n";}
+				else {$ReturnString .= "<div class='pure-u-4-5'></div>\n";}
 			}
+		}
+		if (in_array("Customer_Notes", $Order_Information)) {
+			if (array_key_exists("Customer Notes", $Fields)) {$Customers_Label = $Fields['Order Status'];}
+			else {$Customers_Label = __("Customer Notes", 'EWD_OTP');}
+			$ReturnString .= "<div id='ewd-otp-customer-notes' class='ewd-otp-status-message pure-u-1 mt-12 mb-6 ewd-otp-bold'>";
+			$ReturnString .= $Customers_Label . ": ";
+			$ReturnString .= "</div>";
+			$ReturnString .= "<div id='ewd-otp-customer-notes' class='ewd-otp-status-message pure-u-1-5 mb-6 ewd-otp-bold'>";
+			$ReturnString .= __("Note:", "EWD_OTP");
+			$ReturnString .= "</div>";
+			$ReturnString .= "<div id='ewd-otp-customer-notes' class='ewd-otp-status-message pure-u-4-5 mb-6'>"; 
+			$ReturnString .= "<form action='#' method='post' class='pure-form pure-form-aligned'>";
+			$ReturnString .= "<input type='hidden' name='CN_Order_Number' value='" . $TrackingNumber . "' />";
+			$ReturnString .= "<input type='hidden' name='Tracking_Number' value='" . $TrackingNumber . "' />";
+			if ($Email != "") {$ReturnString .= "<input type='hidden' name='Order_Email' value='" . $Email . "' />";}
+			$ReturnString .= "<textarea name='Customer_Notes'>" . $Order->Order_Customer_Notes . "</textarea>";
+			$ReturnString .= "<input type='submit' name='Notes_Submit' value='" . $notes_submit . "' />";
+			$ReturnString .= "</form>";
+			$ReturnString .= "</div>";
 		}
 	}
 	return $ReturnString;
