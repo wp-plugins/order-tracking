@@ -3,7 +3,7 @@ Contributors: Rustaurius, EtoileWebDesign
 Donate Link: http://www.etoilewebdesign.com/plugin-donations/
 Tags: order tracking, order tracking system, purchase orders, order processing, order management, inventory management, deliveries, order status, customer orders, customer support, ticket tracking, support tickets, support ticket, tickets, client, customer, helpdesk, support software, help desk, help desk software
 Requires at least: 3.5.0
-Tested up to: 4.1
+Tested up to: 4.2
 License: GPLv3
 License URI:http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -154,6 +154,9 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.0.24 =
+- Fixed a potential problem with Customer email validation
+
 = 2.0.23 =
 - Added "Customer Notes" feature, to get information from visitors about an order
 - Added the ability to add more than 1 e-mail address for an order
