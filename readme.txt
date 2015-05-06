@@ -34,8 +34,10 @@ Simply insert the ‘order-tracking’ shortcode into any page, and the tracking
 = Premium Features =
 
 * Custom fields
+* WooCommerce integration
 * Import and export orders to Excel
 * Assign orders to customers and sales reps
+* Let sales reps manage only their orders
 * Automatically send an email to a customer whenever an order is created or updated 
 
 Click here to find out more and to purchase the premium version:
@@ -154,6 +156,9 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.1.1 =
+- Commented out the debugging lines in the Main.php file
+
 = 2.1 = 
 - Added the ability to automatically import WooCommerce orders
 - Added the ability to assign a WordPress user to a sales rep, so that the sales rep can only track their orders
