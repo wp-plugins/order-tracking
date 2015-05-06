@@ -7,7 +7,7 @@ Author: Étoile Web Design
 Author URI: http://www.EtoileWebDesign.com/order-tracking/
 Terms and Conditions: http://www.etoilewebdesign.com/plugin-terms-and-conditions/
 Text Domain: EWD_OTP
-Version: 2.0.23
+Version: 2.1
 */
 
 global $EWD_OTP_db_version;
@@ -15,19 +15,20 @@ global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name, $EWD_OTP_
 global $wpdb;
 global $ewd_otp_message;
 global $EWD_OTP_Full_Version;
+global $Sales_Rep_Only;
 $EWD_OTP_orders_table_name = $wpdb->prefix . "EWD_OTP_Orders";
 $EWD_OTP_order_statuses_table_name = $wpdb->prefix . "EWD_OTP_Order_Statuses";
 $EWD_OTP_sales_reps = $wpdb->prefix . "EWD_OTP_Sales_Reps";
 $EWD_OTP_customers = $wpdb->prefix . "EWD_OTP_Customers";
 $EWD_OTP_fields_table_name = $wpdb->prefix . "EWD_OTP_Custom_Fields";
 $EWD_OTP_fields_meta_table_name = $wpdb->prefix . "EWD_OTP_Fields_Meta";
-$EWD_OTP_db_version = "2.0.23";
+$EWD_OTP_db_version = "2.1";
 
 define( 'EWD_OTP_CD_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'EWD_OTP_CD_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
-/*define('WP_DEBUG', true);
-$wpdb->show_errors();*/
+define('WP_DEBUG', true);
+$wpdb->show_errors();
 
 /* When plugin is activated */
 register_activation_hook(__FILE__,'Install_EWD_OTP');
@@ -38,7 +39,8 @@ register_deactivation_hook( __FILE__, 'Remove_EWD_OTP' );
 
 /* Creates the admin menu for the contests plugin */
 if ( is_admin() ){
-	  add_action('admin_menu', 'EWD_OTP_Plugin_Menu');
+		add_action('admin_menu', 'EWD_OTP_Plugin_Menu');
+		add_action('admin_menu', 'EWD_OTP_Sales_Rep_Menu');
 		add_action('admin_head', 'EWD_OTP_Admin_Options');
 		add_action('admin_init', 'Add_EWD_OTP_Scripts');
 		add_action('widgets_init', 'Update_EWD_OTP_Content');
@@ -65,6 +67,16 @@ function EWD_OTP_Plugin_Menu() {
 
 	if ($Access_Role == "") {$Access_Role = "administrator";}
 	add_menu_page('Order Tracking Plugin', 'Order Tracking', $Access_Role, 'EWD-OTP-options', 'EWD_OTP_Output_Options',null , '50.8');
+}
+
+function EWD_OTP_Sales_Rep_Menu() {
+	global $wpdb, $EWD_OTP_sales_reps;
+
+	$Current_User = wp_get_current_user();
+	$Sql = "SELECT Sales_Rep_ID FROM $EWD_OTP_sales_reps WHERE Sales_Rep_WP_ID='" . $Current_User->ID . "'";
+	$Sales_Rep_ID = $wpdb->get_var($Sql);
+
+	if ($Sales_Rep_ID != "") {add_menu_page('Order Tracking Plugin', 'Order Tracking', 'read', 'EWD-OTP-options', 'EWD_OTP_Output_Sales_Rep_Options', null, '50.8');}
 }
 
 /* Add localization support */
@@ -142,6 +154,7 @@ include "Functions/Error_Notices.php";
 include "Functions/EWD_OTP_Export_To_Excel.php";
 include "Functions/EWD_OTP_Output_Options.php";
 include "Functions/EWD_OTP_Return_Results.php";
+include "Functions/EWD_OTP_Woo_Commerce_Integration.php";
 include "Functions/FrontEndAjaxUrl.php";
 include "Functions/Full_Upgrade.php";
 include "Functions/Install_EWD_OTP.php";
@@ -160,5 +173,6 @@ include "Shortcodes/InsertTrackingForm.php";
 if (get_option('EWD_OTP_db_version') != $EWD_OTP_db_version) {
 	Update_EWD_OTP_Tables();
 }
+
 
 ?>

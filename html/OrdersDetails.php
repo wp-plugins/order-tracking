@@ -3,6 +3,12 @@ $StatusString = get_option("EWD_OTP_Statuses");
 $Order = $wpdb->get_row($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_ID='%d'", $_GET['Order_ID']));
 $Customers = $wpdb->get_results("SELECT * FROM $EWD_OTP_customers");
 $Sales_Reps = $wpdb->get_results("SELECT * FROM $EWD_OTP_sales_reps");
+
+if ($Sales_Rep_Only == "Yes") {
+	$Current_User = wp_get_current_user();
+	$Sql = "SELECT Sales_Rep_ID FROM $EWD_OTP_sales_reps WHERE Sales_Rep_WP_ID='" . $Current_User->ID . "'";
+	$Sales_Rep_ID = $wpdb->get_var($Sql);
+}
 ?>
 
 <div id="col-left">
@@ -51,6 +57,12 @@ $Sales_Reps = $wpdb->get_results("SELECT * FROM $EWD_OTP_sales_reps");
 		</select>
 		<p><?php _e("The customer that this order is associated with.", 'EWD_OTP') ?></p>
 </div>
+<?php 
+	if ($Sales_Rep_Only == "Yes") {
+		echo "<input type='hidden' name='Sales_Rep_ID' value='" . $Sales_Rep_ID . "' />";
+	}
+	else {
+?>
 <div>
 		<label for="Sales_Rep_ID"><?php _e("Sales Rep", 'EWD_OTP') ?></label>
 		<select name="Sales_Rep_ID" id="Sales_Rep_ID" />
@@ -61,6 +73,7 @@ $Sales_Reps = $wpdb->get_results("SELECT * FROM $EWD_OTP_sales_reps");
 		</select>
 		<p><?php _e("The sales rep that this order is associated with.", 'EWD_OTP') ?></p>
 </div>
+<?php } ?>
 <div class="form-field">
 	<label for="Order_Notes_Public"><?php _e("Public Order Notes", 'EWD_OTP') ?></label>
 	<input type='text' name="Order_Notes_Public" id="Order_Notes_Public" value="<?php echo stripslashes($Order->Order_Notes_Public); ?>" />

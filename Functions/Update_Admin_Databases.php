@@ -2,7 +2,7 @@
 /* The file contains all of the functions which make changes to the OTP tables */
 
 /* Adds a single new order to the OTP database */
-function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID) {
+function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $WooCommerce_ID = 0) {
 	global $wpdb;
 	global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name, $EWD_OTP_fields_table_name, $EWD_OTP_fields_meta_table_name;
 		
@@ -16,6 +16,7 @@ function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Stat
 			'Order_Display' => $Order_Display,
 			'Customer_ID' => $Customer_ID,
 			'Sales_Rep_ID' => $Sales_Rep_ID,
+			'WooCommerce_ID' => $WooCommerce_ID,
 			'Order_Status_Updated' => $Order_Status_Updated)
 	);
 		
@@ -93,10 +94,11 @@ function Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email,
 	);
 					 
 	// Delete the custom field values for the given Item_ID
-	$wpdb->delete(
-		$EWD_OTP_fields_meta_table_name,
-		array('Order_ID' => $Order_ID)
-	);
+	$File_Fields = $wpdb->get_results("SELECT Field_ID FROM $EWD_OTP_fields_table_name WHERE Field_Type='file'");
+	foreach ($File_Fields as $File_Field) {$File_Field_IDs .= $File_Field->Field_ID . ",";}
+	$Sql = "DELETE FROM $EWD_OTP_fields_meta_table_name WHERE Item_ID='" . $Order_ID . "'";
+	if (strlen($File_Field_IDs) > 0) {$Sql .= " AND Field_ID NOT IN (" . substr($File_Field_IDs, 0, -1) . ")";}
+	$wpdb->query($Sql);
 		
 	//Add the custom fields to the meta table
 	$Fields = $wpdb->get_results("SELECT Field_ID, Field_Name, Field_Values, Field_Type FROM $EWD_OTP_fields_table_name");
@@ -106,10 +108,14 @@ function Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email,
 			if (isset($_POST[$FieldName]) or isset($_FILES[$FieldName])) {
 				// If it's a file, pass back to Prepare_Data_For_Insertion.php to upload the file and get the name
 				if ($Field->Field_Type == "file") {
-					$File_Upload_Return = EWD_OTP_Handle_File_Upload($FieldName);
-					if ($File_Upload_Return['Success'] == "No") {return $File_Upload_Return['Data'];}
-					elseif ($File_Upload_Return['Success'] == "N/A") {$NoFile = "Yes";}
-					else {$Value = $File_Upload_Return['Data'];}
+					if ($_FILES[$FieldName]['name'] != "") {
+						$wpdb->delete($EWD_OTP_fields_meta_table_name, array('Order_ID' => $Order_ID, 'Field_ID' => $Field->Field_ID));
+						$File_Upload_Return = EWD_OTP_Handle_File_Upload($FieldName);
+						if ($File_Upload_Return['Success'] == "No") {return $File_Upload_Return['Data'];}
+						elseif ($File_Upload_Return['Success'] == "N/A") {$NoFile = "Yes";}
+						else {$Value = $File_Upload_Return['Data'];}
+					}
+					else {$NoFile = "Yes";}
 				}
 				else {
 					$Value = trim($_POST[$FieldName]);
@@ -449,13 +455,14 @@ function Delete_EWD_OTP_Custom_Field($Field_ID) {
 	return $update;
 }
 
-function Add_EWD_OTP_Sales_Rep($Sales_Rep_First_Name, $Sales_Rep_Last_Name, $Sales_Rep_Created) {
+function Add_EWD_OTP_Sales_Rep($Sales_Rep_First_Name, $Sales_Rep_Last_Name, $Sales_Rep_WP_ID, $Sales_Rep_Created) {
 	global $wpdb;
 	global $EWD_OTP_sales_reps;
 		
 	$wpdb->insert( $EWD_OTP_sales_reps, 
 		array( 'Sales_Rep_First_Name' => $Sales_Rep_First_Name,
 			'Sales_Rep_Last_Name' => $Sales_Rep_Last_Name,
+			'Sales_Rep_WP_ID' => $Sales_Rep_WP_ID,
 			'Sales_Rep_Created' => $Sales_Rep_Created)
 	);
 		
@@ -464,13 +471,14 @@ function Add_EWD_OTP_Sales_Rep($Sales_Rep_First_Name, $Sales_Rep_Last_Name, $Sal
 }
 
 /* Edits a single order with a given ID in the OTP database */
-function Edit_EWD_OTP_Sales_Rep($Sales_Rep_ID, $Sales_Rep_First_Name, $Sales_Rep_Last_Name) {
+function Edit_EWD_OTP_Sales_Rep($Sales_Rep_ID, $Sales_Rep_First_Name, $Sales_Rep_Last_Name, $Sales_Rep_WP_ID) {
 	global $wpdb;
 	global $EWD_OTP_sales_reps;
 		
 	$wpdb->update( $EWD_OTP_sales_reps, 
 		array( 'Sales_Rep_First_Name' => $Sales_Rep_First_Name,
-			'Sales_Rep_Last_Name' => $Sales_Rep_Last_Name),
+			'Sales_Rep_Last_Name' => $Sales_Rep_Last_Name,
+			'Sales_Rep_WP_ID' => $Sales_Rep_WP_ID),
 		array( 'Sales_Rep_ID' => $Sales_Rep_ID)
 	); 
 		
@@ -491,12 +499,13 @@ function Delete_EWD_OTP_Sales_Rep($Sales_Rep_ID) {
 	return $update;
 }
 
-function Add_EWD_OTP_Customer($Customer_Name, $Sales_Rep_ID, $Customer_Created) {
+function Add_EWD_OTP_Customer($Customer_Name, $Customer_Email, $Sales_Rep_ID, $Customer_Created) {
 	global $wpdb;
 	global $EWD_OTP_customers;
 		
 	$wpdb->insert( $EWD_OTP_customers, 
 		array( 'Customer_Name' => $Customer_Name,
+			'Customer_Email' => $Customer_Email,
 			'Sales_Rep_ID' => $Sales_Rep_ID,
 			'Customer_Created' => $Customer_Created)
 	);
@@ -506,12 +515,13 @@ function Add_EWD_OTP_Customer($Customer_Name, $Sales_Rep_ID, $Customer_Created) 
 }
 
 /* Edits a single order with a given ID in the OTP database */
-function Edit_EWD_OTP_Customer($Customer_ID, $Customer_Name, $Sales_Rep_ID) {
+function Edit_EWD_OTP_Customer($Customer_ID, $Customer_Name, $Customer_Email, $Sales_Rep_ID) {
 	global $wpdb;
 	global $EWD_OTP_customers;
 		
 	$wpdb->update( $EWD_OTP_customers, 
 		array( 'Customer_Name' => $Customer_Name,
+			'Customer_Email' => $Customer_Email,
 			'Sales_Rep_ID' => $Sales_Rep_ID),
 		array( 'Customer_ID' => $Customer_ID)
 	); 
@@ -547,6 +557,8 @@ function Update_EWD_OTP_Customer_Note($Tracking_Number, $Note) {
 }
 
 function Update_EWD_OTP_Options() {
+	global $EWD_OTP_Full_Version;
+
 	$Custom_CSS = $_POST['custom_css'];
 	$AJAX_Reload = $_POST['ajax_reload'];
 	$New_Window = $_POST['new_window'];
@@ -558,6 +570,7 @@ function Update_EWD_OTP_Options() {
 	$Timezone = $_POST['timezone'];
 	$Localize_Date_Time = $_POST['localize_date_time'];
 	$Access_Role = $_POST['access_role'];
+	$WooCommerce_Integration = $_POST['woocommerce_integration'];
 		
 	$Custom_CSS = stripslashes_deep($Custom_CSS);
 	$AJAX_Reload = stripslashes_deep($AJAX_Reload);
@@ -580,6 +593,7 @@ function Update_EWD_OTP_Options() {
 	update_option('EWD_OTP_Localize_Date_Time', $Localize_Date_Time);
 
 	if ($EWD_OTP_Full_Version == "Yes") {update_option('EWD_OTP_Access_Role', $Access_Role);}
+	if ($EWD_OTP_Full_Version == "Yes") {update_option('EWD_OTP_WooCommerce_Integration', $WooCommerce_Integration);}
 }
 
 function Update_EWD_OTP_Email_Settings() {

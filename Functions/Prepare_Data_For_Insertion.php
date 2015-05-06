@@ -41,7 +41,7 @@ function Add_Edit_EWD_OTP_Order() {
 
 function EWD_OTP_Save_Customer_Note() {
 	$Tracking_Number = $_POST['CN_Order_Number'];
-	$Note = stripslashes_deep($_POST['Customer_Notes']);
+	$Note = sanitize_text_field(stripslashes_deep($_POST['Customer_Notes']));
 
 	$user_update = Update_EWD_OTP_Customer_Note($Tracking_Number, $Note);
 
@@ -54,16 +54,17 @@ function Add_Edit_EWD_OTP_Sales_Rep() {
 		$Sales_Rep_ID = $_POST['Sales_Rep_ID'];
 		$Sales_Rep_First_Name = $_POST['Sales_Rep_First_Name'];
 		$Sales_Rep_Last_Name = $_POST['Sales_Rep_Last_Name'];
+		$Sales_Rep_WP_ID = $_POST['Sales_Rep_WP_ID'];
 		$Sales_Rep_Created = date("Y-m-d H:i:s"); 
 
 		if (!isset($error)) {
 				// Pass the data to the appropriate function in Update_Admin_Databases.php to create the product 
 				if ($_POST['action'] == "Add_Sales_Rep") {
-					  $user_update = Add_EWD_OTP_Sales_Rep($Sales_Rep_First_Name, $Sales_Rep_Last_Name, $Sales_Rep_Created);
+					  $user_update = Add_EWD_OTP_Sales_Rep($Sales_Rep_First_Name, $Sales_Rep_Last_Name, $Sales_Rep_WP_ID, $Sales_Rep_Created);
 				}
 				// Pass the data to the appropriate function in Update_Admin_Databases.php to edit the product 
 				else {
-						$user_update = Edit_EWD_OTP_Sales_Rep($Sales_Rep_ID, $Sales_Rep_First_Name, $Sales_Rep_Last_Name);
+						$user_update = Edit_EWD_OTP_Sales_Rep($Sales_Rep_ID, $Sales_Rep_First_Name, $Sales_Rep_Last_Name, $Sales_Rep_WP_ID);
 				}
 				$user_update = array("Message_Type" => "Update", "Message" => $user_update);
 				return $user_update;
@@ -80,17 +81,18 @@ function Add_Edit_EWD_OTP_Customer() {
 
 		$Customer_ID = $_POST['Customer_ID'];
 		$Customer_Name = $_POST['Customer_Name'];
+		$Customer_Email = $_POST['Customer_Email'];
 		$Sales_Rep_ID = $_POST['Sales_Rep_ID'];
 		$Customer_Created = date("Y-m-d H:i:s"); 
 
 		if (!isset($error)) {
 				// Pass the data to the appropriate function in Update_Admin_Databases.php to create the product 
 				if ($_POST['action'] == "Add_Customer") {
-					  $user_update = Add_EWD_OTP_Customer($Customer_Name, $Sales_Rep_ID, $Customer_Created);
+					  $user_update = Add_EWD_OTP_Customer($Customer_Name, $Customer_Email, $Sales_Rep_ID, $Customer_Created);
 				}
 				// Pass the data to the appropriate function in Update_Admin_Databases.php to edit the product 
 				else {
-						$user_update = Edit_EWD_OTP_Customer($Customer_ID, $Customer_Name, $Sales_Rep_ID);
+						$user_update = Edit_EWD_OTP_Customer($Customer_ID, $Customer_Name, $Customer_Email, $Sales_Rep_ID);
 				}
 				$user_update = array("Message_Type" => "Update", "Message" => $user_update);
 				return $user_update;

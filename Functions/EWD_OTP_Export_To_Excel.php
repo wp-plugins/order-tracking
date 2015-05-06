@@ -55,11 +55,20 @@ function EWD_OTP_Export_To_Excel() {
 
 
 		// Redirect output to a client’s web browser (Excel5) 
-		header('Content-Type: application/vnd.ms-excel'); 
-		header('Content-Disposition: attachment;filename="Order_Export.xls"'); 
-		header('Cache-Control: max-age=0'); 
-		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5'); 
-		$objWriter->save('php://output');
+		if ($Format_Type == "CSV") {
+			header('Content-Type: application/vnd.ms-excel'); 
+			header('Content-Disposition: attachment;filename="Order_Export.csv"'); 
+			header('Cache-Control: max-age=0'); 
+			$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'CSV');
+			$objWriter->save('php://output');
+		}
+		else {
+			header('Content-Type: application/vnd.ms-excel'); 
+			header('Content-Disposition: attachment;filename="Order_Export.xls"'); 
+			header('Cache-Control: max-age=0'); 
+			$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5'); 
+			$objWriter->save('php://output');
+		}
 
 }
 ?>

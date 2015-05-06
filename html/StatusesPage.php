@@ -51,6 +51,6 @@ foreach ($Statuses as $key => $Status) { ?>
 </div>
 
 
-<p class="submit"><input type="submit" name="Statuses_Submit" id="submit" class="button button-primary" value="Save Changes"  /></p></form>
+<p class="submit"><input type="submit" name="Statuses_Submit" id="submit" class="button button-primary" value="Add Status"  /></p></form>
 
 </div>

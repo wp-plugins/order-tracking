@@ -10,6 +10,7 @@
 	$Localize_Date_Time = get_option("EWD_OTP_Localize_Date_Time");
 	$Order_Email = get_option("EWD_OTP_Order_Email");
 	$Access_Role = get_option("EWD_OTP_Access_Role");
+	$WooCommerce_Integration = get_option("EWD_OTP_WooCommerce_Integration");
 
 ?>
 <div class="wrap">
@@ -168,6 +169,7 @@
 		<option value="North_American" <?php if($Localize_Date_Time == "North_American") {echo " selected=selected";} ?>>North American (YY-DD-MM)</option>
     <option value="European" <?php if($Localize_Date_Time == "European") {echo " selected=selected";} ?> >European (DD-MM-YY)</option>
 	</select>
+	</fieldset>
 </td>
 </tr>
 <tr>
@@ -228,6 +230,16 @@
 		<option value="read"<?php if($Access_Role == "read") {echo " selected=selected";} ?>>Subscriber</option>
 	</select>
 	<p>How often should e-mails be sent to customers about the status of their orders?</p>
+	</fieldset>
+</td>
+</tr>
+<tr>
+<th scope="row">WooCommerce Integration</th>
+<td>
+	<fieldset><legend class="screen-reader-text"><span>WooCommerce Integration</span></legend>
+	<label title='Yes'><input type='radio' name='woocommerce_integration' value='Yes' <?php if($WooCommerce_Integration == "Yes") {echo "checked='checked'";} ?> <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/> <span>Yes</span></label><br />
+	<label title='No'><input type='radio' name='woocommerce_integration' value='No' <?php if($WooCommerce_Integration == "No") {echo "checked='checked'";} ?> <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/> <span>No</span></label><br />
+	<p>Should WooCommerce orders be automatically created inside of the Order Tracking plugin? (Only works for new orders)</p>
 	</fieldset>
 </td>
 </tr>

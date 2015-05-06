@@ -9,7 +9,7 @@
 				<h3>Edit <?php echo $SalesRep->Sales_Rep_First_Name . " " . $SalesRep->Sales_Rep_Last_Name; ?></h3>
 				<form id="addtag" method="post" action="admin.php?page=EWD-OTP-options&Action=EWD_OTP_EditSalesRep&DisplayPage=SalesReps" class="validate" enctype="multipart/form-data">
 				<input type="hidden" name="action" value="Edit_Sales_Rep" />
-				<input type="hidden" name="Sales_Rep_ID" value="<?php echo $SalesReps->Sales_Reps_ID; ?>" />
+				<input type="hidden" name="Sales_Rep_ID" value="<?php echo $SalesRep->Sales_Rep_ID; ?>" />
 				<?php wp_nonce_field(); ?>
 				<?php wp_referer_field(); ?>
 				<div class="form-field">
@@ -21,6 +21,22 @@
 						<label for="Sales_Rep_Last_Name"><?php _e("Last Name", 'EWD_OTP') ?></label>
 						<input name="Sales_Rep_Last_Name" id="Sales_Rep_Last_Name" type="text" value="<?php echo $SalesRep->Sales_Rep_Last_Name;?>" size="60" />
 						<p><?php _e("The last name of the sales rep.", 'EWD_OTP') ?></p>
+				</div>
+				<div class="form-field">
+					<label for="Sales_Rep_WP_ID"><?php _e("Sales Rep WP Username:", 'EWD_OTP') ?></label>
+					<select name="Sales_Rep_WP_ID" id="Sales_Rep_WP_ID">
+					<option value=""></option>
+					<?php 
+						$Blog_ID = get_current_blog_id();
+						$Users = get_users( 'blog_id=' . $Blog_ID ); 
+						foreach ($Users as $User) {
+							echo "<option value='" . $User->ID . "' ";
+							if ($User->ID == $SalesRep->Sales_Rep_WP_ID) {echo "selected='selected'";}
+							echo " >" . $User->display_name . "</option>";
+						} 
+					?>
+					</select>
+					<p><?php _e("What WordPress user should be able to update the orders assigned to this Sales Rep?", 'EWD_OTP') ?></p>
 				</div>
 
 				<p class="submit"><input type="submit" name="submit" id="submit" class="button-primary" value="<?php _e('Save Changes', 'EWD_OTP') ?>" /></p>

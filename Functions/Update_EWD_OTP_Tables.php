@@ -17,6 +17,7 @@ function Update_EWD_OTP_Tables() {
 		Order_Email text DEFAULT '' NOT NULL,
 		Sales_Rep_ID mediumint(9) DEFAULT 0 NOT NULL,
 		Customer_ID mediumint(9) DEFAULT 0 NOT NULL,
+		WooCommerce_ID mediumint(9) DEFAULT 0 NOT NULL,
 		Order_Status_Updated datetime DEFAULT '0000-00-00 00:00:00' NULL,
 		Order_Display text DEFAULT '' NOT NULL,
   	UNIQUE KEY id (Order_ID)
@@ -42,6 +43,7 @@ function Update_EWD_OTP_Tables() {
   	Sales_Rep_ID mediumint(9) NOT NULL AUTO_INCREMENT,
 		Sales_Rep_First_Name text DEFAULT '' NOT NULL,
 		Sales_Rep_Last_Name text DEFAULT '' NOT NULL,
+		Sales_Rep_WP_ID mediumint(9) DEFAULT 0 NOT NULL,
 		Sales_Rep_Created datetime DEFAULT '0000-00-00 00:00:00' NULL,
   	UNIQUE KEY id (Sales_Rep_ID)
     )
@@ -54,6 +56,7 @@ function Update_EWD_OTP_Tables() {
   	Customer_ID mediumint(9) NOT NULL AUTO_INCREMENT,
 		Customer_Name text DEFAULT '' NOT NULL,
 		Sales_Rep_ID mediumint(9) DEFAULT 0 NOT NULL,
+		Customer_Email text DEFAULT '' NOT NULL,
 		Customer_Created datetime DEFAULT '0000-00-00 00:00:00' NULL,
   	UNIQUE KEY id (Customer_ID)
     )
@@ -105,6 +108,7 @@ function Update_EWD_OTP_Tables() {
 	if (get_option("EWD_OTP_Form_Instructions") == "") {update_option("EWD_OTP_Form_Instructions", "Enter the order number you would like to track in the form below.");}
 	if (get_option("EWD_OTP_Timezone") == "") {update_option("EWD_OTP_Timezone", "Europe/London");}
 	if (get_option("EWD_OTP_Access_Role") == "") {update_option("EWD_OTP_Access_Role", "administrator");}
+	if (get_option("EWD_OTP_WooCommerce_Integration") == "") {update_option("EWD_OTP_WooCommerce_Integration", "No");}
 
 	if (get_option("EWD_OTP_Customer_Confirmation") == "") {update_option("EWD_OTP_Customer_Confirmation", "None");}
 	if (get_option("EWD_OTP_Sales_Rep_Confirmation") == "") {update_option("EWD_OTP_Sales_Rep_Confirmation", "None");}

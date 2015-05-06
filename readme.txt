@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: Rustaurius, EtoileWebDesign
 Donate Link: http://www.etoilewebdesign.com/plugin-donations/
-Tags: order tracking, order tracking system, purchase orders, order processing, order management, inventory management, deliveries, order status, customer orders, customer support, ticket tracking, support tickets, support ticket, tickets, client, customer, helpdesk, support software, help desk, help desk software
+Tags: order tracking, order tracking system, purchase orders, order processing, order management, inventory management, deliveries, order status, customer orders, customer support, ticket tracking, support tickets, support ticket, tickets, client, customer, helpdesk, support software, help desk, help desk software, WooCommerce
 Requires at least: 3.5.0
 Tested up to: 4.2
 License: GPLv3
@@ -154,6 +154,11 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.1 = 
+- Added the ability to automatically import WooCommerce orders
+- Added the ability to assign a WordPress user to a sales rep, so that the sales rep can only track their orders
+- Fixed an access role bug
+
 = 2.0.24 =
 - Fixed a potential problem with Customer email validation
 

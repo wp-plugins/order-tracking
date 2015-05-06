@@ -162,6 +162,11 @@
 	<p><?php _e("The name of the customer.", 'EWD_OTP') ?></p>
 </div>
 <div class="form-field form-required">
+	<label for="Customer_Email"><?php _e("Customer Email", 'EWD_OTP') ?></label>
+	<input name="Customer_Email" id="Customer_Email" type="text" value="" size="60" />
+	<p><?php _e("The email address of the customer.", 'EWD_OTP') ?></p>
+</div>
+<div class="form-field form-required">
 	<label for="Sales_Rep_ID"><?php _e("Sales Rep ID", 'EWD_OTP') ?></label>
 	<input name="Sales_Rep_ID" id="Sales_Rep_ID" type="text" value="" size="60" />
 	<p><?php _e("The sales rep's ID for this customer.", 'EWD_OTP') ?></p>

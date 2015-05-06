@@ -179,7 +179,22 @@
 	<input name="Sales_Rep_Last_Name" id="Sales_Rep_Last_Name" type="text" value="" size="60" />
 	<p><?php _e("The last name of the sales rep.", 'EWD_OTP') ?></p>
 </div>
-
+<div class="form-field">
+	<label for="Sales_Rep_WP_ID"><?php _e("Sales Rep WP Username:", 'EWD_OTP') ?></label>
+	<select name="Sales_Rep_WP_ID" id="Sales_Rep_WP_ID">
+	<option value=""></option>
+	<?php 
+		$Blog_ID = get_current_blog_id();
+		$Users = get_users( 'blog_id=' . $Blog_ID ); 
+		foreach ($Users as $User) {
+			echo "<option value='" . $User->ID . "' ";
+			if ($User->ID == $Sales_Rep->Sales_Rep_WP_ID) {echo "selected='selected'";}
+			echo " >" . $User->display_name . "</option>";
+		} 
+	?>
+	</select>
+	<p><?php _e("What WordPress user should be able to update the orders assigned to this Sales Rep?", 'EWD_OTP') ?></p>
+</div>
 <p class="submit"><input type="submit" name="submit" id="submit" class="button-primary" value="<?php _e('Add New Sales Rep', 'EWD_OTP') ?>"  /></p></form></div>
 <br class="clear" />
 </div>

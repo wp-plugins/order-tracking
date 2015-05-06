@@ -8,17 +8,24 @@
 <?php 
 			$Customers = $wpdb->get_results("SELECT * FROM $EWD_OTP_customers");
 			$Sales_Reps = $wpdb->get_results("SELECT * FROM $EWD_OTP_sales_reps");
+			if ($Sales_Rep_Only == "Yes") {
+				$Current_User = wp_get_current_user();
+				$Sql = "SELECT Sales_Rep_ID FROM $EWD_OTP_sales_reps WHERE Sales_Rep_WP_ID='" . $Current_User->ID . "'";
+				$Sales_Rep_ID = $wpdb->get_var($Sql);
+			}
 			
 			if (isset($_GET['Page'])) {$Page = $_GET['Page'];}
 			else {$Page = 1;}
 			
 			$Sql = "SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_Display='Yes' ";
 				if (isset($_POST['OrderNumber'])) {$Sql .= "AND Order_Number LIKE '%" . $_POST['OrderNumber'] . "%' ";}
+				if ($Sales_Rep_Only == "Yes") {$Sql .= " AND Sales_Rep_ID='" . $Sales_Rep_ID . "'";}
 				if (isset($_GET['OrderBy']) and $_GET['DisplayPage'] == "Dashboard") {$Sql .= "ORDER BY " . $_GET['OrderBy'] . " " . $_GET['Order'] . " ";}
 				else {$Sql .= "ORDER BY Order_Number ";}
 				$Sql .= "LIMIT " . ($Page - 1)*20 . ",20";
 				$myrows = $wpdb->get_results($Sql);
-				$TotalOrders = $wpdb->get_results("SELECT Order_ID FROM $EWD_OTP_orders_table_name WHERE Order_Display='Yes'");
+				if ($Sales_Rep_Only == "Yes") {$TotalOrders = $wpdb->get_results("SELECT Order_ID FROM $EWD_OTP_orders_table_name WHERE Order_Display='Yes' AND Sales_Rep_ID='" . $Sales_Rep_ID . "'");}
+				else {$TotalOrders = $wpdb->get_results("SELECT Order_ID FROM $EWD_OTP_orders_table_name WHERE Order_Display='Yes'");}
 				$Number_of_Pages = ceil($wpdb->num_rows/20);
 				$Current_Page_With_Order_By = "admin.php?page=EWD-OTP-options&DisplayPage=Dashboard";
 				if (isset($_GET['OrderBy'])) {$Current_Page_With_Order_By .= "&OrderBy=" .$_GET['OrderBy'] . "&Order=" . $_GET['Order'];}?>
@@ -229,6 +236,12 @@
 		</select>
 		<p><?php _e("The customer that this order is associated with.", 'EWD_OTP') ?></p>
 </div>
+<?php 
+	if ($Sales_Rep_Only == "Yes") {
+		echo "<input type='hidden' name='Sales_Rep_ID' value='" . $Sales_Rep_ID . "' />";
+	}
+	else {
+?>
 <div>
 		<label for="Sales_Rep_ID"><?php _e("Sales Rep", 'EWD_OTP') ?></label>
 		<select name="Sales_Rep_ID" id="Sales_Rep_ID" />
@@ -239,6 +252,7 @@
 		</select>
 		<p><?php _e("The sales rep that this order is associated with.", 'EWD_OTP') ?></p>
 </div>
+<?php } ?>
 <div>
 		<label for="Order_Notes_Public"><?php _e("Public Order Notes", 'EWD_OTP') ?></label>
 		<input name="Order_Notes_Public" id="Order_Notes_Public" />
