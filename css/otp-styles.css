@@ -36,13 +36,17 @@
 .ewd-otp-empty-display {
   height: 140px;
   width: 600px;
-  background:url("../images/Arrow.png");
 }
 .ewd-otp-full-display {
   height: 140px;
   background:url("../images/Arrow_Full.png");
   margin-top: -140px;
 }
+
+.empty-graphic-Default {background:url("../images/Default.png");}
+.full-graphic-Default {background:url("../images/Default_Full.png");}
+.empty-graphic-Streamlined {background:url("../images/Streamlined.png");}
+.full-graphic-Streamlined {background:url("../images/Streamlined_Full.png");}
 
 .ewd-otp-display-length-0 {width: 110px;}
 .ewd-otp-display-length-1 {width: 145px;}

@@ -571,6 +571,7 @@ function Update_EWD_OTP_Options() {
 	$Localize_Date_Time = $_POST['localize_date_time'];
 	$Access_Role = $_POST['access_role'];
 	$WooCommerce_Integration = $_POST['woocommerce_integration'];
+	$Display_Graphic = $_POST['display_graphic'];
 		
 	$Custom_CSS = stripslashes_deep($Custom_CSS);
 	$AJAX_Reload = stripslashes_deep($AJAX_Reload);
@@ -594,6 +595,7 @@ function Update_EWD_OTP_Options() {
 
 	if ($EWD_OTP_Full_Version == "Yes") {update_option('EWD_OTP_Access_Role', $Access_Role);}
 	if ($EWD_OTP_Full_Version == "Yes") {update_option('EWD_OTP_WooCommerce_Integration', $WooCommerce_Integration);}
+	if ($EWD_OTP_Full_Version == "Yes") {update_option('EWD_OTP_Display_Graphic', $Display_Graphic);}
 }
 
 function Update_EWD_OTP_Email_Settings() {

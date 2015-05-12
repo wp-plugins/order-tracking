@@ -11,6 +11,7 @@
 	$Order_Email = get_option("EWD_OTP_Order_Email");
 	$Access_Role = get_option("EWD_OTP_Access_Role");
 	$WooCommerce_Integration = get_option("EWD_OTP_WooCommerce_Integration");
+	$Display_Graphic = get_option("EWD_OTP_Display_Graphic");
 
 ?>
 <div class="wrap">
@@ -240,6 +241,16 @@
 	<label title='Yes'><input type='radio' name='woocommerce_integration' value='Yes' <?php if($WooCommerce_Integration == "Yes") {echo "checked='checked'";} ?> <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/> <span>Yes</span></label><br />
 	<label title='No'><input type='radio' name='woocommerce_integration' value='No' <?php if($WooCommerce_Integration == "No") {echo "checked='checked'";} ?> <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/> <span>No</span></label><br />
 	<p>Should WooCommerce orders be automatically created inside of the Order Tracking plugin? (Only works for new orders)</p>
+	</fieldset>
+</td>
+</tr>
+<tr>
+<th scope="row">Order Tracking Graphic</th>
+<td>
+	<fieldset><legend class="screen-reader-text"><span>Order Tracking Graphic</span></legend>
+	<label title='Default'><input type='radio' name='display_graphic' value='Default' <?php if($Display_Graphic == "Default") {echo "checked='checked'";} ?> <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/> <span>Default</span></label><br />
+	<label title='Streamlined'><input type='radio' name='display_graphic' value='Streamlined' <?php if($Display_Graphic == "Streamlined") {echo "checked='checked'";} ?> <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/> <span>Streamlined</span></label><br />
+	<p>Which tracking graphic should be displayed, if the graphic is being used for your orders.</p>
 	</fieldset>
 </td>
 </tr>
