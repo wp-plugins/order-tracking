@@ -7,7 +7,7 @@ Author: Étoile Web Design
 Author URI: http://www.EtoileWebDesign.com/order-tracking/
 Terms and Conditions: http://www.etoilewebdesign.com/plugin-terms-and-conditions/
 Text Domain: EWD_OTP
-Version: 2.1.2
+Version: 2.1.3
 */
 
 global $EWD_OTP_db_version;
@@ -22,7 +22,7 @@ $EWD_OTP_sales_reps = $wpdb->prefix . "EWD_OTP_Sales_Reps";
 $EWD_OTP_customers = $wpdb->prefix . "EWD_OTP_Customers";
 $EWD_OTP_fields_table_name = $wpdb->prefix . "EWD_OTP_Custom_Fields";
 $EWD_OTP_fields_meta_table_name = $wpdb->prefix . "EWD_OTP_Fields_Meta";
-$EWD_OTP_db_version = "2.1.2";
+$EWD_OTP_db_version = "2.1.3";
 
 define( 'EWD_OTP_CD_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'EWD_OTP_CD_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -117,13 +117,17 @@ function Add_EWD_OTP_FrontEnd_Scripts() {
 
 add_action( 'wp_enqueue_scripts', 'EWD_OTP_Add_Stylesheet' );
 function EWD_OTP_Add_Stylesheet() {
+    $Mobile_Stylesheet = get_option("EWD_OTP_Mobile_Stylesheet");
+
     wp_register_style( 'ewd-otp-style', plugins_url('css/otp-styles.css', __FILE__) );
+    if ($Mobile_Stylesheet == "Yes") {wp_register_style( 'ewd-otp-style-mobile', plugins_url('css/otp-styles-mobile.css', __FILE__) );}
 	wp_register_style( 'yahoo-pure-buttons', plugins_url('css/pure-buttons.css', __FILE__) );
 	wp_register_style( 'yahoo-pure-forms', plugins_url('css/pure-forms.css', __FILE__) );
 	wp_register_style( 'yahoo-pure-forms-nr', plugins_url('css/pure-forms-nr.css', __FILE__) );
 	wp_register_style( 'yahoo-pure-grids', plugins_url('css/pure-grids.css', __FILE__) );
 	wp_register_style( 'yahoo-pure-grids-nr', plugins_url('css/pure-grids-nr.css', __FILE__) );
     wp_enqueue_style( 'ewd-otp-style' );
+    if ($Mobile_Stylesheet == "Yes") {wp_enqueue_style( 'ewd-otp-style-mobile' );}
 	wp_enqueue_style( 'yahoo-pure-buttons' );
 	wp_enqueue_style( 'yahoo-pure-forms' );
 	wp_enqueue_style( 'yahoo-pure-forms-nr' );

@@ -156,6 +156,10 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.1.3 =
+- Added in a premium mobile stylesheet option
+- Added another premium tracking graphic option
+
 = 2.1.2 =
 - Added in a premium option to change the tracking graphic
 

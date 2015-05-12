@@ -102,6 +102,7 @@ function Install_EWD_OTP() {
 	if (get_option("EWD_OTP_Access_Role") == "") {update_option("EWD_OTP_Access_Role", "administrator");}
 	if (get_option("EWD_OTP_WooCommerce_Integration") == "") {update_option("EWD_OTP_WooCommerce_Integration", "No");}
 	if (get_option("EWD_OTP_Display_Graphic") == "") {update_option("EWD_OTP_Display_Graphic", "Default");}
+	if (get_option("EWD_OTP_Mobile_Stylesheet") == "") {update_option("EWD_OTP_Mobile_Stylesheet", "No");}
 
 	if (get_option("EWD_OTP_Customer_Confirmation") == "") {update_option("EWD_OTP_Customer_Confirmation", "None");}
 	if (get_option("EWD_OTP_Sales_Rep_Confirmation") == "") {update_option("EWD_OTP_Sales_Rep_Confirmation", "None");}

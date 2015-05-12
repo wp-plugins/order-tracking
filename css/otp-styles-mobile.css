@@ -1,0 +1,8 @@
+@media only screen and (max-width: 700px) {
+  .ewd-otp-order-label.pure-u-1-8 {width:50%;}
+  .ewd-otp-order-content.pure-u-7-8 {width:50%;}
+  .ewd-otp-status-message.pure-u-1-5 {width:50%;}
+  .ewd-otp-status-time.pure-u-1-5 {width:50%;}
+  .ewd-otp-blank-space.pure-u-3-5 {width:0px;}
+  .ewd-otp-blank-space.pure-u-4-5 {width:0px;}
+}

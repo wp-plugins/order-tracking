@@ -39,12 +39,15 @@
 }
 .ewd-otp-full-display {
   height: 140px;
-  background:url("../images/Arrow_Full.png");
   margin-top: -140px;
 }
 
 .empty-graphic-Default {background:url("../images/Default.png");}
 .full-graphic-Default {background:url("../images/Default_Full.png");}
+.empty-graphic-Narrow {background:url("../images/Narrow.jpg");}
+.full-graphic-Narrow {background:url("../images/Narrow_Full.jpg");}
+.empty-graphic-Sleek {background:url("../images/Sleek.png");}
+.full-graphic-Sleek {background:url("../images/Sleek_Full.png");}
 .empty-graphic-Streamlined {background:url("../images/Streamlined.png");}
 .full-graphic-Streamlined {background:url("../images/Streamlined_Full.png");}
 

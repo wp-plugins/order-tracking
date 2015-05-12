@@ -108,8 +108,8 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '',
 			$ReturnString .= $Updated_Label;
 			$ReturnString .= "</div>";
 		}
-		if (in_array("Order_Status", $Order_Information) and in_array("Order_Updated", $Order_Information)) {$ReturnString .= "<div class='pure-u-3-5'></div>";}
-		elseif (in_array("Order_Status", $Order_Information) or in_array("Order_Updated", $Order_Information)) {$ReturnString .= "<div class='pure-u-4-5'></div>";}
+		if (in_array("Order_Status", $Order_Information) and in_array("Order_Updated", $Order_Information)) {$ReturnString .= "<div class='ewd-otp-blank-space pure-u-3-5'></div>";}
+		elseif (in_array("Order_Status", $Order_Information) or in_array("Order_Updated", $Order_Information)) {$ReturnString .= "<div class='ewd-otp-blank-space pure-u-4-5'></div>";}
 		else {$ReturnString .= "<div class='pure-u-1'></div>";}
 		if (in_array("Order_Status", $Order_Information) or in_array("Order_Updated", $Order_Information)) {
 			foreach ($Statuses as $Status) {
@@ -124,8 +124,8 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '',
 					else {$ReturnString .= $Status->Order_Status_Created;}
 					$ReturnString .= "</div>";
 				}
-				if (in_array("Order_Status", $Order_Information) and in_array("Order_Updated", $Order_Information)) {$ReturnString .= "<div class='pure-u-3-5'></div>\n";}
-				else {$ReturnString .= "<div class='pure-u-4-5'></div>\n";}
+				if (in_array("Order_Status", $Order_Information) and in_array("Order_Updated", $Order_Information)) {$ReturnString .= "<div class='ewd-otp-blank-space pure-u-3-5'></div>\n";}
+				else {$ReturnString .= "<div class='ewd-otp-blank-space pure-u-4-5'></div>\n";}
 			}
 		}
 		if (in_array("Customer_Notes", $Order_Information)) {

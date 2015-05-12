@@ -12,6 +12,7 @@
 	$Access_Role = get_option("EWD_OTP_Access_Role");
 	$WooCommerce_Integration = get_option("EWD_OTP_WooCommerce_Integration");
 	$Display_Graphic = get_option("EWD_OTP_Display_Graphic");
+	$Mobile_Stylesheet = get_option("EWD_OTP_Mobile_Stylesheet");
 
 ?>
 <div class="wrap">
@@ -250,7 +251,19 @@
 	<fieldset><legend class="screen-reader-text"><span>Order Tracking Graphic</span></legend>
 	<label title='Default'><input type='radio' name='display_graphic' value='Default' <?php if($Display_Graphic == "Default") {echo "checked='checked'";} ?> <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/> <span>Default</span></label><br />
 	<label title='Streamlined'><input type='radio' name='display_graphic' value='Streamlined' <?php if($Display_Graphic == "Streamlined") {echo "checked='checked'";} ?> <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/> <span>Streamlined</span></label><br />
+	<label title='Sleek'><input type='radio' name='display_graphic' value='Sleek' <?php if($Display_Graphic == "Sleek") {echo "checked='checked'";} ?> <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/> <span>Sleek</span></label><br />
+	<!--<label title='Narrow'><input type='radio' name='display_graphic' value='Narrow' <?php if($Display_Graphic == "Narrow") {echo "checked='checked'";} ?> <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/> <span>Narrow</span></label><br />-->
 	<p>Which tracking graphic should be displayed, if the graphic is being used for your orders.</p>
+	</fieldset>
+</td>
+</tr>
+<tr>
+<th scope="row">Mobile Stylesheet</th>
+<td>
+	<fieldset><legend class="screen-reader-text"><span>Mobile Stylesheet</span></legend>
+	<label title='Yes'><input type='radio' name='mobile_stylesheet' value='Yes' <?php if($Mobile_Stylesheet == "Yes") {echo "checked='checked'";} ?> <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/> <span>Yes</span></label><br />
+	<label title='No'><input type='radio' name='mobile_stylesheet' value='No' <?php if($Mobile_Stylesheet == "No") {echo "checked='checked'";} ?> <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/> <span>No</span></label><br />
+	<p>Should the mobile stylesheet for the plugin be included, so that the tracking form better fits mobile device screens?</p>
 	</fieldset>
 </td>
 </tr>
