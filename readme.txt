@@ -156,6 +156,9 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.1.4 =
+- Added the ability to include "Show in Admin Table" in spreadsheet uploads
+
 = 2.1.3 =
 - Added in a premium mobile stylesheet option
 - Added another premium tracking graphic option
