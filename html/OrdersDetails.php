@@ -1,5 +1,6 @@
 <?php 
-$StatusString = get_option("EWD_OTP_Statuses"); 
+$StatusString = get_option("EWD_OTP_Statuses");
+$LocationsString = get_option("EWD_OTP_Locations"); 
 $Order = $wpdb->get_row($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_ID='%d'", $_GET['Order_ID']));
 $Customers = $wpdb->get_results("SELECT * FROM $EWD_OTP_customers");
 $Sales_Reps = $wpdb->get_results("SELECT * FROM $EWD_OTP_sales_reps");
@@ -46,6 +47,16 @@ if ($Sales_Rep_Only == "Yes") {
 		<?php } ?>
 		</select>
 		<p><?php _e("The status that visitors will see if they enter the order number.", 'EWD_OTP') ?></p>
+</div>
+<div>
+		<label for="Order_Location"><?php _e("Order Location", 'EWD_OTP') ?></label>
+		<select name="Order_Location" id="Order_Location" />
+		<?php $Locations = explode(",", $LocationsString);
+			foreach ($Locations as $Location) { ?>
+			<option value='<?php echo $Location; ?>' <?php if ($Order->Order_Location == $Location) {echo "selected='selected'";} ?>><?php echo $Location; ?></option>
+		<?php } ?>
+		</select>
+		<p><?php _e("The location that visitors will see if they enter the order number.", 'EWD_OTP') ?></p>
 </div>
 <div>
 		<label for="Customer_ID"><?php _e("Customer", 'EWD_OTP') ?></label>

@@ -11,6 +11,7 @@ function Install_EWD_OTP() {
 		Order_Name text DEFAULT '' NOT NULL,
 		Order_Number text DEFAULT '' NOT NULL,
 		Order_Status text DEFAULT '' NOT NULL,
+		Order_Location text DEFAULT '' NOT NULL,
 		Order_Notes_Public text DEFAULT '' NOT NULL,
 		Order_Notes_Private text DEFAULT '' NOT NULL,
 		Order_Customer_Notes text DEFAULT '' NOT NULL,
@@ -31,6 +32,7 @@ function Install_EWD_OTP() {
   		Order_Status_ID mediumint(9) NOT NULL AUTO_INCREMENT,
 		Order_ID mediumint(9) DEFAULT 0 NOT NULL,
 		Order_Status text DEFAULT '' NOT NULL,
+		Order_Location text DEFAULT '' NOT NULL,
 		Order_Status_Created datetime DEFAULT '0000-00-00 00:00:00' NULL,
   		UNIQUE KEY id (Order_Status_ID)
     	)

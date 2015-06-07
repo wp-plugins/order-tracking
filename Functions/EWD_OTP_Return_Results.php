@@ -7,6 +7,13 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '',
 	$Email_Confirmation = get_option("EWD_OTP_Email_Confirmation");
 	$Order_Information = explode(",", $Order_Information_String);
 	$Localize_Date_Time = get_option("EWD_OTP_Localize_Date_Time");
+
+	//Calculate how many blank columns are in the status table
+	$Status_Column_Size = 5;
+	if (in_array("Order_Status", $Order_Information)) {$Status_Column_Size--;}
+	if (in_array("Order_Location", $Order_Information)) {$Status_Column_Size--;}
+	if (in_array("Order_Updated", $Order_Information)) {$Status_Column_Size--;}
+
 		
 	if ($Email_Confirmation == "Auto_Entered") {$Email = do_shortcode($Email);}
 		
@@ -19,7 +26,7 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '',
 		}
 	}
 	else {$Order = $wpdb->get_row($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_Number='%s'", $TrackingNumber));}
-	if (isset($Order->Order_ID)) {$Statuses = $wpdb->get_results($wpdb->prepare("SELECT Order_Status, Order_Status_Created FROM $EWD_OTP_order_statuses_table_name WHERE Order_ID='%s' ORDER BY Order_Status_Created ASC", $Order->Order_ID));}
+	if (isset($Order->Order_ID)) {$Statuses = $wpdb->get_results($wpdb->prepare("SELECT Order_Status, Order_Location, Order_Status_Created FROM $EWD_OTP_order_statuses_table_name WHERE Order_ID='%s' ORDER BY Order_Status_Created ASC", $Order->Order_ID));}
 
 	if ($wpdb->num_rows == 0) {
 		$ReturnString .= "<div class='pure-u-1'>";
@@ -101,6 +108,13 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '',
 			$ReturnString .= $Status_Label;
 			$ReturnString .= "</div>";
 		}
+		if (in_array("Order_Location", $Order_Information)) {
+			if (array_key_exists("Order Location", $Fields)) {$Location_Label = $Fields['Order Location'];}
+			else {$Location_Label = __("Order Location", 'EWD_OTP');}
+			$ReturnString .= "<div id='ewd-otp-location-header' class='ewd-otp-status-location pure-u-1-5 mt-12 mb-6 ewd-otp-bold'>";
+			$ReturnString .= $Location_Label;
+			$ReturnString .= "</div>";
+		}
 		if (in_array("Order_Updated", $Order_Information)) {
 			if (array_key_exists("Order Updated", $Fields)) {$Updated_Label = $Fields['Order Updated'];}
 			else {$Updated_Label = __("Order Updated", 'EWD_OTP');}
@@ -108,8 +122,7 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '',
 			$ReturnString .= $Updated_Label;
 			$ReturnString .= "</div>";
 		}
-		if (in_array("Order_Status", $Order_Information) and in_array("Order_Updated", $Order_Information)) {$ReturnString .= "<div class='ewd-otp-blank-space pure-u-3-5'></div>";}
-		elseif (in_array("Order_Status", $Order_Information) or in_array("Order_Updated", $Order_Information)) {$ReturnString .= "<div class='ewd-otp-blank-space pure-u-4-5'></div>";}
+		if ($Status_Column_Size != 5) {$ReturnString .= "<div class='ewd-otp-blank-space pure-u-" . $Status_Column_Size . "-5'></div>";}
 		else {$ReturnString .= "<div class='pure-u-1'></div>";}
 		if (in_array("Order_Status", $Order_Information) or in_array("Order_Updated", $Order_Information)) {
 			foreach ($Statuses as $Status) {
@@ -118,14 +131,18 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '',
 					$ReturnString .= $Status->Order_Status;
 					$ReturnString .= "</div>";
 				}
+				if (in_array("Order_Location", $Order_Information)) {
+					$ReturnString .= "<div class='ewd-otp-status-time pure-u-1-5'>";
+					$ReturnString .= $Status->Order_Location;
+					$ReturnString .= "</div>";
+				}
 				if (in_array("Order_Updated", $Order_Information)) {
 					$ReturnString .= "<div class='ewd-otp-status-time pure-u-1-5'>";
 					if ($Localize_Date_Time == "European") {$ReturnString .= date("d-m-Y H:i:s", strtotime($Status->Order_Status_Created));}
 					else {$ReturnString .= $Status->Order_Status_Created;}
 					$ReturnString .= "</div>";
 				}
-				if (in_array("Order_Status", $Order_Information) and in_array("Order_Updated", $Order_Information)) {$ReturnString .= "<div class='ewd-otp-blank-space pure-u-3-5'></div>\n";}
-				else {$ReturnString .= "<div class='ewd-otp-blank-space pure-u-4-5'></div>\n";}
+				$ReturnString .= "<div class='ewd-otp-blank-space pure-u-" . $Status_Column_Size . "-5'></div>";
 			}
 		}
 		if (in_array("Customer_Notes", $Order_Information)) {

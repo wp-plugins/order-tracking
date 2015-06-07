@@ -2,7 +2,7 @@
 /* The file contains all of the functions which make changes to the OTP tables */
 
 /* Adds a single new order to the OTP database */
-function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $WooCommerce_ID = 0) {
+function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $WooCommerce_ID = 0) {
 	global $wpdb;
 	global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name, $EWD_OTP_fields_table_name, $EWD_OTP_fields_meta_table_name;
 		
@@ -10,6 +10,7 @@ function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Stat
 		array( 'Order_Name' => $Order_Name,
 			'Order_Number' => $Order_Number,
 			'Order_Status' => $Order_Status,
+			'Order_Location' => $Order_Location,
 			'Order_Notes_Public' => $Order_Notes_Public,
 			'Order_Notes_Private' => $Order_Notes_Private,
 			'Order_Email' => $Order_Email,
@@ -25,6 +26,7 @@ function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Stat
 	$wpdb->insert( $EWD_OTP_order_statuses_table_name, 
 		array( 'Order_ID' => $Order_ID,
 			'Order_Status' => $Order_Status,
+			'Order_Location' => $Order_Location,
 			'Order_Status_Created' => $Order_Status_Updated)
 	);
 					 
@@ -70,14 +72,15 @@ function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Stat
 }
 
 /* Edits a single order with a given ID in the OTP database */
-function Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID) {
+function Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID) {
 	global $wpdb;
 	global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name, $EWD_OTP_fields_table_name, $EWD_OTP_fields_meta_table_name;
-		
+	
 	$wpdb->update( $EWD_OTP_orders_table_name, 
 		array( 'Order_Name' => $Order_Name,
 			'Order_Number' => $Order_Number,
 			'Order_Status' => $Order_Status,
+			'Order_Location' => $Order_Location,
 			'Order_Notes_Public' => $Order_Notes_Public,
 			'Order_Notes_Private' => $Order_Notes_Private,
 			'Order_Email' => $Order_Email,
@@ -87,11 +90,17 @@ function Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email,
 			'Order_Status_Updated' => $Order_Status_Updated),
 		array( 'Order_ID' => $Order_ID)
 	);
-	$wpdb->insert( $EWD_OTP_order_statuses_table_name, 
-		array( 'Order_ID' => $Order_ID,
-			'Order_Status' => $Order_Status,
-			'Order_Status_Created' => $Order_Status_Updated)
-	);
+	
+	$Status = $wpdb->get_row($wpdb->prepare("SELECT Order_Status, Order_Location FROM $EWD_OTP_order_statuses_table_name WHERE Order_ID='%d' ORDER BY Order_Status_Created DESC", $Order_ID));
+	if ($Status->Order_Location != $Order_Location or $Status->Order_Status != $Order_Status) {
+		$wpdb->insert( $EWD_OTP_order_statuses_table_name, 
+			array( 'Order_ID' => $Order_ID,
+				'Order_Status' => $Order_Status,
+				'Order_Location' => $Order_Location,
+				'Order_Status_Created' => $Order_Status_Updated)
+		);
+	}
+	
 					 
 	// Delete the custom field values for the given Item_ID
 	$File_Fields = $wpdb->get_results("SELECT Field_ID FROM $EWD_OTP_fields_table_name WHERE Field_Type='file'");
@@ -151,12 +160,14 @@ function Update_EWD_OTP_Order_Status($Order_ID, $Order_Status, $Order_Status_Upd
 		
 	$wpdb->update( $EWD_OTP_orders_table_name, 
 		array( 'Order_Status' => $Order_Status,
+			'Order_Location' => $Order_Location,
 			'Order_Status_Updated' => $Order_Status_Updated),
 		array( 'Order_ID' => $Order_ID)
 	);
 	$wpdb->insert( $EWD_OTP_order_statuses_table_name, 
 		array( 'Order_ID' => $Order_ID,
 			'Order_Status' => $Order_Status,
+			'Order_Location' => $Order_Location,
 			'Order_Status_Created' => $Order_Status_Updated)
 	);
 	$update = __("Order status has been successfully edited.", 'EWD_OTP');
@@ -369,7 +380,7 @@ function Update_EWD_OTP_Statuses() {
 	update_option("EWD_OTP_Statuses", $StatusString);
 	update_option("EWD_OTP_Percentages", $PercentageString);
 		
-	$update = __("Options have been successfully updated.", 'EWD_OTP');
+	$update = __("Statuses have been successfully updated.", 'EWD_OTP');
 	return $update;
 }
 
@@ -393,7 +404,41 @@ function Delete_EWD_OTP_Status($Status) {
 	update_option("EWD_OTP_Statuses", $StatusString);
 	update_option("EWD_OTP_Percentages", $PercentageString);
 		
-	$update = __("Option has been successfully deleted.", 'EWD_OTP');
+	$update = __("Status has been successfully deleted.", 'EWD_OTP');
+	return $update;
+}
+
+function Update_EWD_OTP_Location() {
+	foreach ($_POST['location'] as $key => $Loc) {
+		if ($Loc != "") {
+			$LocationString .= $Loc . ",";
+		}
+	}
+		
+	$LocationString = substr($LocationString, 0, -1);
+		
+	update_option("EWD_OTP_Locations", $LocationString);
+		
+	$update = __("Locations have been successfully updated.", 'EWD_OTP');
+	return $update;
+}
+
+function Delete_EWD_OTP_Location($Location) {
+	$OriginalLocationString = get_option("EWD_OTP_Locations");
+		
+	$Locations = explode(",", $OriginalLocationString);
+		
+	foreach ($Locations as $key => $Loc) {
+		if ($Loc != $Location) {
+			$LocationsString .= $Loc . ",";
+		}
+	}
+		
+	$LocationsString = substr($LocationsString, 0, -1);
+		
+	update_option("EWD_OTP_Locations", $LocationsString);
+		
+	$update = __("Location has been successfully deleted.", 'EWD_OTP');
 	return $update;
 }
 

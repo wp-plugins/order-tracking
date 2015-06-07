@@ -35,13 +35,13 @@ $Statuses = explode(",", $StatusString);
 											<?php /*if (get_option("EWD_OTP_Install_Flag") == "Yes") { ?><ul><li><?php _e("Thanks for installing the Ultimate Product Catalogue Plugin.", 'EWD_OTP'); ?><br> <a href='http://www.facebook.com/EtoileWebDesign'><?php _e("Follow us on Facebook", 'EWD_OTP'); ?></a> <?php _e("to suggest new features or hear about upcoming ones!", 'EWD_OTP');?> </li></ul>
 											<?php } else { ?><ul><li><?php _e("Thanks for upgrading to version 2.2.9!", 'EWD_OTP'); ?><br> <a href='http://www.facebook.com/EtoileWebDesign'><?php _e("Follow us on Facebook", 'EWD_OTP'); ?></a> <?php _e("to suggest new features or hear about upcoming ones!", 'EWD_OTP');?> </li></ul><?php } */?>
 											
-											<?php if (get_option("EWD_OTP_Install_Flag") == "Yes") { ?><ul><li><?php _e("Thanks for installing Order Tracking.", 'EWD_OTP'); ?><br> <a href='http://www.facebook.com/EtoileWebDesign'><?php _e("Follow us on Facebook", 'EWD_OTP'); ?></a> <?php _e("to suggest new features or hear about upcoming ones!", 'EWD_OTP');?>  </li></ul>
-											<?php } else { ?><ul><li><?php _e("Thanks for upgrading to version 2.1.4!", 'EWD_OTP'); ?><br> <a href='http://wordpress.org/support/view/plugin-reviews/order-tracking'><?php _e("Please rate our plugin", 'EWD_OTP'); ?></a> <?php _e("if you find Order Tracking useful!", 'EWD_OTP');?> </li></ul><?php } ?>
+											<?php  if (get_option("EWD_OTP_Install_Flag") == "Yes") { ?><ul><li><?php _e("Thanks for installing Order Tracking.", 'EWD_OTP'); ?><br> <a href='http://www.facebook.com/EtoileWebDesign'><?php _e("Follow us on Facebook", 'EWD_OTP'); ?></a> <?php _e("to suggest new features or hear about upcoming ones!", 'EWD_OTP');?>  </li></ul>
+											<?php } else { ?><ul><li><?php _e("Thanks for upgrading to version 2.2.0!", 'EWD_OTP'); ?><br> <a href='http://wordpress.org/support/view/plugin-reviews/order-tracking'><?php _e("Please rate our plugin", 'EWD_OTP'); ?></a> <?php _e("if you find Order Tracking useful!", 'EWD_OTP');?> </li></ul><?php } ?>
 											
 											<?php /*if (get_option("EWD_OTP_Install_Flag") == "Yes") { ?><ul><li><?php _e("Thanks for installing the Ultimate Product Catalogue Plugin.", 'EWD_OTP'); ?><br> <a href='http://www.facebook.com/EtoileWebDesign'><?php _e("Follow us on Facebook", 'EWD_OTP'); ?></a> <?php _e("to suggest new features or hear about upcoming ones!", 'EWD_OTP');?>  </li></ul>
 											<?php } else { ?><ul><li><?php _e("Thanks for upgrading to version 2.3.9!", 'EWD_OTP'); ?><br> <a href='http://wordpress.org/support/topic/error-hunt'><?php _e("Please let us know about any small display/functionality errors. ", 'EWD_OTP'); ?></a> <?php _e("We've noticed a couple, and would like to eliminate as many as possible.", 'EWD_OTP');?> </li></ul><?php } */?>
 											
-											<?php /*if (get_option("EWD_OTP_Install_Flag") == "Yes") { ?><ul><li><?php _e("Thanks for installing the Ultimate Product Catalogue Plugin.", 'EWD_OTP'); ?><br> <a href='https://www.youtube.com/channel/UCZPuaoetCJB1vZOmpnMxJNw'><?php _e("Check out our YouTube channel ", 'EWD_OTP'); ?></a> <?php _e("for tutorial videos on this and our other plugins!", 'EWD_OTP');?> </li></ul>
+											<?php /* if (get_option("EWD_OTP_Install_Flag") == "Yes") { ?><ul><li><?php _e("Thanks for installing the Ultimate Product Catalogue Plugin.", 'EWD_OTP'); ?><br> <a href='https://www.youtube.com/channel/UCZPuaoetCJB1vZOmpnMxJNw'><?php _e("Check out our YouTube channel ", 'EWD_OTP'); ?></a> <?php _e("for tutorial videos on this and our other plugins!", 'EWD_OTP');?> </li></ul>
 											<?php } elseif ($Full_Version == "Yes") { ?><ul><li><?php _e("Thanks for upgrading to version 2.4!", 'EWD_OTP'); ?><br> <a href='http://www.facebook.com/EtoileWebDesign'><?php _e("Follow us on Facebook", 'EWD_OTP'); ?></a> <?php _e("to suggest new features or hear about upcoming ones!", 'EWD_OTP');?> </li></ul>
 											<?php } else { ?><ul><li><?php _e("Thanks for upgrading to version 2.4!", 'EWD_OTP'); ?><br> <?php _e("Love the plugin but don't need the premium version? Help us speed up product support and development by donating. Thanks for using the plugin!", 'EWD_OTP');?>
 																	 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
@@ -51,7 +51,7 @@ $Statuses = explode(",", $StatusString);
 																	 <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 																	 </form>
 																	 </li></ul>
-											<?php }*/ ?>
+											<?php } */ ?>
 
 									</div>
 							</div>

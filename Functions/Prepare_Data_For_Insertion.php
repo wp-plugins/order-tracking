@@ -10,6 +10,7 @@ function Add_Edit_EWD_OTP_Order() {
 		$Order_Name = $_POST['Order_Name'];
 		$Order_Number = $_POST['Order_Number'];
 		$Order_Status = $_POST['Order_Status'];
+		$Order_Location = $_POST['Order_Location'];
 		$Order_Notes_Public = $_POST['Order_Notes_Public'];
 		$Order_Notes_Private = $_POST['Order_Notes_Private'];
 		$Order_Email_Address = $_POST['Order_Email'];
@@ -21,12 +22,12 @@ function Add_Edit_EWD_OTP_Order() {
 		if (!isset($error)) {
 				// Pass the data to the appropriate function in Update_Admin_Databases.php to create the product 
 				if ($_POST['action'] == "Add_Order") {
-					  $user_update = Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email_Address, $Order_Status, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID);
+					  $user_update = Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email_Address, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID);
 						if (($Order_Email == "Change" or $Order_Email == "Creation") and $Order_Email_Address != "") {EWD_OTP_Send_Email($Order_Email_Address, $Order_Number, $Order_Status, $Order_Notes_Public, $Order_Status_Updated, $Order_Name, "Yes");}
 				}
 				// Pass the data to the appropriate function in Update_Admin_Databases.php to edit the product 
 				else {
-						$user_update = Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email_Address, $Order_Status, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID);
+						$user_update = Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email_Address, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID);
 						if ($Order_Email == "Change" and $Order_Email_Address != "") {EWD_OTP_Send_Email($Order_Email_Address, $Order_Number, $Order_Status, $Order_Notes_Public, $Order_Status_Updated, $Order_Name);}
 				}
 				$user_update = array("Message_Type" => "Update", "Message" => $user_update);

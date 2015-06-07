@@ -1,4 +1,7 @@
-<?php $StatusString = get_option("EWD_OTP_Statuses"); ?>
+<?php 
+$StatusString = get_option("EWD_OTP_Statuses"); 
+$LocationsString = get_option("EWD_OTP_Locations");
+?>
 <div id="col-right">
 <div class="col-wrap">
 <?php //echo get_option('plugin_error'); ?>
@@ -220,18 +223,28 @@
 		<label for="Order_Status"><?php _e("Order Status", 'EWD_OTP') ?></label>
 		<select name="Order_Status" id="Order_Status" />
 		<?php $Statuses = explode(",", $StatusString);
-					foreach ($Statuses as $Status) { ?>
-					<option value='<?php echo $Status; ?>'><?php echo $Status; ?></option>
+			foreach ($Statuses as $Status) { ?>
+			<option value='<?php echo $Status; ?>'><?php echo $Status; ?></option>
 		<?php } ?>
 		</select>
 		<p><?php _e("The status that visitors will see if they enter the order number.", 'EWD_OTP') ?></p>
+</div>
+<div>
+		<label for="Order_Location"><?php _e("Order Location", 'EWD_OTP') ?></label>
+		<select name="Order_Location" id="Order_Location" />
+		<?php $Locations = explode(",", $LocationsString);
+			foreach ($Locations as $Location) { ?>
+			<option value='<?php echo $Location; ?>'><?php echo $Location; ?></option>
+		<?php } ?>
+		</select>
+		<p><?php _e("The location that visitors will see if they enter the order number.", 'EWD_OTP') ?></p>
 </div>
 <div>
 		<label for="Customer_ID"><?php _e("Customer", 'EWD_OTP') ?></label>
 		<select name="Customer_ID" id="Customer_ID" />
 		<option value='0'>None</option>
 		<?php foreach ($Customers as $Customer) { ?>
-					<option value='<?php echo $Customer->Customer_ID; ?>'><?php echo $Customer->Customer_Name; ?></option>
+			<option value='<?php echo $Customer->Customer_ID; ?>'><?php echo $Customer->Customer_Name; ?></option>
 		<?php } ?>
 		</select>
 		<p><?php _e("The customer that this order is associated with.", 'EWD_OTP') ?></p>

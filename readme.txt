@@ -156,6 +156,12 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.2.0 =
+- Added a tracking form widget
+- Added "Locations" premium tab
+- Fixed a number of update/error messages
+- Stopped statuses from being displayed twice when an order is edited and the status doesn't change
+
 = 2.1.4 =
 - Added the ability to include "Show in Admin Table" in spreadsheet uploads
 

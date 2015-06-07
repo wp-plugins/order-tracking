@@ -36,6 +36,7 @@
 	<label title='Order Number'><input type='checkbox' name='order_information[]' value='Order_Number' <?php if(in_array("Order_Number", $Order_Information)) {echo "checked='checked'";} ?> /> <span>Order Number</span></label><br />
 	<label title='Name'><input type='checkbox' name='order_information[]' value='Order_Name' <?php if(in_array("Order_Name", $Order_Information)) {echo "checked='checked'";} ?> /> <span>Name</span></label><br />
 	<label title='Status'><input type='checkbox' name='order_information[]' value='Order_Status' <?php if(in_array("Order_Status", $Order_Information)) {echo "checked='checked'";} ?> /> <span>Status</span></label><br />
+	<label title='Location'><input type='checkbox' name='order_information[]' value='Order_Location' <?php if(in_array("Order_Location", $Order_Information)) {echo "checked='checked'";} ?> /> <span>Location</span></label><br />
 	<label title='Update Date'><input type='checkbox' name='order_information[]' value='Order_Updated' <?php if(in_array("Order_Updated", $Order_Information)) {echo "checked='checked'";} ?> /> <span>Updated Date</span></label><br />
 	<label title='Notes'><input type='checkbox' name='order_information[]' value='Order_Notes' <?php if(in_array("Order_Notes", $Order_Information)) {echo "checked='checked'";} ?> /> <span>Notes</span></label><br />
 	<label title='Customer_Notes'><input type='checkbox' name='order_information[]' value='Customer_Notes' <?php if(in_array("Customer_Notes", $Order_Information)) {echo "checked='checked'";} ?> /> <span>Customer Notes</span></label><br />
