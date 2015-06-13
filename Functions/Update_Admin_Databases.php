@@ -354,19 +354,22 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 }
 
 function Update_EWD_OTP_Statuses() {
+	$OriginalStatusString = get_option("EWD_OTP_Statuses") . ",";
+	$OriginalPercentageString = get_option("EWD_OTP_Percentages") . ",";
+
 	foreach ($_POST['status'] as $key => $stat) {
 		if ($stat != "") {
-			$StatusStringOriginal .= $stat . ",";
-			$PercentageStringOriginal .= $_POST['status_percentages'][$key] . ",";
+			$OriginalStatusString .= $stat . ",";
+			$OriginalPercentageString .= $_POST['status_percentages'][$key] . ",";
 		}
 	}
 		
-	$StatusStringOriginal = substr($StatusStringOriginal, 0, -1);
-	$PercentageStringOriginal = substr($PercentageStringOriginal, 0, -1);
+	$OriginalStatusString = substr($OriginalStatusString, 0, -1);
+	$OriginalPercentageString = substr($OriginalPercentageString, 0, -1);
 		
 	//Turn the statuses and percentages into arrays, so that they can be ordered by percentage
-	$Statuses = explode(",", $StatusStringOriginal);
-	$Percentages = explode(",", $PercentageStringOriginal);
+	$Statuses = explode(",", $OriginalStatusString);
+	$Percentages = explode(",", $OriginalPercentageString);
 		
 	asort($Percentages);
 	foreach ($Percentages as $key => $Percent) {
@@ -409,6 +412,8 @@ function Delete_EWD_OTP_Status($Status) {
 }
 
 function Update_EWD_OTP_Location() {
+	$LocationString = get_option("EWD_OTP_Locations") . ",";
+	
 	foreach ($_POST['location'] as $key => $Loc) {
 		if ($Loc != "") {
 			$LocationString .= $Loc . ",";

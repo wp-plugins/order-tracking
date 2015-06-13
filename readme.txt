@@ -156,6 +156,10 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.2.1 =
+- Fixed a bug where adding a status would overwrite the old ones
+- Fixed a bug where adding a location would overwrite the old ones
+
 = 2.2.0 =
 - Added a tracking form widget
 - Added "Locations" premium tab
