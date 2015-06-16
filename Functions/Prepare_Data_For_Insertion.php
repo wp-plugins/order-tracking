@@ -49,6 +49,31 @@ function EWD_OTP_Save_Customer_Note() {
 	return $user_update;
 }
 
+function EWD_OTP_Save_Customer_Order($Success_Message, $Order_Status = "", $Order_Location = "") {
+	$Order_Name = sanitize_text_field(stripslashes_deep($_POST['Order_Name']));
+	$Order_Email_Address = sanitize_text_field(stripslashes_deep($_POST['Order_Email_Address']));
+	$Note = sanitize_text_field(stripslashes_deep($_POST['Customer_Notes']));
+
+	$Order_Number = __('Order', 'EWD_OTP') . EWD_OTP_RandomString(5);
+
+	$Order_Notes_Public = "";
+	$Order_Notes_Private = "";
+	$Order_Display = "Yes";
+	$Order_Status_Updated = date("Y-m-d H:i:s"); 
+	$Customer_ID = 0;
+	$Sales_Rep_ID = 0;
+
+	$message = Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email_Address, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID);
+
+	if ($message == __("Order has been successfully created.", 'EWD_OTP')) {
+		Update_EWD_OTP_Customer_Note($Order_Number, $Note);
+		$user_update['Message_Type'] = "Update";
+		$user_update['Message'] = $Success_Message . $Order_Number;
+	}
+
+	return $user_update;
+}
+
 function Add_Edit_EWD_OTP_Sales_Rep() {
 		global $wpdb, $EWD_OTP_sales_reps;
 
@@ -378,16 +403,17 @@ function Add_Edit_EWD_OTP_Custom_Field() {
 		$Field_Type = stripslashes_deep($_POST['Field_Type']);
 		$Field_Description = stripslashes_deep($_POST['Field_Description']);
 		$Field_Values = stripslashes_deep($_POST['Field_Values']);
+		$Field_Front_End_Display = stripslashes_deep($_POST['Field_Front_End_Display']);
 		$Field_ID = $_POST['Field_ID'];
 
 		if (!isset($error)) {
 				/* Pass the data to the appropriate function in Update_Admin_Databases.php to create the custom field */
 				if ($_POST['action'] == "Add_Custom_Field") {
-					  $user_update = Add_EWD_OTP_Custom_Field($Field_Name, $Field_Slug, $Field_Type, $Field_Description, $Field_Values);
+					  $user_update = Add_EWD_OTP_Custom_Field($Field_Name, $Field_Slug, $Field_Type, $Field_Description, $Field_Values, $Field_Front_End_Display);
 				}
 				/* Pass the data to the appropriate function in Update_Admin_Databases.php to edit the custom field */
 				else {
-						$user_update = Edit_EWD_OTP_Custom_Field($Field_ID, $Field_Name, $Field_Slug, $Field_Type, $Field_Description, $Field_Values);
+						$user_update = Edit_EWD_OTP_Custom_Field($Field_ID, $Field_Name, $Field_Slug, $Field_Type, $Field_Description, $Field_Values, $Field_Front_End_Display);
 				}
 				$user_update = array("Message_Type" => "Update", "Message" => $user_update);
 				return $user_update;
@@ -507,6 +533,16 @@ function EWD_OTP_Delete_All_Orders() {
 		$update = __("Orders have been successfully deleted.", 'EWD_OTP');
 		$user_update = array("Message_Type" => "Update", "Message" => $update);
 		return $user_update;
+}
+
+function EWD_OTP_RandomString($CharLength = 10)
+{
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $randstring = '';
+    for ($i = 0; $i < $CharLength; $i++) {
+        $randstring .= $characters[rand(0, strlen($characters))];
+    }
+    return $randstring;
 }
 
 ?>

@@ -448,7 +448,7 @@ function Delete_EWD_OTP_Location($Location) {
 }
 
 /* Adds a single new custom field to the EWD_OTP database */
-function Add_EWD_OTP_Custom_Field($Field_Name, $Field_Slug, $Field_Type, $Field_Description, $Field_Values) {
+function Add_EWD_OTP_Custom_Field($Field_Name, $Field_Slug, $Field_Type, $Field_Description, $Field_Values, $Field_Front_End_Display) {
 	global $wpdb;
 	global $EWD_OTP_fields_table_name;
 	$Date = date("Y-m-d H:i:s");
@@ -461,7 +461,7 @@ function Add_EWD_OTP_Custom_Field($Field_Name, $Field_Slug, $Field_Type, $Field_
 			'Field_Type' => $Field_Type,
 			'Field_Description' => $Field_Description,
 			'Field_Values' => $Field_Values,
-			'Field_Values' => $Field_Values,
+			'Field_Front_End_Display' => $Field_Front_End_Display,
 			'Field_Date_Created' => $Date)
 	);
 	$update = __("Field has been successfully created.", 'EWD_OTP');
@@ -469,7 +469,7 @@ function Add_EWD_OTP_Custom_Field($Field_Name, $Field_Slug, $Field_Type, $Field_
 }
 
 /* Edits a single custom field with a given ID in the EWD_OTP database */
-function  Edit_EWD_OTP_Custom_Field($Field_ID, $Field_Name, $Field_Slug, $Field_Type, $Field_Description, $Field_Values) {
+function  Edit_EWD_OTP_Custom_Field($Field_ID, $Field_Name, $Field_Slug, $Field_Type, $Field_Description, $Field_Values, $Field_Front_End_Display) {
 	global $wpdb;
 	global $EWD_OTP_fields_table_name;
 	global $EWD_OTP_Full_Version;
@@ -481,7 +481,8 @@ function  Edit_EWD_OTP_Custom_Field($Field_ID, $Field_Name, $Field_Slug, $Field_
 			'Field_Slug' => $Field_Slug,
 			'Field_Type' => $Field_Type,
 			'Field_Description' => $Field_Description,
-			'Field_Values' => $Field_Values),
+			'Field_Values' => $Field_Values,
+			'Field_Front_End_Display' => $Field_Front_End_Display),
 		array( 'Field_ID' => $Field_ID)
 	);
 	$update = __("Field has been successfully edited.", 'EWD_OTP');

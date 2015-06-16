@@ -95,6 +95,11 @@ if ($Sales_Rep_Only == "Yes") {
 	<input type='text' name="Order_Notes_Private" id="Order_Notes_Private" value="<?php echo stripslashes($Order->Order_Notes_Private); ?>" />
 	<p><?php _e("The notes about an order visible only to admins.", 'EWD_OTP') ?></p>
 </div>
+<div class="form-field">
+	<label for="Order_Customer_Notes"><?php _e("Customer Order Notes", 'EWD_OTP') ?></label>
+	<input type='text' name="Order_Customer_Notes" id="Order_Customer_Notes" value="<?php echo stripslashes($Order->Order_Customer_Notes); ?>" />
+	<p><?php _e("The notes about an order posted by the customer from the front-end.", 'EWD_OTP') ?></p>
+</div>
 <div>
 		<label for="Order_Display"><?php _e("Show in Admin Table?", 'EWD_OTP') ?></label>
 		<input type='radio' name="Order_Display" value="Yes" <?php if ($Order->Order_Display == "Yes") {echo "checked";} ?>>Yes<br/>

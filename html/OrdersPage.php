@@ -1,6 +1,10 @@
 <?php 
 $StatusString = get_option("EWD_OTP_Statuses"); 
 $LocationsString = get_option("EWD_OTP_Locations");
+
+$Order_Information_String = get_option("EWD_OTP_Order_Information");
+$Order_Information = explode(",", $Order_Information_String);
+
 ?>
 <div id="col-right">
 <div class="col-wrap">
@@ -30,7 +34,7 @@ $LocationsString = get_option("EWD_OTP_Locations");
 				if ($Sales_Rep_Only == "Yes") {$TotalOrders = $wpdb->get_results("SELECT Order_ID FROM $EWD_OTP_orders_table_name WHERE Order_Display='Yes' AND Sales_Rep_ID='" . $Sales_Rep_ID . "'");}
 				else {$TotalOrders = $wpdb->get_results("SELECT Order_ID FROM $EWD_OTP_orders_table_name WHERE Order_Display='Yes'");}
 				$Number_of_Pages = ceil($wpdb->num_rows/20);
-				$Current_Page_With_Order_By = "admin.php?page=EWD-OTP-options&DisplayPage=Dashboard";
+				$Current_Page_With_Order_By = "admin.php?page=EWD-OTP-options&DisplayPage=Orders";
 				if (isset($_GET['OrderBy'])) {$Current_Page_With_Order_By .= "&OrderBy=" .$_GET['OrderBy'] . "&Order=" . $_GET['Order'];}?>
 
 <form action="admin.php?page=EWD-OTP-options&DisplayPage=Orders&Action=EWD_OTP_MassAction" method="post">    
@@ -63,73 +67,111 @@ $LocationsString = get_option("EWD_OTP_Locations");
 </div>
 
 <table class="wp-list-table widefat fixed tags sorttable" cellspacing="0">
-		<thead>
-				<tr>
-						<th scope='col' id='cb' class='manage-column column-cb check-column'  style="">
-								<input type="checkbox" /></th><th scope='col' id='field-name' class='manage-column column-name sortable desc'  style="">
-										<?php if ($_GET['OrderBy'] == "Order_Number" and $_GET['Order'] == "ASC") { echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Dashboard&OrderBy=Order_Number&Order=DESC'>";}
-										 			else {echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Dashboard&OrderBy=Order_Number&Order=ASC'>";} ?>
-											  <span><?php _e("Order Number", 'EWD_OTP') ?></span>
-												<span class="sorting-indicator"></span>
-										</a>
-						</th>
-						<th scope='col' id='type' class='manage-column column-type sortable desc'  style="">
-									  <?php if ($_GET['OrderBy'] == "Order_Name" and $_GET['Order'] == "ASC") { echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Dashboard&OrderBy=Order_Name&Order=DESC'>";}
-										 			else {echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Dashboard&OrderBy=Order_Name&Order=ASC'>";} ?>
-											  <span><?php _e("Name", 'EWD_OTP') ?></span>
-												<span class="sorting-indicator"></span>
-										</a>
-						</th>
-						<th scope='col' id='description' class='manage-column column-description sortable desc'  style="">
-									  <?php if ($_GET['OrderBy'] == "Order_Status" and $_GET['Order'] == "ASC") { echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Dashboard&OrderBy=Order_Status&Order=DESC'>";}
-										 			else {echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Dashboard&OrderBy=Order_Status&Order=ASC'>";} ?>
-											  <span><?php _e("Status", 'EWD_OTP') ?></span>
-												<span class="sorting-indicator"></span>
-										</a>
-						</th>
-						<th scope='col' id='required' class='manage-column column-users sortable desc'  style="">
-									  <?php if ($_GET['OrderBy'] == "Order_Status_Updated" and $_GET['Order'] == "ASC") { echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Dashboard&OrderBy=Order_Status_Updated&Order=DESC'>";}
-										 			else {echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Dashboard&OrderBy=Order_Status_Updated&Order=ASC'>";} ?>
-											  <span><?php _e("Updated", 'EWD_OTP') ?></span>
-												<span class="sorting-indicator"></span>
-										</a>
-						</th>
-				</tr>
-		</thead>
+	<thead>
+		<tr>
+			<th scope='col' id='cb' class='manage-column column-cb check-column'  style="">
+				<input type="checkbox" /></th><th scope='col' id='field-name' class='manage-column column-name sortable desc'  style="">
+				<?php 
+					if ($_GET['OrderBy'] == "Order_Number" and $_GET['Order'] == "ASC") { echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Orders&OrderBy=Order_Number&Order=DESC'>";}
+					else {echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Orders&OrderBy=Order_Number&Order=ASC'>";} 
+				?>
+					<span><?php _e("Order Number", 'EWD_OTP') ?></span>
+					<span class="sorting-indicator"></span>
+				</a>
+			</th>
+			<th scope='col' id='type' class='manage-column column-type sortable desc'  style="">
+				<?php 
+					if ($_GET['OrderBy'] == "Order_Name" and $_GET['Order'] == "ASC") { echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Orders&OrderBy=Order_Name&Order=DESC'>";}
+					else {echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Orders&OrderBy=Order_Name&Order=ASC'>";} 
+				?>
+					<span><?php _e("Name", 'EWD_OTP') ?></span>
+					<span class="sorting-indicator"></span>
+				</a>
+			</th>
+			<th scope='col' id='description' class='manage-column column-description sortable desc'  style="">
+				<?php 
+					if ($_GET['OrderBy'] == "Order_Status" and $_GET['Order'] == "ASC") { echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Orders&OrderBy=Order_Status&Order=DESC'>";}
+					else {echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Orders&OrderBy=Order_Status&Order=ASC'>";} 
+				?>
+					<span><?php _e("Status", 'EWD_OTP') ?></span>
+					<span class="sorting-indicator"></span>
+				</a>
+			</th>
+			<?php if (in_array("Customer_Notes", $Order_Information)) { ?>
+				<th scope='col' id='description' class='manage-column column-description sortable desc'  style="">
+					<?php 
+						if ($_GET['OrderBy'] == "Order_Status" and $_GET['Order'] == "ASC") { echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Orders&OrderBy=Order_Customer_Notes&Order=DESC'>";}
+						else {echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Orders&OrderBy=Order_Customer_Notes&Order=ASC'>";} 
+					?>
+						<span><?php _e("Customer Notes", 'EWD_OTP') ?></span>
+						<span class="sorting-indicator"></span>
+					</a>
+				</th>
+			<?php } ?>
+			<th scope='col' id='required' class='manage-column column-users sortable desc'  style="">
+				<?php 
+					if ($_GET['OrderBy'] == "Order_Status_Updated" and $_GET['Order'] == "ASC") { echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Orders&OrderBy=Order_Status_Updated&Order=DESC'>";}
+					else {echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Orders&OrderBy=Order_Status_Updated&Order=ASC'>";} 
+				?>
+					<span><?php _e("Updated", 'EWD_OTP') ?></span>
+					<span class="sorting-indicator"></span>
+				</a>
+			</th>
+		</tr>
+	</thead>
 
-		<tfoot>
-				<tr>
-						<th scope='col' id='cb' class='manage-column column-cb check-column'  style="">
-								<input type="checkbox" /></th><th scope='col' id='field-name' class='manage-column column-name sortable desc'  style="">
-										<?php if ($_GET['OrderBy'] == "Order_Number" and $_GET['Order'] == "ASC") { echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Dashboard&OrderBy=Order_Number&Order=DESC'>";}
-										 			else {echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Dashboard&OrderBy=Order_Number&Order=ASC'>";} ?>
-											  <span><?php _e("Order Number", 'EWD_OTP') ?></span>
-												<span class="sorting-indicator"></span>
-										</a>
-						</th>
-						<th scope='col' id='type' class='manage-column column-type sortable desc'  style="">
-									  <?php if ($_GET['OrderBy'] == "Order_Name" and $_GET['Order'] == "ASC") { echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Dashboard&OrderBy=Order_Name&Order=DESC'>";}
-										 			else {echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Dashboard&OrderBy=Order_Name&Order=ASC'>";} ?>
-											  <span><?php _e("Name", 'EWD_OTP') ?></span>
-												<span class="sorting-indicator"></span>
-										</a>
-						</th>
-						<th scope='col' id='description' class='manage-column column-description sortable desc'  style="">
-									  <?php if ($_GET['OrderBy'] == "Order_Status" and $_GET['Order'] == "ASC") { echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Dashboard&OrderBy=Order_Status&Order=DESC'>";}
-										 			else {echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Dashboard&OrderBy=Order_Status&Order=ASC'>";} ?>
-											  <span><?php _e("Status", 'EWD_OTP') ?></span>
-												<span class="sorting-indicator"></span>
-										</a>
-						</th>
-						<th scope='col' id='required' class='manage-column column-users sortable desc'  style="">
-									  <?php if ($_GET['OrderBy'] == "Order_Status_Updated" and $_GET['Order'] == "ASC") { echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Dashboard&OrderBy=Order_Status_Updated&Order=DESC'>";}
-										 			else {echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Dashboard&OrderBy=Order_Status_Updated&Order=ASC'>";} ?>
-											  <span><?php _e("Updated", 'EWD_OTP') ?></span>
-												<span class="sorting-indicator"></span>
-										</a>
-						</th>
-				</tr>
-		</tfoot>
+	<tfoot>
+		<tr>
+			<th scope='col' id='cb' class='manage-column column-cb check-column'  style="">
+				<input type="checkbox" /></th><th scope='col' id='field-name' class='manage-column column-name sortable desc'  style="">
+				<?php 
+					if ($_GET['OrderBy'] == "Order_Number" and $_GET['Order'] == "ASC") { echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Orders&OrderBy=Order_Number&Order=DESC'>";}
+					else {echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Orders&OrderBy=Order_Number&Order=ASC'>";} 
+				?>
+					<span><?php _e("Order Number", 'EWD_OTP') ?></span>
+					<span class="sorting-indicator"></span>
+				</a>
+			</th>
+			<th scope='col' id='type' class='manage-column column-type sortable desc'  style="">
+				<?php 
+					if ($_GET['OrderBy'] == "Order_Name" and $_GET['Order'] == "ASC") { echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Orders&OrderBy=Order_Name&Order=DESC'>";}
+					else {echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Orders&OrderBy=Order_Name&Order=ASC'>";} 
+				?>
+					<span><?php _e("Name", 'EWD_OTP') ?></span>
+					<span class="sorting-indicator"></span>
+				</a>
+			</th>
+			<th scope='col' id='description' class='manage-column column-description sortable desc'  style="">
+				<?php 
+					if ($_GET['OrderBy'] == "Order_Status" and $_GET['Order'] == "ASC") { echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Orders&OrderBy=Order_Status&Order=DESC'>";}
+					else {echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Orders&OrderBy=Order_Status&Order=ASC'>";} 
+				?>
+					<span><?php _e("Status", 'EWD_OTP') ?></span>
+					<span class="sorting-indicator"></span>
+				</a>
+			</th>
+			<?php if (in_array("Customer_Notes", $Order_Information)) { ?>
+				<th scope='col' id='description' class='manage-column column-description sortable desc'  style="">
+					<?php 
+						if ($_GET['OrderBy'] == "Order_Status" and $_GET['Order'] == "ASC") { echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Orders&OrderBy=Order_Customer_Notes&Order=DESC'>";}
+						else {echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Orders&OrderBy=Order_Customer_Notes&Order=ASC'>";} 
+					?>
+						<span><?php _e("Customer Notes", 'EWD_OTP') ?></span>
+						<span class="sorting-indicator"></span>
+					</a>
+				</th>
+			<?php } ?>
+			<th scope='col' id='required' class='manage-column column-users sortable desc'  style="">
+				<?php 
+					if ($_GET['OrderBy'] == "Order_Status_Updated" and $_GET['Order'] == "ASC") { echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Orders&OrderBy=Order_Status_Updated&Order=DESC'>";}
+					else {echo "<a href='admin.php?page=EWD-OTP-options&DisplayPage=Orders&OrderBy=Order_Status_Updated&Order=ASC'>";} 
+				?>
+					<span><?php _e("Updated", 'EWD_OTP') ?></span>
+					<span class="sorting-indicator"></span>
+				</a>
+			</th>
+		</tr>
+	</tfoot>
 
 	<tbody id="the-list" class='list:tag'>
 		
@@ -146,16 +188,17 @@ $LocationsString = get_option("EWD_OTP_Locations");
 								echo "<br />";
 								echo "<div class='row-actions'>";
 								echo "<span class='delete'>";
-								echo "<a class='delete-tag' href='admin.php?page=EWD-OTP-options&Action=EWD_OTP_HideOrder&DisplayPage=Dashboard&Order_ID=" . $Order->Order_ID ."'>" . __("Hide", 'EWD_OTP') . "</a>";
+								echo "<a class='delete-tag' href='admin.php?page=EWD-OTP-options&Action=EWD_OTP_HideOrder&DisplayPage=Orders&Order_ID=" . $Order->Order_ID ."'>" . __("Hide", 'EWD_OTP') . "</a>";
 		 						echo "</span>";
 								echo "</div>";
 								echo "<div class='hidden' id='inline_" . $Order->Order_ID ."'>";
 								echo "<div class='number'>" . stripslashes($Order->Order_Number) . "</div>";
 								echo "</div>";
 								echo "</td>";
-								echo "<td class='description column-name'>" . stripslashes($Order->Order_Name) . "</td>";
-								echo "<td class='description column-status'>" . stripslashes($Order->Order_Status) . "</td>";
-								echo "<td class='users column-updated'>" . stripslashes($Order->Order_Status_Updated) . "</td>";
+								echo "<td class='name column-name'>" . stripslashes($Order->Order_Name) . "</td>";
+								echo "<td class='status column-status'>" . stripslashes($Order->Order_Status) . "</td>";
+								if (in_array("Customer_Notes", $Order_Information)) {echo "<td class='customer-notes column-notes'>" . stripslashes($Order->Order_Customer_Notes) . "</td>";}
+								echo "<td class='updated column-updated'>" . stripslashes($Order->Order_Status_Updated) . "</td>";
 								echo "</tr>";
 						}
 				}

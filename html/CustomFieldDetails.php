@@ -47,6 +47,14 @@
 								<input name="Field_Values" id="Field_Values" type="text" value="<?php echo $Field->Field_Values;?>"  size="60" />
 								<p><?php _e("A comma-separated list of acceptable input values for this field. These values will be the options for select, checkbox, and radio inputs. All values will be accepted if left blank.", 'EWD_OTP') ?></p>
 						</div>
+						<div class="form-field">
+								<label for="Field_Front_End_Display"><?php _e("Customer Order Display", 'EWD_OTP') ?></label>
+								<select name="Field_Front_End_Display" id="Field_Front_End_Display">
+										<option value='No' <?php if ($Field->Field_Front_End_Display == "No") {echo "selected=selected";} ?>><?php _e("No", 'EWD_OTP') ?></option>
+										<option value='Yes' <?php if ($Field->Field_Front_End_Display == "Yes") {echo "selected=selected";} ?>><?php _e("Yes", 'EWD_OTP') ?></option>
+								</select>
+								<p><?php _e("If you're using the customer order form, should this field be displayed on it? (Use 'Input Values' above to restrict inputs)", 'EWD_OTP') ?></p>
+						</div>
 
 						<p class="submit"><input type="submit" name="submit" id="submit" class="button-primary" value="<?php _e('Save Changes', 'EWD_OTP') ?>"  /></p>
 						</form>

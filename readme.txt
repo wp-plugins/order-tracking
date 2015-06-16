@@ -156,6 +156,9 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.2.2 =
+- Added a premium shortcode, customer-order, that allows customers to create orders 
+
 = 2.2.1 =
 - Fixed a bug where adding a status would overwrite the old ones
 - Fixed a bug where adding a location would overwrite the old ones

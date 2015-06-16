@@ -7,7 +7,7 @@ Author: Étoile Web Design
 Author URI: http://www.EtoileWebDesign.com/order-tracking/
 Terms and Conditions: http://www.etoilewebdesign.com/plugin-terms-and-conditions/
 Text Domain: EWD_OTP
-Version: 2.2.1
+Version: 2.2.2
 */
 
 global $EWD_OTP_db_version;
@@ -22,13 +22,13 @@ $EWD_OTP_sales_reps = $wpdb->prefix . "EWD_OTP_Sales_Reps";
 $EWD_OTP_customers = $wpdb->prefix . "EWD_OTP_Customers";
 $EWD_OTP_fields_table_name = $wpdb->prefix . "EWD_OTP_Custom_Fields";
 $EWD_OTP_fields_meta_table_name = $wpdb->prefix . "EWD_OTP_Fields_Meta";
-$EWD_OTP_db_version = "2.2.0";
+$EWD_OTP_db_version = "2.2.2";
 
 define( 'EWD_OTP_CD_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'EWD_OTP_CD_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 /* define('WP_DEBUG', true);
-$wpdb->show_errors(); */
+$wpdb->show_errors();  */
 
 /* When plugin is activated */
 register_activation_hook(__FILE__,'Install_EWD_OTP');
@@ -171,6 +171,7 @@ include "Functions/Update_EWD_OTP_Tables.php";
 include "Functions/Version_Upgrade.php";
 
 include "Shortcodes/InsertCustomerForm.php";
+include "Shortcodes/InsertCustomerOrderForm.php";
 include "Shortcodes/InsertSalesRepForm.php";
 include "Shortcodes/InsertTrackingForm.php";
 
