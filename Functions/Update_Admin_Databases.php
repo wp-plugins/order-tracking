@@ -102,10 +102,10 @@ function Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email,
 	}
 	
 					 
-	// Delete the custom field values for the given Item_ID
+	// Delete the custom field values for the given Order_ID
 	$File_Fields = $wpdb->get_results("SELECT Field_ID FROM $EWD_OTP_fields_table_name WHERE Field_Type='file'");
 	foreach ($File_Fields as $File_Field) {$File_Field_IDs .= $File_Field->Field_ID . ",";}
-	$Sql = "DELETE FROM $EWD_OTP_fields_meta_table_name WHERE Item_ID='" . $Order_ID . "'";
+	$Sql = "DELETE FROM $EWD_OTP_fields_meta_table_name WHERE Order_ID='" . $Order_ID . "'";
 	if (strlen($File_Field_IDs) > 0) {$Sql .= " AND Field_ID NOT IN (" . substr($File_Field_IDs, 0, -1) . ")";}
 	$wpdb->query($Sql);
 		
