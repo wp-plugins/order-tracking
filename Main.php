@@ -22,7 +22,7 @@ $EWD_OTP_sales_reps = $wpdb->prefix . "EWD_OTP_Sales_Reps";
 $EWD_OTP_customers = $wpdb->prefix . "EWD_OTP_Customers";
 $EWD_OTP_fields_table_name = $wpdb->prefix . "EWD_OTP_Custom_Fields";
 $EWD_OTP_fields_meta_table_name = $wpdb->prefix . "EWD_OTP_Fields_Meta";
-$EWD_OTP_db_version = "2.2.2";
+$EWD_OTP_db_version = "2.2.3";
 
 define( 'EWD_OTP_CD_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'EWD_OTP_CD_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -39,25 +39,25 @@ register_deactivation_hook( __FILE__, 'Remove_EWD_OTP' );
 
 /* Creates the admin menu for the contests plugin */
 if ( is_admin() ){
-		add_action('admin_menu', 'EWD_OTP_Plugin_Menu');
-		add_action('admin_menu', 'EWD_OTP_Sales_Rep_Menu');
-		add_action('admin_head', 'EWD_OTP_Admin_Options');
-		add_action('admin_init', 'Add_EWD_OTP_Scripts');
-		add_action('widgets_init', 'Update_EWD_OTP_Content');
-		add_action('admin_notices', 'EWD_OTP_Error_Notices');
+	add_action('admin_menu', 'EWD_OTP_Plugin_Menu');
+	add_action('admin_menu', 'EWD_OTP_Sales_Rep_Menu');
+	add_action('admin_head', 'EWD_OTP_Admin_Options');
+	add_action('admin_init', 'Add_EWD_OTP_Scripts');
+	add_action('widgets_init', 'Update_EWD_OTP_Content');
+	add_action('admin_notices', 'EWD_OTP_Error_Notices');
 }
 
 function EWD_OTP_Default_Statuses() {
-		$StatusString = get_option("EWD_OTP_Statuses");
-		if ($StatusString == "") {
-			  update_option("EWD_OTP_Statuses", "Received,Processed,Shipped,Completed");
-				update_option("EWD_OTP_Percentages", "25,50,75,100");
-		}
+	$StatusString = get_option("EWD_OTP_Statuses");
+	if ($StatusString == "") {
+		update_option("EWD_OTP_Statuses", "Received,Processed,Shipped,Completed");
+		update_option("EWD_OTP_Percentages", "25,50,75,100");
+	}
 }
 
 function Remove_EWD_OTP() {
   	/* Deletes the database field */
-		delete_option('EWD_OTP_db_version');
+	delete_option('EWD_OTP_db_version');
 }
 
 
@@ -96,19 +96,21 @@ $plugin = plugin_basename(__FILE__);
 add_filter("plugin_action_links_$plugin", 'EWD_OTP_plugin_settings_link' );
 
 function Add_EWD_OTP_Scripts() {
-		if (isset($_GET['page']) && $_GET['page'] == 'EWD-OTP-options') {
-			  $url_one = plugins_url("order-tracking/js/Admin.js");
-				wp_enqueue_script('PageSwitch', $url_one, array('jquery'));
-				$url_two = plugins_url("order-tracking/js/jquery.confirm.min.js");
-				wp_enqueue_script('EWD_OTP_Confirmation', $url_two, array('jquery'));
-				$url_three = plugins_url("order-tracking/js/bootstrap.min.js");
-				wp_enqueue_script('EWD_OTP_Bootstrap', $url_three, array('jquery'));
-		}
+	if (isset($_GET['page']) && $_GET['page'] == 'EWD-OTP-options') {
+		$url_one = plugins_url("order-tracking/js/Admin.js");
+		wp_enqueue_script('PageSwitch', $url_one, array('jquery'));
+		$url_two = plugins_url("order-tracking/js/jquery.confirm.min.js");
+		wp_enqueue_script('EWD_OTP_Confirmation', $url_two, array('jquery'));
+		$url_three = plugins_url("order-tracking/js/bootstrap.min.js");
+		wp_enqueue_script('EWD_OTP_Bootstrap', $url_three, array('jquery'));
+		$url_four = plugins_url("order-tracking/js/ewd-otp-image.js");
+		wp_enqueue_script('resizeImage', $url_four, array('jquery'));
+	}
 }
 
 $AJAX_Reload = get_option("EWD_OTP_AJAX_Reload");
 if ($AJAX_Reload == "Yes") {
-	  add_action( 'wp_enqueue_scripts', 'Add_EWD_OTP_FrontEnd_Scripts' );
+	add_action( 'wp_enqueue_scripts', 'Add_EWD_OTP_FrontEnd_Scripts' );
 }
 function Add_EWD_OTP_FrontEnd_Scripts() {
 	wp_enqueue_script('ewd-otp-js', plugins_url( '/js/ewd-otp-js.js' , __FILE__ ), array( 'jquery' ));

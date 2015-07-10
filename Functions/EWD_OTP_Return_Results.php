@@ -44,41 +44,49 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '',
 		if (in_array("Order_Number", $Order_Information)) {
 			if (array_key_exists ("Order Number", $Fields)) {$Number_Label = $Fields['Order Number'];}
 			else {$Number_Label = __("Order Number", 'EWD_OTP');}
+			$ReturnString .= "<div class='ewd-otp-label-values'>";
 			$ReturnString .= "<div id='ewd-otp-order-number-label' class='ewd-otp-order-label ewd-otp-bold pure-u-1-8'>";
 			$ReturnString .= $Number_Label . ":";
 			$ReturnString .= "</div>";
 			$ReturnString .= "<div id='ewd-otp-order-number' class='ewd-otp-order-content pure-u-7-8'>";
 			$ReturnString .= "<div class='ewd-otp-bottom-align'>" . $Order->Order_Number . "</div>";
 			$ReturnString .= "</div>";
+			$ReturnString .= "</div>";
 		}
 		if (in_array("Order_Name", $Order_Information)) {
 			if (array_key_exists("Order Name", $Fields)) {$Name_Label = $Fields['Order Name'];}
 			else {$Name_Label = __("Order Name", 'EWD_OTP');}
+			$ReturnString .= "<div class='ewd-otp-label-values'>";
 			$ReturnString .= "<div id='ewd-otp-order-name-label' class='ewd-otp-order-label ewd-otp-bold pure-u-1-8'>";
 			$ReturnString .= $Name_Label . ":";
 			$ReturnString .= "</div>";
 			$ReturnString .= "<div id='ewd-otp-order-name' class='ewd-otp-order-content pure-u-7-8'>";
 			$ReturnString .= "<div class='ewd-otp-bottom-align'>" . $Order->Order_Name . "</div>";
 			$ReturnString .= "</div>";
+			$ReturnString .= "</div>";
 		}
 		if (in_array("Order_Notes", $Order_Information)) {
 			if (array_key_exists("Order Notes", $Fields)) {$Notes_Label = $Fields['Order Notes'];}
 			else {$Notes_Label = __("Order Notes", 'EWD_OTP');}
+			$ReturnString .= "<div class='ewd-otp-label-values'>";
 			$ReturnString .= "<div id='ewd-otp-order-notes-label' class='ewd-otp-order-label ewd-otp-bold pure-u-1-8'>";
 			$ReturnString .= $Notes_Label . ":";
 			$ReturnString .= "</div>";
 			$ReturnString .= "<div id='ewd-otp-order-notes' class='ewd-otp-order-content pure-u-7-8'>";
 			$ReturnString .= "<div class='ewd-otp-bottom-align'>" . stripslashes_deep($Order->Order_Notes_Public) . "</div>";
 			$ReturnString .= "</div>";
+			$ReturnString .= "</div>";
 		}
 		if (in_array("Customer_Notes", $Order_Information)) {
 			if (array_key_exists("Customer Notes", $Fields)) {$Customers_Label = $Fields['Customer Notes'];}
 			else {$Customers_Label = __("Customer Notes", 'EWD_OTP');}
+			$ReturnString .= "<div class='ewd-otp-label-values'>";
 			$ReturnString .= "<div id='ewd-otp-customer-notes-label' class='ewd-otp-order-label ewd-otp-bold pure-u-1-8'>";
 			$ReturnString .= $Customers_Label . ":";
 			$ReturnString .= "</div>";
 			$ReturnString .= "<div id='ewd-otp-order-notes' class='ewd-otp-order-content pure-u-7-8'>";
 			$ReturnString .= "<div class='ewd-otp-bottom-align'>" . stripslashes_deep($Order->Order_Customer_Notes) . "</div>";
+			$ReturnString .= "</div>";
 			$ReturnString .= "</div>";
 		}
 
@@ -101,6 +109,7 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '',
 				$ReturnString .= "</div>";
 			}
 		}
+		$ReturnString .= "<div class='ewd-otp-status-label'>";
 		if (in_array("Order_Status", $Order_Information)) {
 			if (array_key_exists("Order Status", $Fields)) {$Status_Label = $Fields['Order Status'];}
 			else {$Status_Label = __("Order Status", 'EWD_OTP');}
@@ -122,10 +131,10 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '',
 			$ReturnString .= $Updated_Label;
 			$ReturnString .= "</div>";
 		}
-		if ($Status_Column_Size != 5) {$ReturnString .= "<div class='ewd-otp-blank-space pure-u-" . $Status_Column_Size . "-5'></div>";}
-		else {$ReturnString .= "<div class='pure-u-1'></div>";}
+		$ReturnString .= "</div>";
 		if (in_array("Order_Status", $Order_Information) or in_array("Order_Updated", $Order_Information)) {
 			foreach ($Statuses as $Status) {
+				$ReturnString .= "<div class='ewd-otp-label-values'>";
 				if (in_array("Order_Status", $Order_Information)) {
 					$ReturnString .= "<div class='ewd-otp-status-message pure-u-1-5'>";
 					$ReturnString .= $Status->Order_Status;
@@ -142,7 +151,7 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '',
 					else {$ReturnString .= $Status->Order_Status_Created;}
 					$ReturnString .= "</div>";
 				}
-				$ReturnString .= "<div class='ewd-otp-blank-space pure-u-" . $Status_Column_Size . "-5'></div>";
+				$ReturnString .= "</div>";
 			}
 		}
 		if (in_array("Customer_Notes", $Order_Information)) {

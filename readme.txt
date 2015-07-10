@@ -155,9 +155,11 @@ Premium Features
 1. Admin area
 2. Sample order tracking page
 
-== Changelog ==
+== Changelog == 
 = 2.2.3 =
-- Fixed an error with custom fields while editing orders
+- CSS update that moves the plugin away from using Yahoo's Pure CSS (WARNING: if you're using your own custom CSS with this plugin, the selectors in the shortcodes are being changed)
+- Added new premium arrow options, improved the responsiveness of the mobile stylesheet
+- Fixed a bug that prevented statuses with quotes from being deleted
 
 = 2.2.2 =
 - Added a premium shortcode, customer-order, that allows customers to create orders 

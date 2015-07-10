@@ -29,7 +29,7 @@
 		<tr id="list-item-<?php echo $key; ?>" class="list-item">
 			<input type='hidden' name='status[]' value='<?php echo $Statuses[$key]; ?>' />
 			<input type='hidden' name='status_percentages[]' value='<?php echo $Percentages[$key]; ?>' />
-			<td class="status-delete"><a href="admin.php?page=EWD-OTP-options&Action=EWD_OTP_DeleteStatus&DisplayPage=Statuses&Status=<?php echo $Statuses[$key]; ?>"><?php _e("Delete", 'EWD_OTP') ?></a></td>
+			<td class="status-delete"><a href="admin.php?page=EWD-OTP-options&Action=EWD_OTP_DeleteStatus&DisplayPage=Statuses&Status=<?php echo urlencode($Statuses[$key]); ?>"><?php _e("Delete", 'EWD_OTP') ?></a></td>
 			<td class="status"><?php echo $Statuses[$key]; ?></td>
 			<td class="status-completed"><?php echo $Percentages[$key]; ?></td>
 		</tr>	

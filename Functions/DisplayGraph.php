@@ -18,51 +18,81 @@ function EWD_OTP_Display_Graph($OrderNumber) {
 		elseif (($key+1) == sizeOf($Statuses)) {$EndingStatus = $Status; $EndingPercent = $Percentages[$key];}
 	}
 		
-	/*$TotalLength = 365;
-	
-	$XStart = 85;
-	$YStart = 42;
-	$YEnd = 70;
-	
-	if ($CurrentPercent == 100) {$image = imagecreatefrompng(plugin_dir_path( __FILE__ ) . "../images/Arrow_Full.png");}
-	else {
-			$image = imagecreatefrompng(plugin_dir_path( __FILE__ ) . "../images/Arrow.png");
-			
-			$turqoise = imagecolorallocate($image, 99, 198, 174);
-			
-			$CurrentLength = ($TotalLength / 100) * $CurrentPercent;
-			
-			$XEnd = $XStart + $CurrentLength;
-			$XStatus = round(min(($TotalLength+$XStart-($TotalLength/3)), max(($XStart+($TotalLength/3)), $XEnd)),0);
-			
-			imagefilledrectangle($image, $XStart, $YStart, $XEnd, $YEnd, $turqoise);
+	$Browser = get_user_browser();
+	 
+	if ($Browser == "ie") {
+	     	$DisplayLength = round($CurrentPercent / 100, 1) * 10;
+		$ReturnString .= "<div class='ie-ewd-otp-empty-display ie-empty-graphic-" . $Display_Graphic . "'></div>";
+	 		$ReturnString .= "<div class='ie-ewd-otp-full-display ie-full-graphic-" . $Display_Graphic . " ie-ewd-otp-display-length-" . $DisplayLength . "'></div>";
+	 		$ReturnString .= "<div class='ie-ewd-otp-display-status' id='ie-ewd-otp-initial-status'>" . $StartingStatus . "</div>";
+		$ReturnString .= "<div class='ie-ewd-otp-display-status ie-ewd-otp-current-status-length-" . $DisplayLength . "' id='ie-ewd-otp-current-status'>" . $CurrentStatus . "</div>";
+		$ReturnString .= "<div class='ie-ewd-otp-display-status' id='ie-ewd-otp-ending-status'>" . $EndingStatus . "</div>";
+	} else {
+		if (($Display_Graphic == "Default") or ($Display_Graphic == "Streamlined") or ($Display_Graphic == "Sleek")) {  
+			$DisplayLength = round($CurrentPercent / 100, 1) * 10;
+			$ReturnString .= "";
+			$ReturnString .= "<div class='ewd-otp-empty-display'>";
+			$ReturnString .= "<img src='" .$plugins_url ."/DevelopmentFour/wp-content/plugins/order-tracking/images/" . $Display_Graphic .".png' style='width: 100%'/></div>";
+			$ReturnString .= "<div class='ewd-otp-full-display' style='width:" . $CurrentPercent . "%'>";
+	 		$ReturnString .= "<img src='" .$plugins_url ."/DevelopmentFour/wp-content/plugins/order-tracking/images/" . $Display_Graphic ."_Full.png' style='width: 100%; max-width: initial;'/></div>";
+			$ReturnString .= "</div>";
+			$ReturnString .= "<div class='ewd-otp-statuses'>";
+			$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-initial-status'>" . $StartingStatus . "</div>";
+	    	$ReturnString .= "<div class='ewd-otp-display-status ewd-otp-current-status-length-" . $DisplayLength . "' id='ewd-otp-current-status'>" . $CurrentStatus . "</div>";
+	    	$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-ending-status'>" . $EndingStatus . "</div>";
+			$ReturnString .= "</div>";
+			$ReturnString .= "<script>";
+			$ReturnString .= "function resizeImage() {";
+	  		$ReturnString .= "var imgEmpty = jQuery('.ewd-otp-empty-display > img');";
+	  		$ReturnString .= "var imgFull = jQuery('.ewd-otp-full-display > img');";
+	  		$ReturnString .= "imgFull.width(imgEmpty.width());";
+			$ReturnString .= "jQuery('.ewd-otp-status-graphic').height(imgEmpty.height());";
+	  		$ReturnString .= "}";  
+	    	$ReturnString .= "jQuery(window).resize(resizeImage);";
+	    	$ReturnString .= "jQuery('.ewd-otp-empty-display > img').load(resizeImage);";
+	  		$ReturnString .= "</script>";
+		} else {
+	  		$ReturnString .= "<div id='ewd-otp-progressbar-" . $Display_Graphic . "'><div class='" . $Display_Graphic . "' style='width: " . $CurrentPercent . "%'></div></div>";
+	  		$ReturnString .= "<div class='ewd-otp-statuses'>";
+	  		$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-initial-status'>" . $StartingStatus . "</div>";
+	  		$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-current-status' style='margin-left: " . $CurrentPercent . "%'> " . $CurrentStatus . "</div>";
+	  		$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-ending-status' style='margin-top: -20px'>" . $EndingStatus . "</div>";
+	  		$ReturnString .= "</div>";
+		}
 	}
-	//$image = @imagecreate(600, 140) or die("Cannot Initialize new GD image stream");
-	
-	imagealphablending($image, false);
-	$transparent = imagecolorallocatealpha($image, 0, 0, 0, 127);
-	imagefill($image, 0, 0, $transparent);
-	imagesavealpha($image,true);
-	imagealphablending($image, true);
-	
-	$black = imagecolorallocate($image, 0, 0, 0);
-	
-	imagestring($image, 5, $XStart-20, $YEnd+40, $StartingStatus, $black);
-	imagestring($image, 5, $XEnd+35, $YEnd+40, $EndingStatus, $black);
-	if ($CurrentPercent != 100) {imagestring($image, 5, $XStatus, $YEnd+40, $CurrentStatus, $black);}
-  	imagepng($image);
-	imagedestroy($image);
-	*/
-
-	$DisplayLength = round($CurrentPercent / 100, 1) * 10;
-
-	$ReturnString .= "<div class='ewd-otp-empty-display empty-graphic-" . $Display_Graphic . "'></div>";
-	$ReturnString .= "<div class='ewd-otp-full-display full-graphic-" . $Display_Graphic . " ewd-otp-display-length-" . $DisplayLength . "'></div>";
-	$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-initial-status'>" . $StartingStatus . "</div>";
-	$ReturnString .= "<div class='ewd-otp-display-status ewd-otp-current-status-length-" . $DisplayLength . "' id='ewd-otp-current-status'>" . $CurrentStatus . "</div>";
-	$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-ending-status'>" . $EndingStatus . "</div>";
 
 	return $ReturnString;
+}
+
+function get_user_browser() {
+	$u_agent = $_SERVER['HTTP_USER_AGENT'];
+	$ub = '';
+	if(preg_match('/MSIE/i',$u_agent))
+	{
+		$ub = "ie";
+	}
+	elseif(preg_match('/Firefox/i',$u_agent))
+	{
+		$ub = "firefox";
+	}
+	elseif(preg_match('/Safari/i',$u_agent))
+	{
+		$ub = "safari";
+	}
+	elseif(preg_match('/Chrome/i',$u_agent))
+	{
+		$ub = "chrome";
+	}
+	elseif(preg_match('/Flock/i',$u_agent))
+	{
+		$ub = "flock";
+	}
+	elseif(preg_match('/Opera/i',$u_agent))
+	{
+		$ub = "opera";
+	}
+
+    return $ub;
 }
 
 ?>
