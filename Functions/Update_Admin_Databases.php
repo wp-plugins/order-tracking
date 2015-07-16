@@ -307,13 +307,13 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 		}
 		$ValuesString = implode("','", $Values);
 		if (isset($Number)) {
-			$Order_ID = $wpdb->get_row($wpdb->prepare("SELECT Order_ID FROM $EWD_OTP_orders_table_name WHERE Order_Number='%s'", $Number));
+			$Order_ID = $wpdb->get_var($wpdb->prepare("SELECT Order_ID FROM $EWD_OTP_orders_table_name WHERE Order_Number='%s'", $Number));
 		}
 
-		if ($Order_ID->Order_ID != "") {
+		if ($Order_ID != "") {
 			foreach ($Values as $key => $value) {$UpdateString .= $Fields[$key] . "='" . $value . "', ";}
-			$wpdb->query($wpdb->prepare("UPDATE $EWD_OTP_orders_table_name SET " . $UpdateString . " Order_Status_Updated='%s' WHERE Order_ID='%d'", $Date, $Order_ID->Order_ID));
-			$Order = $wpdb->get_row("SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_ID='" . $Order_ID->Order_ID . "'");
+			$wpdb->query($wpdb->prepare("UPDATE $EWD_OTP_orders_table_name SET " . $UpdateString . " Order_Status_Updated='%s' WHERE Order_ID='%d'", $Date, $Order_ID));
+			$Order = $wpdb->get_row("SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_ID='" . $Order_ID . "'");
 			if ($Order_Email == "Change" and $Order->Order_Email != "") {
 				EWD_OTP_Send_Email($Order->Order_Email, $Order->Order_Number, $Order->Order_Status, $Order->Order_Notes_Public, $Order->Order_Status_Updated, $Order->Order_Name);
 			}
