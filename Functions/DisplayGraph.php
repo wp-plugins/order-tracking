@@ -32,9 +32,9 @@ function EWD_OTP_Display_Graph($OrderNumber) {
 			$DisplayLength = round($CurrentPercent / 100, 1) * 10;
 			$ReturnString .= "";
 			$ReturnString .= "<div class='ewd-otp-empty-display'>";
-			$ReturnString .= "<img src='" .$plugins_url ."/DevelopmentFour/wp-content/plugins/order-tracking/images/" . $Display_Graphic .".png' style='width: 100%'/></div>";
+			$ReturnString .= "<img src='" . EWD_OTP_CD_PLUGIN_URL . "images/" . $Display_Graphic .".png' style='width: 100%'/></div>";
 			$ReturnString .= "<div class='ewd-otp-full-display' style='width:" . $CurrentPercent . "%'>";
-	 		$ReturnString .= "<img src='" .$plugins_url ."/DevelopmentFour/wp-content/plugins/order-tracking/images/" . $Display_Graphic ."_Full.png' style='width: 100%; max-width: initial;'/></div>";
+	 		$ReturnString .= "<img src='" . EWD_OTP_CD_PLUGIN_URL ."images/" . $Display_Graphic ."_Full.png' style='width: 100%; max-width: initial;'/></div>";
 			$ReturnString .= "</div>";
 			$ReturnString .= "<div class='ewd-otp-statuses'>";
 			$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-initial-status'>" . $StartingStatus . "</div>";
@@ -43,14 +43,14 @@ function EWD_OTP_Display_Graph($OrderNumber) {
 			$ReturnString .= "</div>";
 			$ReturnString .= "<script>";
 			$ReturnString .= "function resizeImage() {";
-	  		$ReturnString .= "var imgEmpty = jQuery('.ewd-otp-empty-display > img');";
-	  		$ReturnString .= "var imgFull = jQuery('.ewd-otp-full-display > img');";
-	  		$ReturnString .= "imgFull.width(imgEmpty.width());";
-			$ReturnString .= "jQuery('.ewd-otp-status-graphic').height(imgEmpty.height());";
-	  		$ReturnString .= "}";  
-	    	$ReturnString .= "jQuery(window).resize(resizeImage);";
-	    	$ReturnString .= "jQuery('.ewd-otp-empty-display > img').load(resizeImage);";
-	  		$ReturnString .= "</script>";
+			$ReturnString .= "	var imgEmpty = jQuery('.ewd-otp-empty-display > img');";
+			$ReturnString .= "	var imgFull = jQuery('.ewd-otp-full-display > img');";
+			$ReturnString .= "	imgFull.width(imgEmpty.width());";
+			$ReturnString .= "	jQuery('.ewd-otp-status-graphic').height(imgEmpty.height());";
+			$ReturnString .= "} ";
+			$ReturnString .= "jQuery(window).resize(resizeImage);";
+			$ReturnString .= "jQuery('.ewd-otp-empty-display > img').load(resizeImage);";
+			$ReturnString .= "</script>";
 		} else {
 	  		$ReturnString .= "<div id='ewd-otp-progressbar-" . $Display_Graphic . "'><div class='" . $Display_Graphic . "' style='width: " . $CurrentPercent . "%'></div></div>";
 	  		$ReturnString .= "<div class='ewd-otp-statuses'>";

@@ -638,20 +638,20 @@ function Update_EWD_OTP_Options() {
 	$Timezone = stripslashes_deep($Timezone);
 	$Localize_Date_Time = stripslashes_deep($Localize_Date_Time);
 		
-	update_option('EWD_OTP_Custom_CSS', $Custom_CSS);
-	update_option('EWD_OTP_AJAX_Reload', $AJAX_Reload);
-	update_option('EWD_OTP_New_Window', $New_Window);
-	update_option('EWD_OTP_Order_Information', $Order_Information);
-	update_option('EWD_OTP_Order_Email', $Order_Email);
-	update_option("EWD_OTP_Email_Confirmation", $Email_Confirmation);
-	update_option('EWD_OTP_Form_Instructions', $Form_Instructions);
-	update_option('EWD_OTP_Timezone', $Timezone);
-	update_option('EWD_OTP_Localize_Date_Time', $Localize_Date_Time);
+	if (isset($_POST['custom_css'])) {update_option('EWD_OTP_Custom_CSS', $Custom_CSS);}
+	if (isset($_POST['ajax_reload'])) {update_option('EWD_OTP_AJAX_Reload', $AJAX_Reload);}
+	if (isset($_POST['new_window'])) {update_option('EWD_OTP_New_Window', $New_Window);}
+	if (isset($_POST['order_information'])) {update_option('EWD_OTP_Order_Information', $Order_Information);}
+	if (isset($_POST['order_email'])) {update_option('EWD_OTP_Order_Email', $Order_Email);}
+	if (isset($_POST['email_confirmation'])) {update_option("EWD_OTP_Email_Confirmation", $Email_Confirmation);}
+	if (isset($_POST['form_instructions'])) {update_option('EWD_OTP_Form_Instructions', $Form_Instructions);}
+	if (isset($_POST['timezone'])) {update_option('EWD_OTP_Timezone', $Timezone);}
+	if (isset($_POST['localize_date_time'])) {update_option('EWD_OTP_Localize_Date_Time', $Localize_Date_Time);}
 
-	if ($EWD_OTP_Full_Version == "Yes") {update_option('EWD_OTP_Access_Role', $Access_Role);}
-	if ($EWD_OTP_Full_Version == "Yes") {update_option('EWD_OTP_WooCommerce_Integration', $WooCommerce_Integration);}
-	if ($EWD_OTP_Full_Version == "Yes") {update_option('EWD_OTP_Display_Graphic', $Display_Graphic);}
-	if ($EWD_OTP_Full_Version == "Yes") {update_option('EWD_OTP_Mobile_Stylesheet', $Mobile_Stylesheet);}
+	if (isset($_POST['access_role']) and $EWD_OTP_Full_Version == "Yes") {update_option('EWD_OTP_Access_Role', $Access_Role);}
+	if (isset($_POST['woocommerce_integration']) and $EWD_OTP_Full_Version == "Yes") {update_option('EWD_OTP_WooCommerce_Integration', $WooCommerce_Integration);}
+	if (isset($_POST['display_graphic']) and $EWD_OTP_Full_Version == "Yes") {update_option('EWD_OTP_Display_Graphic', $Display_Graphic);}
+	if (isset($_POST['mobile_stylesheet']) and $EWD_OTP_Full_Version == "Yes") {update_option('EWD_OTP_Mobile_Stylesheet', $Mobile_Stylesheet);}
 }
 
 function Update_EWD_OTP_Email_Settings() {
@@ -683,16 +683,16 @@ function Update_EWD_OTP_Email_Settings() {
 	if (function_exists('mcrypt_decrypt')) {$Encrypted_Admin_Password = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $Admin_Password, MCRYPT_MODE_CBC, md5(md5($key))));}
 	else {$Encrypted_Admin_Password = $Admin_Password;}
 		
-	update_option('EWD_OTP_Admin_Email', $Admin_Email);
-	update_option('EWD_OTP_From_Name', $From_Name);
-	update_option('EWD_OTP_Message_Body', $Message_Body);
-	update_option('EWD_OTP_Subject_Line', $Subject_Line);
-	update_option('EWD_OTP_Tracking_Page', $Tracking_Page);
-	update_option('EWD_OTP_SMTP_Mail_Server', $SMTP_Mail_Server);
-	update_option('EWD_OTP_Use_SMTP', $Use_SMTP);
-	update_option('EWD_OTP_Port', $Port);
-	update_option('EWD_OTP_Username', $Username);
-	update_option('EWD_OTP_Admin_Password', $Encrypted_Admin_Password);
-	update_option('EWD_OTP_Encryption_Type', $Encryption_Type);
+	if (isset($_POST['admin_email'])) {update_option('EWD_OTP_Admin_Email', $Admin_Email);}
+	if (isset($_POST['from_name'])) {update_option('EWD_OTP_From_Name', $From_Name);}
+	if (isset($_POST['message_body'])) {update_option('EWD_OTP_Message_Body', $Message_Body);}
+	if (isset($_POST['subject_line'])) {update_option('EWD_OTP_Subject_Line', $Subject_Line);}
+	if (isset($_POST['tracking_page'])) {update_option('EWD_OTP_Tracking_Page', $Tracking_Page);}
+	if (isset($_POST['smtp_mail_server'])) {update_option('EWD_OTP_SMTP_Mail_Server', $SMTP_Mail_Server);}
+	if (isset($_POST['use_smtp'])) {update_option('EWD_OTP_Use_SMTP', $Use_SMTP);}
+	if (isset($_POST['port'])) {update_option('EWD_OTP_Port', $Port);}
+	if (isset($_POST['username'])) {update_option('EWD_OTP_Username', $Username);}
+	if (isset($_POST['admin_password'])) {update_option('EWD_OTP_Admin_Password', $Encrypted_Admin_Password);}
+	if (isset($_POST['encryption_type'])) {update_option('EWD_OTP_Encryption_Type', $Encryption_Type);}
 }
 ?>

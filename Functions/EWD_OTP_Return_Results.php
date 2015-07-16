@@ -197,6 +197,7 @@ function EWD_OTP_Return_Customer_Results($Customer_ID, $Fields = array(), $Custo
 		}
 	}
 	
+	$Page = $_POST['Page'] + 1;
 	$Start = ($Page) * 50;
 	$CutOffDate = date("Y-m-d H:i:s", time()-(60*60*24*$Cut_Off_Days));
 		
@@ -361,6 +362,7 @@ function EWD_OTP_Return_Sales_Rep_Results($Sales_Rep_ID, $Fields = array(), $Sal
 		}
 	}
 	
+	$Page = $_POST['Page'] + 1;
 	$Start = ($Page) * 50;
 	$CutOffDate = date("Y-m-d H:i:s", time()-(60*60*24*$Cut_Off_Days));
 		

@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: Rustaurius, EtoileWebDesign
 Donate Link: http://www.etoilewebdesign.com/plugin-donations/
-Tags: order tracking, order tracking system, purchase orders, order processing, order management, inventory management, deliveries, order status, customer orders, customer support, ticket tracking, support tickets, support ticket, tickets, client, customer, helpdesk, support software, help desk, help desk software, WooCommerce
+Tags: order tracking, order tracking system, track, purchase orders, order processing, order management, inventory management, deliveries, order status, customer orders, customer support, ticket tracking, support tickets, support ticket, tickets, client, customer, helpdesk, support software, help desk, help desk software, WooCommerce, order tracking app, tracking updated app, order status app
 Requires at least: 3.5.0
 Tested up to: 4.2
 License: GPLv3
@@ -13,7 +13,7 @@ Easily post status updates on your WordPress site and send automatic email notif
 
 This plugin allows you to post updates about the status of orders or tickets that can be viewed through the front-end of your WordPress site. It’s easy to use through the WordPress admin panel and completely customizable with CSS. Orders can be input and updated manually, or entered by uploading a spreadsheet. Options are available to decide what information is displayed, to style the tracking form, to import and export orders via spreadsheet,to send out status update emails and more!
 
-Simply insert the ‘order-tracking’ shortcode into any page, and the tracking form will be displayed. 
+Simply insert the ‘order-tracking’ shortcode into any page, and the tracking form will be displayed. It's the simplest order tracking app around!
 
 = Key Features =
 
@@ -156,6 +156,10 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog == 
+= 2.2.4 =
+- Fixed a possible options bug and email settings bug
+- Fixed a tracking graphic display bug
+
 = 2.2.3 =
 - CSS update that moves the plugin away from using Yahoo's Pure CSS (WARNING: if you're using your own custom CSS with this plugin, the selectors in the shortcodes are being changed)
 - Added new premium arrow options, improved the responsiveness of the mobile stylesheet
