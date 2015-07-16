@@ -13,6 +13,15 @@ $Order_Information = explode(",", $Order_Information_String);
 		<div class="handlediv" title="Click to toggle"></div><h3 class='hndle'><span><?php _e("Full Version", 'EWD_OTP') ?></span></h3>
 		<div class="inside">
 				<ul><li><a href="http://www.etoilewebdesign.com/order-tracking/"><?php _e("Upgrade to the full version ", "EWD_OTP"); ?></a><?php _e("to take advantage of all the available features of the Order Tracking for Wordpress!", 'EWD_OTP'); ?></li>
+				<h3 class='hndle'><span><?php _e("What you get by upgrading:", 'EWD_OTP') ?></span></h3>
+				<ul>
+					<li>Access to the "Custom Fields" tab, so you can create and display your own fields.</li>
+					<li>Access to the "Locations" tab, so you can let customers know where their order is.</li>
+					<li>Access to the "Sales Reps" and "Customers" tabs, so you can assign orders to customers or sales reps.</li>
+					<li>Additional display options, including a mobile stylesheet as well as different tracking graphic options.</li>
+					<li>WooCommerce integration as well as other premium features!</li>
+					<li>Access to e-mail support. </li>
+				</ul>
 				<div class="full-version-form-div">
 						<form action="admin.php?page=EWD-OTP-options" method="post">
 								<div class="form-field form-required">
@@ -40,7 +49,7 @@ $Order_Information = explode(",", $Order_Information_String);
 											<?php } else { ?><ul><li><?php _e("Thanks for upgrading to version 2.2.9!", 'EWD_OTP'); ?><br> <a href='http://www.facebook.com/EtoileWebDesign'><?php _e("Follow us on Facebook", 'EWD_OTP'); ?></a> <?php _e("to suggest new features or hear about upcoming ones!", 'EWD_OTP');?> </li></ul><?php } */?>
 											
 											<?php  if (get_option("EWD_OTP_Install_Flag") == "Yes") { ?><ul><li><?php _e("Thanks for installing Order Tracking.", 'EWD_OTP'); ?><br> <a href='http://www.facebook.com/EtoileWebDesign'><?php _e("Follow us on Facebook", 'EWD_OTP'); ?></a> <?php _e("to suggest new features or hear about upcoming ones!", 'EWD_OTP');?>  </li></ul>
-											<?php } else { ?><ul><li><?php _e("Thanks for upgrading to version 2.2.6!", 'EWD_OTP'); ?><br> <a href='http://wordpress.org/support/view/plugin-reviews/order-tracking'><?php _e("Please rate our plugin", 'EWD_OTP'); ?></a> <?php _e("if you find Order Tracking useful!", 'EWD_OTP');?> </li></ul><?php } ?>
+											<?php } else { ?><ul><li><?php _e("Thanks for upgrading to version 2.2.7!", 'EWD_OTP'); ?><br> <a href='http://wordpress.org/support/view/plugin-reviews/order-tracking'><?php _e("Please rate our plugin", 'EWD_OTP'); ?></a> <?php _e("if you find Order Tracking useful!", 'EWD_OTP');?> </li></ul><?php } ?>
 											
 											<?php /*if (get_option("EWD_OTP_Install_Flag") == "Yes") { ?><ul><li><?php _e("Thanks for installing the Ultimate Product Catalogue Plugin.", 'EWD_OTP'); ?><br> <a href='http://www.facebook.com/EtoileWebDesign'><?php _e("Follow us on Facebook", 'EWD_OTP'); ?></a> <?php _e("to suggest new features or hear about upcoming ones!", 'EWD_OTP');?>  </li></ul>
 											<?php } else { ?><ul><li><?php _e("Thanks for upgrading to version 2.3.9!", 'EWD_OTP'); ?><br> <a href='http://wordpress.org/support/topic/error-hunt'><?php _e("Please let us know about any small display/functionality errors. ", 'EWD_OTP'); ?></a> <?php _e("We've noticed a couple, and would like to eliminate as many as possible.", 'EWD_OTP');?> </li></ul><?php } */?>
@@ -65,6 +74,20 @@ $Order_Information = explode(",", $Order_Information_String);
 		update_option('EWD_OTP_Install_Flag', "No"); 
 	} 
 ?>
+
+<div id="side-sortables" class="metabox-holder ">
+<div id="upcp-support" class="postbox " >
+	<div class="handlediv" title="Click to toggle"></div><h3 class='hndle'><span><?php _e("Support Options:", 'EWD_OTP') ?></span></h3>
+	<div class="inside">
+		<ul>
+			<li><a href='https://www.youtube.com/channel/UCZPuaoetCJB1vZOmpnMxJNw/feed'>Our YouTube channel with getting started and plugin feature tutorials.</a></li>
+			<li><a href='http://www.etoilewebdesign.com/order-tracking-faq/'>Plugin in-depth FAQ page.</a></li>
+			<li><a href='https://wordpress.org/support/plugin/order-tracking'>WordPress support forum.</a></li>
+			<!--<li><a href='http://www.etoilewebdesign.com/wp-content/uploads/2015/07/UPCP-Document.pdf'>PDF of the plugin documentation.</a></li> -->
+		</ul>
+	</div>
+</div>
+</div>
 
 <div id="col-right">
 <div class="col-wrap">
