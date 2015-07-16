@@ -156,6 +156,9 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog == 
+= 2.2.5 =
+- Fixed a small CSS overflow problem
+
 = 2.2.4 =
 - Fixed a possible options bug and email settings bug
 - Fixed a tracking graphic display bug
