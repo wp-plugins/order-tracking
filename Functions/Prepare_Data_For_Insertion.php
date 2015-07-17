@@ -211,10 +211,10 @@ function EWD_OTP_Send_Email($Order_Email, $Order_Number, $Order_Status, $Order_N
 			}		
 			}
 		else {
-			$headers = 'From: ' . $Admin_Email . "\r\n" .
+			$headers = 'From: ' . $From_Name . '<' . $Admin_Email . ">\r\n" .
     					'Reply-To: ' . $Admin_Email . "\r\n" .
     					'X-Mailer: PHP/' . phpversion();
-			$Mail_Success = mail($Order_Email, "Order Update", $Message_Body, $headers);
+			$Mail_Success = mail($Order_Email, $Subject_Line, $Message_Body, $headers);
 		}
 	}
 }

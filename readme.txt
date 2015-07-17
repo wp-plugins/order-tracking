@@ -156,6 +156,9 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog == 
+= 2.2.8 =
+- Fixed a potential emailing subject and send from issue
+
 = 2.2.7 =
 - Updated the dashboard tab with support information
 
