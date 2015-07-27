@@ -187,17 +187,18 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     vertical-align: top;
     width: 100%;
     clear: both;
-    margin-bottom: 10px;
+    display:block;
+    margin: 10px 15px;
 }
 .pure-form-aligned .pure-control-group {
-    margin-bottom: .5em
+    margin: 15px 0;
 }
 .pure-form-aligned .pure-control-group label {
     text-align: right;
     display: inline-block;
     vertical-align: middle;
     width: 10em;
-    margin: 0 1em 0 0
+    margin: 5px 0;
 }
 .pure-form-aligned .pure-controls {
     margin: 1.5em 0 0 10em

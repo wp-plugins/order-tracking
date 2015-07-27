@@ -9,6 +9,18 @@
 }
 .ewd-otp-tracking-results {
   margin-bottom: 9px;
+  width:100%;
+}
+#ewd-otp-tracking-number{
+  height:30px;
+  padding:5px;
+  margin:5px;
+}
+.ewd-otp-submit{
+  float:left;
+}
+.ewd-otp-status-message input{
+  margin:10px 15px;
 }
 .mb-6 {
   margin-bottom: 6px;
@@ -148,6 +160,9 @@
   font-weight: 600;
   text-align: center;
 }
+.ewd-otp-statuses div {
+  display:inline;
+}
 
 #ewd-otp-initial-status {
   float:left;
@@ -156,17 +171,17 @@
   float:right;
 }
 
-.ewd-otp-current-status-length-0 {position: absolute; left: 0%}
-.ewd-otp-current-status-length-1 {position: absolute; left: 5%}
-.ewd-otp-current-status-length-2 {position: absolute; left: 15%}
-.ewd-otp-current-status-length-3 {position: absolute; left: 25%}
-.ewd-otp-current-status-length-4 {position: absolute; left: 35%}
-.ewd-otp-current-status-length-5 {position: absolute; left: 45%}
-.ewd-otp-current-status-length-6 {position: absolute; left: 55%}
-.ewd-otp-current-status-length-7 {position: absolute; left: 65%}
-.ewd-otp-current-status-length-8 {position: absolute; left: 75%}
-.ewd-otp-current-status-length-9 {position: absolute; left: 85%}
-.ewd-otp-current-status-length-10 {position: absolute; left: 100%}
+.ewd-otp-current-status-length-0 {position: relative; left: 0%}
+.ewd-otp-current-status-length-1 {position: relative; left: 5%}
+.ewd-otp-current-status-length-2 {position: relative; left: 15%}
+.ewd-otp-current-status-length-3 {position: relative; left: 25%}
+.ewd-otp-current-status-length-4 {position: relative; left: 35%}
+.ewd-otp-current-status-length-5 {position: relative; left: 45%}
+.ewd-otp-current-status-length-6 {position: relative; left: 55%}
+.ewd-otp-current-status-length-7 {position: relative; left: 65%}
+.ewd-otp-current-status-length-8 {position: relative; left: 75%}
+.ewd-otp-current-status-length-9 {position: relative; left: 85%}
+.ewd-otp-current-status-length-10 {position: relative; left: 100%}
 
 /*******************************************************************
 * NEW TRACKING GRAPHIC RESPONSIVE

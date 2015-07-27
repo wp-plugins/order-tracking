@@ -156,6 +156,9 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog == 
+= 2.2.9 =
+- Fixed an image display bug in Firefox
+
 = 2.2.8 =
 - Fixed a potential emailing subject and send from issue
 

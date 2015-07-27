@@ -56,7 +56,7 @@ function EWD_OTP_Display_Graph($OrderNumber) {
 	  		$ReturnString .= "<div class='ewd-otp-statuses'>";
 	  		$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-initial-status'>" . $StartingStatus . "</div>";
 	  		$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-current-status' style='margin-left: " . $CurrentPercent . "%'> " . $CurrentStatus . "</div>";
-	  		$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-ending-status' style='margin-top: -20px'>" . $EndingStatus . "</div>";
+	  		$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-ending-status'>" . $EndingStatus . "</div>";
 	  		$ReturnString .= "</div>";
 		}
 	}
