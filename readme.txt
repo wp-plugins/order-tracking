@@ -11,9 +11,9 @@ Easily post status updates on your WordPress site and send automatic email notif
 
 == Description ==
 
-This plugin allows you to post updates about the status of orders or tickets that can be viewed through the front-end of your WordPress site. It’s easy to use through the WordPress admin panel and completely customizable with CSS. Orders can be input and updated manually, or entered by uploading a spreadsheet. Options are available to decide what information is displayed, to style the tracking form, to import and export orders via spreadsheet,to send out status update emails and more!
+This order tracking software allows you to post updates about the status of orders or tickets that can be viewed through the front-end of your WordPress site. It’s software that's easy to use through the WordPress admin panel and completely customizable with CSS. Orders can be input and updated manually, or entered by uploading a spreadsheet. Options are available to decide what information is displayed, to style the tracking form, to import and export orders via spreadsheet,to send out status update emails and more!
 
-Simply insert the ‘order-tracking’ shortcode into any page, and the tracking form will be displayed. It's the simplest order tracking app around!
+Simply insert the ‘order-tracking’ shortcode into any page, and the tracking form will be displayed. It's the simplest order tracking system around!
 
 = Key Features =
 
@@ -156,6 +156,9 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog == 
+= 2.2.10 =
+- Fixed a small display bug
+
 = 2.2.9 =
 - Fixed an image display bug in Firefox
 
