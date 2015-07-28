@@ -156,6 +156,9 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog == 
+= 2.2.11 =
+- Fixed a potential WooCommerce integration warning
+
 = 2.2.10 =
 - Fixed a small display bug
 

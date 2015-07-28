@@ -5,7 +5,7 @@ if ($WooCommerce_Integration == "Yes") {
 	add_action('woocommerce_order_status_changed', 'Update_WooCommerce_Order');
 }
 
-function Update_WooCommerce_Order($post_id, $old_status, $new_status) {
+function Update_WooCommerce_Order($post_id, $old_status = "", $new_status = "") {
 	global $wpdb, $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name;
 
 	$Order_Email = get_option("EWD_OTP_Order_Email");
