@@ -14,11 +14,50 @@
 	$Display_Graphic = get_option("EWD_OTP_Display_Graphic");
 	$Mobile_Stylesheet = get_option("EWD_OTP_Mobile_Stylesheet");
 
+	$Order_Information_Label = get_option("EWD_OTP_Order_Information_Label");
+	$Order_Number_Label = get_option("EWD_OTP_Order_Number_Label");
+	$Order_Name_Label = get_option("EWD_OTP_Order_Name_Label");
+	$Order_Notes_Label = get_option("EWD_OTP_Order_Notes_Label");
+	$Customer_Notes_Label = get_option("EWD_OTP_Customer_Notes_Label");
+	$Order_Status_Label = get_option("EWD_OTP_Order_Status_Label");
+	$Order_Location_Label = get_option("EWD_OTP_Order_Location_Label");
+	$Order_Updated_Label = get_option("EWD_OTP_Order_Updated_Label");
+
+	$OTP_Styling_Title_Font = get_option("EWD_OTP_Styling_Title_Font");
+	$OTP_Styling_Title_Font_Size = get_option("EWD_OTP_Styling_Title_Font_Size");
+	$OTP_Styling_Title_Font_Color = get_option("EWD_OTP_Styling_Title_Font_Color");
+	$OTP_Styling_Label_Font = get_option("EWD_OTP_Styling_Label_Font");
+	$OTP_Styling_Label_Font_Size = get_option("EWD_OTP_Styling_Label_Font_Size");
+	$OTP_Styling_Label_Font_Color = get_option("EWD_OTP_Styling_Label_Font_Color");
+	$OTP_Styling_Content_Font = get_option("EWD_OTP_Styling_Content_Font");
+	$OTP_Styling_Content_Font_Size = get_option("EWD_OTP_Styling_Content_Font_Size");
+	$OTP_Styling_Content_Font_Color = get_option("EWD_OTP_Styling_Content_Font_Color");
+	$OTP_Styling_Title_Margin = get_option("EWD_OTP_Styling_Title_Margin");
+	$OTP_Styling_Title_Padding = get_option("EWD_OTP_Styling_Title_Padding");
+	$OTP_Styling_Body_Margin = get_option("EWD_OTP_Styling_Body_Margin");
+	$OTP_Styling_Body_Padding = get_option("EWD_OTP_Styling_Body_Padding");
+	$OTP_Styling_Button_Font_Color = get_option("EWD_OTP_Styling_Button_Font_Color");
+	$OTP_Styling_Button_Bg_Color = get_option("EWD_OTP_Styling_Button_Bg_Color");
+	$OTP_Styling_Button_Border = get_option("EWD_OTP_Styling_Button_Border");
+	$OTP_Styling_Button_Margin = get_option("EWD_OTP_Styling_Button_Margin");
+	$OTP_Styling_Button_Padding = get_option("EWD_OTP_Styling_Button_Padding");
 ?>
-<div class="wrap">
-<div id="icon-options-general" class="icon32"><br /></div><h2>Settings</h2>
+
+<div class="wrap otp-options-page-tabbed">
+<div class="otp-options-submenu-div">
+	<ul class="otp-options-submenu otp-options-page-tabbed-nav">
+		<li><a id="Basic_Menu" class="MenuTab options-subnav-tab <?php if ($Display_Tab == '' or $Display_Tab == 'Basic') {echo 'options-subnav-tab-active';}?>" onclick="ShowOptionTab('Basic');">Basic</a></li>
+		<li><a id="Premium_Menu" class="MenuTab options-subnav-tab <?php if ($Display_Tab == 'Premium') {echo 'options-subnav-tab-active';}?>" onclick="ShowOptionTab('Premium');">Premium</a></li>
+		<li><a id="Labelling_Menu" class="MenuTab options-subnav-tab <?php if ($Display_Tab == 'Labelling') {echo 'options-subnav-tab-active';}?>" onclick="ShowOptionTab('Labelling');">Labelling</a></li>
+		<li><a id="Styling_Menu" class="MenuTab options-subnav-tab <?php if ($Display_Tab == 'Labelling') {echo 'options-subnav-tab-active';}?>" onclick="ShowOptionTab('Styling');">Styling</a></li>
+	</ul>
+</div>
+
+<div class="otp-options-page-tabbed-content">
 
 <form method="post" action="admin.php?page=EWD-OTP-options&DisplayPage=Options&Action=EWD_OTP_UpdateOptions">
+<div id='Basic' class='otp-option-set'>
+<h3 id='label-basic-options'>Basic Options</h3>
 <table class="form-table">
 <tr>
 <th scope="row">Custom CSS</th>
@@ -218,8 +257,10 @@
 </td>
 </tr>
 </table>
+</div>
 
-<h3>Premium Options</h3>
+<div id='Premium' class='otp-option-set otp-hidden'>
+<h3 id='label-premium-options'>Premium Options</h3>
 <table class="form-table">
 <tr>
 <th scope="row">Set Access Role</th>
@@ -273,8 +314,162 @@
 </td>
 </tr>
 </table>
+</div>
 
+<div id='Labelling' class='otp-option-set otp-hidden'>
+<h3 id='label-labelling-options' >Labelling Options</h3>
+		<div class="otp-label-description"> Replace the default text on the order tracking page </div>
+
+<div id='labelling-view-options' class="otp-options-div otp-options-flex">
+<!-- <div class='otp-subsection'>	
+	<div class='otp-subsection-header'>Order Main Page </div>
+	<div class='otp-subsection-content'>
+ -->	
+ 	<div class='otp-option otp-label-option'>
+		<?php _e("Order Information", 'OTP')?>
+			<fieldset>
+			<input type='text' name='order_information_label' value='<?php echo $Order_Information_Label; ?>' <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/>
+			</fieldset>
+		</div>
+		<div class='otp-option otp-label-option'>
+		<?php _e("Order Number", 'OTP')?>
+			<fieldset>
+			<input type='text' name='order_number_label' value='<?php echo $Order_Number_Label; ?>' <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/>
+			</fieldset>
+		</div>
+		<div class='otp-option otp-label-option'>
+		<?php _e("Order Name", 'OTP')?>
+			<fieldset>
+			<input type='text' name='order_name_label' value='<?php echo $Order_Name_Label; ?>' <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/>
+			</fieldset>
+		</div>
+		<div class='otp-option otp-label-option'>
+		<?php _e("Order Notes", 'OTP')?>
+			<fieldset>
+			<input type='text' name='order_notes_label' value='<?php echo $Order_Notes_Label; ?>' <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/>
+			</fieldset>
+		</div>
+		<div class='otp-option otp-label-option'>		
+		<?php _e("Customer Notes", 'OTP')?>
+			<fieldset>
+			<input type='text' name='customer_notes_label' value='<?php echo $Customer_Notes_Label; ?>' <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/>
+			</fieldset>
+		</div>
+		<div class='otp-option otp-label-option'>
+		<?php _e("Order Status", 'OTP')?>
+			<fieldset>
+			<input type='text' name='order_status_label' value='<?php echo $Order_Status_Label; ?>' <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/>
+			</fieldset>
+		</div>
+		<div class='otp-option otp-label-option'>
+		<?php _e("Order Location", 'OTP')?>
+			<fieldset>
+			<input type='text' name='order_location_label' value='<?php echo $Order_Location_Label; ?>' <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/>
+			</fieldset>
+		</div>
+		<div class='otp-option otp-label-option'>
+		<?php _e("Order Updated", 'OTP')?>
+			<fieldset>
+			<input type='text' name='order_updated_label' value='<?php echo $Order_Updated_Label; ?>' <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/>
+			</fieldset>
+		</div>
+	</div>
+	</div>
+
+	<div id='Styling' class='otp-option-set otp-hidden'>
+		<h3 id='label-styling-options' >Styling Options</h3>
+			<div class="otp-label-description"> Apply custom styling to the order tracking plugin </div>
+			<div id='styling-view-options' class="otp-options-div otp-options-flex">
+
+		<div class='otp-styling-header'>Title - Order Information</div>
+			<div class='otp-option otp-styling-option'>
+				<div class='otp-option-label'>Title Font</div>
+				<div class='otp-option-input'><input type='text' name='otp_styling_title_font' value='<?php echo $OTP_Styling_Title_Font; ?>' /></div>
+			</div> 
+			<div class='otp-option otp-styling-option'>
+				<div class='otp-option-label'>Title Font Size</div>
+				<div class='otp-option-input'><input type='text' name='otp_styling_title_font_size' value='<?php echo $OTP_Styling_Title_Font_Size; ?>' /></div>
+			</div>
+			<div class='otp-option otp-styling-option'>
+				<div class='otp-option-label'>Title Color</div>
+				<div class='otp-option-input'><input type='text' name='otp_styling_title_font_color' value='<?php echo $OTP_Styling_Title_Font_Color; ?>' /></div>
+			</div>
+		
+		<div class='otp-styling-header'>Body - Field Labels </div>
+			<div class='otp-option otp-styling-option'>
+				<div class='otp-option-label'>Label Font</div>
+				<div class='otp-option-input'><input type='text' name='otp_styling_label_font' value='<?php echo $OTP_Styling_Label_Font; ?>' /></div>
+			</div>	
+			<div class='otp-option otp-styling-option'>
+				<div class='otp-option-label'>Label Font Size</div>
+				<div class='otp-option-input'><input type='text' name='otp_styling_label_font_size' value='<?php echo $OTP_Styling_Label_Font_Size; ?>' /></div>
+			</div>
+			<div class='otp-option otp-styling-option'>
+				<div class='otp-option-label'>Label Color</div>
+				<div class='otp-option-input'><input type='text' name='otp_styling_label_font_color' value='<?php echo $OTP_Styling_Label_Font_Color; ?>' /></div>
+			</div>
+		
+		<div class='otp-styling-header'>Body - Field Content </div>
+			<div class='otp-option otp-styling-option'>
+				<div class='otp-option-label'>Content Font</div>
+				<div class='otp-option-input'><input type='text' name='otp_styling_content_font' value='<?php echo $OTP_Styling_Content_Font; ?>' /></div>
+			</div>	
+			<div class='otp-option otp-styling-option'>
+				<div class='otp-option-label'>Content Font Size</div>
+				<div class='otp-option-input'><input type='text' name='otp_styling_content_font_size' value='<?php echo $OTP_Styling_Content_Font_Size; ?>' /></div>
+			</div>
+			<div class='otp-option otp-styling-option'>
+				<div class='otp-option-label'>Content Color</div>
+				<div class='otp-option-input'><input type='text' name='otp_styling_content_font_color' value='<?php echo $OTP_Styling_Content_Font_Color; ?>' /></div>
+			</div>
+	
+		<div class='otp-styling-header'> Spacing </div>
+			<div class='otp-option otp-styling-option'>
+				<div class='otp-option-label'>Title Margin</div>
+				<div class='otp-option-input'><input type='text' name='otp_styling_title_margin' value='<?php echo $OTP_Styling_Title_Margin; ?>' /></div>
+			</div>
+			<div class='otp-option otp-styling-option'>
+				<div class='otp-option-label'>Title Padding</div>
+				<div class='otp-option-input'><input type='text' name='otp_styling_title_padding' value='<?php echo $OTP_Styling_Title_Padding; ?>' /></div>
+			</div>
+			<div class='otp-option otp-styling-option'>
+				<div class='otp-option-label'>Body Margin</div>
+				<div class='otp-option-input'><input type='text' name='otp_styling_body_margin' value='<?php echo $OTP_Styling_Body_Margin; ?>' /></div>
+			</div>
+			<div class='otp-option otp-styling-option'>
+				<div class='otp-option-label'>Body Padding</div>
+				<div class='otp-option-input'><input type='text' name='otp_styling_body_padding' value='<?php echo $OTP_Styling_Body_Padding; ?>' /></div>
+			</div>						
+	
+		<div class='otp-styling-header'> Buttons </div>
+			<div class='otp-option otp-styling-option'>
+				<div class='otp-option-label'>Button Font Color</div>
+				<div class='otp-option-input'><input type='text' name='otp_styling_button_font_color' value='<?php echo $OTP_Styling_Button_Font_Color; ?>' /></div>
+			</div>
+			<div class='otp-option otp-styling-option'>
+				<div class='otp-option-label'>Button Background Color</div>
+				<div class='otp-option-input'><input type='text' name='otp_styling_button_bg_color' value='<?php echo $OTP_Styling_Button_Bg_Color; ?>' /></div>
+			</div>
+			<div class='otp-option otp-styling-option'>
+				<div class='otp-option-label'>Button Border</div>
+				<div class='otp-option-input'><input type='text' name='otp_styling_button_border' value='<?php echo $OTP_Styling_Button_Border; ?>' /></div>
+			</div>
+			<div class='otp-option otp-styling-option'>
+				<div class='otp-option-label'>Button Margin</div>
+				<div class='otp-option-input'><input type='text' name='otp_styling_button_margin' value='<?php echo $OTP_Styling_Button_Margin; ?>' /></div>
+			</div>
+			<div class='otp-option otp-styling-option'>
+				<div class='otp-option-label'>Button Padding</div>
+				<div class='otp-option-input'><input type='text' name='otp_styling_button_padding' value='<?php echo $OTP_Styling_Button_Padding; ?>' /></div>
+			</div>
+
+		</div>
+	</div>
 
 <p class="submit"><input type="submit" name="Options_Submit" id="submit" class="button button-primary" value="Save Changes"  /></p></form>
+
+</div>
+</div>
+		
 
 </div>

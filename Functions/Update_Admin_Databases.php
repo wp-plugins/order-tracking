@@ -617,7 +617,8 @@ function Update_EWD_OTP_Options() {
 	$AJAX_Reload = $_POST['ajax_reload'];
 	$New_Window = $_POST['new_window'];
 	$Order_Information_Array = $_POST['order_information'];
-	$Order_Information = implode(",", $Order_Information_Array);
+	if (is_array($Order_Information_Array)) {$Order_Information = implode(",", $Order_Information_Array);}
+	else {$Order_Information = "";}
 	$Order_Email = $_POST['order_email'];
 	$Email_Confirmation = $_POST['email_confirmation'];
 	$Form_Instructions = $_POST['form_instructions'];
@@ -627,7 +628,7 @@ function Update_EWD_OTP_Options() {
 	$WooCommerce_Integration = $_POST['woocommerce_integration'];
 	$Display_Graphic = $_POST['display_graphic'];
 	$Mobile_Stylesheet = $_POST['mobile_stylesheet'];
-		
+
 	$Custom_CSS = stripslashes_deep($Custom_CSS);
 	$AJAX_Reload = stripslashes_deep($AJAX_Reload);
 	$New_Window = stripslashes_deep($New_Window);
@@ -652,6 +653,35 @@ function Update_EWD_OTP_Options() {
 	if (isset($_POST['woocommerce_integration']) and $EWD_OTP_Full_Version == "Yes") {update_option('EWD_OTP_WooCommerce_Integration', $WooCommerce_Integration);}
 	if (isset($_POST['display_graphic']) and $EWD_OTP_Full_Version == "Yes") {update_option('EWD_OTP_Display_Graphic', $Display_Graphic);}
 	if (isset($_POST['mobile_stylesheet']) and $EWD_OTP_Full_Version == "Yes") {update_option('EWD_OTP_Mobile_Stylesheet', $Mobile_Stylesheet);}
+
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['order_information_label'])) {update_option("EWD_OTP_Order_Information_Label", $_POST['order_information_label']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['order_number_label'])) {update_option("EWD_OTP_Order_Number_Label", $_POST['order_number_label']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['order_name_label'])) {update_option("EWD_OTP_Order_Name_Label", $_POST['order_name_label']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['order_notes_label'])) {update_option("EWD_OTP_Order_Notes_Label", $_POST['order_notes_label']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['customer_notes_label'])) {update_option("EWD_OTP_Customer_Notes_Label", $_POST['customer_notes_label']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['order_status_label'])) {update_option("EWD_OTP_Order_Status_Label", $_POST['order_status_label']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['order_location_label'])) {update_option("EWD_OTP_Order_Location_Label", $_POST['order_location_label']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['order_updated_label'])) {update_option("EWD_OTP_Order_Updated_Label", $_POST['order_updated_label']);}
+
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['otp_styling_title_font'])) {update_option("EWD_OTP_Styling_Title_Font", $_POST['otp_styling_title_font']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['otp_styling_title_font_size'])) {update_option("EWD_OTP_Styling_Title_Font_Size", $_POST['otp_styling_title_font_size']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['otp_styling_title_font_color'])) {update_option("EWD_OTP_Styling_Title_Font_Color", $_POST['otp_styling_title_font_color']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['otp_styling_label_font'])) {update_option("EWD_OTP_Styling_Label_Font", $_POST['otp_styling_label_font']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['otp_styling_label_font_size'])) {update_option("EWD_OTP_Styling_Label_Font_Size", $_POST['otp_styling_label_font_size']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['otp_styling_label_font_color'])) {update_option("EWD_OTP_Styling_Label_Font_Color", $_POST['otp_styling_label_font_color']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['otp_styling_content_font'])) {update_option("EWD_OTP_Styling_Content_Font", $_POST['otp_styling_content_font']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['otp_styling_content_font_size'])) {update_option("EWD_OTP_Styling_Content_Font_Size", $_POST['otp_styling_content_font_size']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['otp_styling_content_font_color'])) {update_option("EWD_OTP_Styling_Content_Font_Color", $_POST['otp_styling_content_font_color']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['otp_styling_title_margin'])) {update_option("EWD_OTP_Styling_Title_Margin", $_POST['otp_styling_title_margin']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['otp_styling_title_padding'])) {update_option("EWD_OTP_Styling_Title_Padding", $_POST['otp_styling_title_padding']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['otp_styling_body_margin'])) {update_option("EWD_OTP_Styling_Body_Margin", $_POST['otp_styling_body_margin']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['otp_styling_body_padding'])) {update_option("EWD_OTP_Styling_Body_Padding", $_POST['otp_styling_body_padding']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['otp_styling_button_font_color'])) {update_option("EWD_OTP_Styling_Button_Font_Color", $_POST['otp_styling_button_font_color']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['otp_styling_button_bg_color'])) {update_option("EWD_OTP_Styling_Button_Bg_Color", $_POST['otp_styling_button_bg_color']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['otp_styling_button_border'])) {update_option("EWD_OTP_Styling_Button_Border", $_POST['otp_styling_button_border']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['otp_styling_button_margin'])) {update_option("EWD_OTP_Styling_Button_Margin", $_POST['otp_styling_button_margin']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['otp_styling_button_padding'])) {update_option("EWD_OTP_Styling_Button_Padding", $_POST['otp_styling_button_padding']);}
+	
 }
 
 function Update_EWD_OTP_Email_Settings() {

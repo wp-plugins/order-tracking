@@ -144,7 +144,7 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '',
 		$ReturnString .= "</div>";
 		if (in_array("Order_Status", $Order_Information) or in_array("Order_Updated", $Order_Information)) {
 			foreach ($Statuses as $Status) {
-				$ReturnString .= "<div class='ewd-otp-label-values ewd-otp-status-label-content'>";
+				$ReturnString .= "<div class='ewd-otp-label-values'>";
 				if (in_array("Order_Status", $Order_Information)) {
 					$ReturnString .= "<div class='ewd-otp-status-message pure-u-1-5'>";
 					$ReturnString .= $Status->Order_Status;
@@ -177,7 +177,7 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '',
 			$ReturnString .= "<input type='hidden' name='Tracking_Number' value='" . $TrackingNumber . "' />";
 			if ($Email != "") {$ReturnString .= "<input type='hidden' name='Order_Email' value='" . $Email . "' />";}
 			$ReturnString .= "<textarea name='Customer_Notes'>" . $Order->Order_Customer_Notes . "</textarea>";
-			$ReturnString .= "<input class='ewd-otp-submit' type='submit' name='Notes_Submit' value='" . $notes_submit . "' />";
+			$ReturnString .= "<input type='submit' name='Notes_Submit' value='" . $notes_submit . "' />";
 			$ReturnString .= "</form>";
 			$ReturnString .= "</div>";
 		}

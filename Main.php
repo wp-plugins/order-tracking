@@ -7,7 +7,7 @@ Author: Étoile Web Design
 Author URI: http://www.EtoileWebDesign.com/order-tracking/
 Terms and Conditions: http://www.etoilewebdesign.com/plugin-terms-and-conditions/
 Text Domain: EWD_OTP
-Version: 2.2.11
+Version: 2.3.0
 */
 
 global $EWD_OTP_db_version;
@@ -160,6 +160,7 @@ include "Functions/Error_Notices.php";
 include "Functions/EWD_OTP_Export_To_Excel.php";
 include "Functions/EWD_OTP_Output_Options.php";
 include "Functions/EWD_OTP_Return_Results.php";
+include "Functions/EWD_OTP_Styling.php";
 include "Functions/EWD_OTP_Widgets.php";
 include "Functions/EWD_OTP_Woo_Commerce_Integration.php";
 include "Functions/FrontEndAjaxUrl.php";

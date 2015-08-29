@@ -69,6 +69,7 @@
 </td>
 </tr>
 </table>
+<div class="otp-email-advanced-settings">
 <h3>SMTP Mail Settings</h3>
 <table class="form-table">
 <tr>
@@ -128,7 +129,9 @@
 </td>
 </tr>
 </table>
-
+</div>
+<div class="otp-email-toggle-show" onclick="ShowMoreOptions()"><a> Show Advanced Settings... </a></div>
+<div class="otp-email-toggle-hide" onclick="ShowMoreOptions()" style="display:none;"><a> Hide Advanced Settings... </a></div>
 
 <p class="submit"><input type="submit" name="Options_Submit" id="submit" class="button button-primary" value="Save Changes"  /></p></form>
 
