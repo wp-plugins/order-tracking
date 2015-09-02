@@ -156,6 +156,9 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog == 
+= 2.3.1 =
+- Fixed a problem with WooCommerce integration
+
 = 2.3.0 =
 - Completely changed the options page
 - Added labelling options in a simpler to use format

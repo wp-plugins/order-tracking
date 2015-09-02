@@ -53,13 +53,14 @@ function Add_WooCommerce_Order($post_id) {
 		$Order_Name = "WooCommerce Order #" . $post_id;
 		$Order_Number = "WC_" . $post_id . "_" . substr($Order_Key[0], -4);
 
+		$Order_Location = "";
 		$Order_Notes_Public = "";
 		$Order_Notes_Private = "";
 		$Order_Display = "Yes";
 		$Order_Status_Updated = date("Y-m-d H:i:s");
 		$Sales_Rep_ID = 0;
 
-		Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email[0], $Order_Status, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $post_id);
+		$Message = Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email[0], $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $post_id);
 		if (($Order_Email == "Change" or $Order_Email == "Creation") and $Order_Email[0] != "") {EWD_OTP_Send_Email($Order_Email[0], $Order_Number, $Order_Status, $Order_Notes_Public, $Order_Status_Updated, $Order_Name, "Yes");}
 	}
 }

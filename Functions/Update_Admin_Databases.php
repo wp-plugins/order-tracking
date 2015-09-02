@@ -355,7 +355,7 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 
 function Update_EWD_OTP_Statuses() {
 	$OriginalStatusString = get_option("EWD_OTP_Statuses") . ",";
-	echo $OriginalStatusString . "<br>";
+	
 	$OriginalPercentageString = get_option("EWD_OTP_Percentages") . ",";
 
 	foreach ($_POST['status'] as $key => $stat) {
@@ -380,7 +380,7 @@ function Update_EWD_OTP_Statuses() {
 		
 	$StatusString = substr($StatusString, 0, -1);
 	$PercentageString = substr($PercentageString, 0, -1);
-	echo $StatusString . "<br>";
+	
 	update_option("EWD_OTP_Statuses", $StatusString);
 	update_option("EWD_OTP_Percentages", $PercentageString);
 		
