@@ -48,6 +48,7 @@ Click here to find out more and to purchase the premium version:
 * Italian (thanks to MD Ariful)
 * German (thanks to Benko)
 * Norwegian (thanks to EinarSkaug)
+* Spanish (Thanks to Pablo M.)
 
 
 Check out our Frequently Asked Questions here: 
@@ -156,6 +157,10 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog == 
+= 2.3.2 =
+- Updated the mailing files, to improve the compatibility of the plugin. If mailing is working for you and important, not upgrading might be advisable.
+- Added a Spanish translation
+
 = 2.3.1 =
 - Fixed a problem with WooCommerce integration
 

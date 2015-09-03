@@ -22,13 +22,13 @@ function Add_Edit_EWD_OTP_Order() {
 		if (!isset($error)) {
 				// Pass the data to the appropriate function in Update_Admin_Databases.php to create the product 
 				if ($_POST['action'] == "Add_Order") {
-					  $user_update = Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email_Address, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID);
-						//if (($Order_Email == "Change" or $Order_Email == "Creation") and $Order_Email_Address != "") {EWD_OTP_Send_Email($Order_Email_Address, $Order_Number, $Order_Status, $Order_Notes_Public, $Order_Status_Updated, $Order_Name, "Yes");}
+					$user_update = Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email_Address, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID);
+					if (($Order_Email == "Change" or $Order_Email == "Creation") and $Order_Email_Address != "") {EWD_OTP_Send_Email($Order_Email_Address, $Order_Number, $Order_Status, $Order_Notes_Public, $Order_Status_Updated, $Order_Name, "Yes");}
 				}
 				// Pass the data to the appropriate function in Update_Admin_Databases.php to edit the product 
 				else {
-						$user_update = Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email_Address, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID);
-						//if ($Order_Email == "Change" and $Order_Email_Address != "") {EWD_OTP_Send_Email($Order_Email_Address, $Order_Number, $Order_Status, $Order_Notes_Public, $Order_Status_Updated, $Order_Name);}
+					$user_update = Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email_Address, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID);
+					if ($Order_Email == "Change" and $Order_Email_Address != "") {EWD_OTP_Send_Email($Order_Email_Address, $Order_Number, $Order_Status, $Order_Notes_Public, $Order_Status_Updated, $Order_Name);}
 				}
 				$user_update = array("Message_Type" => "Update", "Message" => $user_update);
 				return $user_update;
@@ -171,16 +171,21 @@ function EWD_OTP_Send_Email($Order_Email, $Order_Number, $Order_Status, $Order_N
 		$Field_Slug = $wpdb->get_var($wpdb->prepare("SELECT Field_Slug FROM $EWD_OTP_fields_table_name WHERE Field_ID='%d'", $Order_Meta->Field_ID));
 		$Message_Body = str_replace("[" . $Field_Slug . "]", $Order_Meta->Meta_Value, $Message_Body);
 	}
-	
+
 	$Emails = explode(",", $Order_Email);
 	foreach ($Emails as $Email) {
 		if ($SMTP_Mail_Server != "") {
 			require_once(EWD_OTP_CD_PLUGIN_PATH . '/PHPMailer/class.phpmailer.php');
+			require_once(EWD_OTP_CD_PLUGIN_PATH . '/PHPMailer/class.smtp.php');
 			$mail = new PHPMailer(true);
 			try {
+  				/*echo "Username: " . $Username . "<br>";
+  				echo "Password: " . $Admin_Password . "<br>";
+  				echo "Mail Server: " . $SMTP_Mail_Server . "<br>";*/
   				$mail->CharSet = 'UTF-8';
 				if ($Use_SMTP != "No") {
 					$mail->IsSMTP();
+					$mail->SMTPSecure = "tls";
 					$mail->SMTPAuth = true;
 					$mail->Username = $Username;
   					$mail->Password = $Admin_Password; 
