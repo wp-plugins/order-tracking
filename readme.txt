@@ -1,9 +1,9 @@
 === Plugin Name ===
 Contributors: Rustaurius, EtoileWebDesign
 Donate Link: http://www.etoilewebdesign.com/plugin-donations/
-Tags: order tracking, order tracking system, track, purchase orders, order processing, order management, inventory management, deliveries, order status, customer orders, customer support, ticket tracking, support tickets, support ticket, tickets, client, customer, helpdesk, support software, help desk, help desk software, WooCommerce, order tracking app, tracking updated app, order status app
+Tags: order tracking, order tracking system, order tracking software, e-commerce, delivery, delivery note, product shipping, ship orders, shipping, shop, track email, track, purchase orders, order processing, order management, inventory management, deliveries, order status, customer orders, customer support, ticket tracking, support tickets, support ticket, tickets, client, customer, helpdesk, support software, help desk, help desk software, WooCommerce, order tracking app, tracking updated app, order status app
 Requires at least: 3.5.0
-Tested up to: 4.2
+Tested up to: 4.3
 License: GPLv3
 License URI:http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -156,7 +156,10 @@ Premium Features
 1. Admin area
 2. Sample order tracking page
 
-== Changelog == 
+== Changelog ==
+= 2.3.3 =
+- Minor styling update, with small PHP updates
+
 = 2.3.2 =
 - Updated the mailing files, to improve the compatibility of the plugin. If mailing is working for you and important, not upgrading might be advisable.
 - Added a Spanish translation

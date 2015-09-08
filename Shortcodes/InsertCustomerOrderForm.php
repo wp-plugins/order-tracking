@@ -15,7 +15,7 @@ function Insert_Customer_Order_Form($atts) {
 	extract( shortcode_atts( array(
 		 		'order_status' => '',
 		 		'order_location' => '',
-		 		'success_message' => __('Thank you. Your order number is: "', 'EWD_OTP'),
+		 		'success_message' => __('Thank you. Your order number is: ', 'EWD_OTP'),
 		 		'customer_form_title' => __('Create an Order', 'EWD_OTP'),
 				'customer_name_field_text' => __('Order Name', 'EWD_OTP'),
 				'customer_email_field_text' => __('Order E-mail Address', 'EWD_OTP'),

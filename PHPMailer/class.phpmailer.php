@@ -3434,16 +3434,18 @@ class PHPMailer
  * PHPMailer exception handler
  * @package PHPMailer
  */
-class phpmailerException extends Exception
-{
-    /**
-     * Prettify error message output
-     * @return string
-     */
-    public function errorMessage()
+if (!class_exists("phpmailerException")) {
+    class phpmailerException extends Exception
     {
-        $errorMsg = '<strong>' . $this->getMessage() . "</strong><br />\n";
-        return $errorMsg;
+        /**
+         * Prettify error message output
+         * @return string
+         */
+        public function errorMessage()
+        {
+            $errorMsg = '<strong>' . $this->getMessage() . "</strong><br />\n";
+            return $errorMsg;
+        }
     }
 }
 

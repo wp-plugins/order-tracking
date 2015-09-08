@@ -41,17 +41,17 @@ function Add_WooCommerce_Order($post_id) {
 		$Post_Status = get_post_status($post_id);
 		$Order_Status = Return_WC_Order_Status($Post_Status);
 
-		$Order_Key = get_post_meta($post_id, "_order_key");
-		$Order_Email = get_post_meta($post_id, "_billing_email");
+		$Order_Key = get_post_meta($post_id, "_order_key", true);
+		$Order_Email = get_post_meta($post_id, "_billing_email", true);
 
-		$Customer_First_Name = get_post_meta($post_id, "_billing_first_name");
-		$Customer_Last_Name = get_post_meta($post_id, "_billing_last_name");
-		$Customer_Name = $Customer_First_Name[0] . " " . $Customer_Last_Name[0];
+		$Customer_First_Name = get_post_meta($post_id, "_billing_first_name", true);
+		$Customer_Last_Name = get_post_meta($post_id, "_billing_last_name", true);
+		$Customer_Name = $Customer_First_Name . " " . $Customer_Last_Name;
 		$Customer_ID = $wpdb->get_var($wpdb->prepare("SELECT Customer_ID FROM $EWD_OTP_customers WHERE Customer_Name='%s'", $Customer_Name));
 		if ($Customer_ID == "") {$Customer_ID = 0;}
 
 		$Order_Name = "WooCommerce Order #" . $post_id;
-		$Order_Number = "WC_" . $post_id . "_" . substr($Order_Key[0], -4);
+		$Order_Number = "WC_" . $post_id . "_" . substr($Order_Key, -4);
 
 		$Order_Location = "";
 		$Order_Notes_Public = "";
@@ -60,8 +60,8 @@ function Add_WooCommerce_Order($post_id) {
 		$Order_Status_Updated = date("Y-m-d H:i:s");
 		$Sales_Rep_ID = 0;
 
-		$Message = Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email[0], $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $post_id);
-		if (($Order_Email == "Change" or $Order_Email == "Creation") and $Order_Email[0] != "") {EWD_OTP_Send_Email($Order_Email[0], $Order_Number, $Order_Status, $Order_Notes_Public, $Order_Status_Updated, $Order_Name, "Yes");}
+		$Message = Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $post_id);
+		if (($Order_Email == "Change" or $Order_Email == "Creation") and $Order_Email != "") {EWD_OTP_Send_Email($Order_Email, $Order_Number, $Order_Status, $Order_Notes_Public, $Order_Status_Updated, $Order_Name, "Yes");}
 	}
 }
 
