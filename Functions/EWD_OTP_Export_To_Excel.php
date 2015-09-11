@@ -14,7 +14,7 @@ function EWD_OTP_Export_To_Excel() {
 		$objPHPExcel->getActiveSheet()->setCellValue("A1", "Name");
 		$objPHPExcel->getActiveSheet()->setCellValue("B1", "Number");
 		$objPHPExcel->getActiveSheet()->setCellValue("C1", "Order Status");
-		$objPHPExcel->getActiveSheet()->setCellValue("D1", "Order Status Updated");
+		$objPHPExcel->getActiveSheet()->setCellValue("D1", "Order Status Updated (Read-Only)");
 		$objPHPExcel->getActiveSheet()->setCellValue("E1", "Display");
 		$objPHPExcel->getActiveSheet()->setCellValue("F1", "Notes Public");
 		$objPHPExcel->getActiveSheet()->setCellValue("G1", "Notes Private");
