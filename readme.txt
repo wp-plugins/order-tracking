@@ -157,6 +157,10 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.3.5 =
+- Made the [customer-form] shortcode compatible with the latest plugin features
+- Added "Sales Rep ID" as a column that could be imported
+
 = 2.3.4 =
 - Fixed an HTML error on the "Options" tab that was causing the page to cut off.
 

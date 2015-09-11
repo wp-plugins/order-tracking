@@ -194,6 +194,7 @@ function EWD_OTP_Return_Customer_Results($Customer_ID, $Fields = array(), $Custo
 	$Order_Information = explode(",", $Order_Information_String);
 	$Localize_Date_Time = get_option("EWD_OTP_Localize_Date_Time");
 	$Cut_Off_Days = get_option("EWD_OTP_Cut_Off_Days");
+	if ($Cut_Off_Days == "") {$Cut_Off_Days = 365;}
 		
 	if ($Customer_Confirmation == "Auto_Entered") {$Customer_Email = do_shortcode($Customer_Email);}
 		
@@ -205,12 +206,14 @@ function EWD_OTP_Return_Customer_Results($Customer_ID, $Fields = array(), $Custo
 		}
 	}
 	
-	$Page = $_POST['Page'] + 1;
+	$Page = $_POST['Page'];
 	$Start = ($Page) * 50;
 	$CutOffDate = date("Y-m-d H:i:s", time()-(60*60*24*$Cut_Off_Days));
 		
-	$Orders = $wpdb->get_results($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Customer_ID='%d' AND Order_Status_Updated>'%s' ORDER BY Order_Status_Updated LIMIT %d, 100", $Customer_ID, $CutOffDate, $Start));
-		
+	//CutOffDate not yet implemented	
+	//$Orders = $wpdb->get_results($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Customer_ID='%d' AND Order_Status_Updated>'%s' ORDER BY Order_Status_Updated LIMIT %d, 100", $Customer_ID, $CutOffDate, $Start));
+	$Orders = $wpdb->get_results($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Customer_ID='%d' ORDER BY Order_Status_Updated LIMIT %d, 100", $Customer_ID, $Start));
+
 	$Counter = 0;
 	$ReturnString .= "</div>";
 	$ReturnString .= "<table>";
@@ -261,6 +264,13 @@ function EWD_OTP_Return_Customer_Results($Customer_ID, $Fields = array(), $Custo
 		$ReturnString .= $Status_Label;
 		$ReturnString .= "</th>";
 	}
+	if (in_array("Order_Location", $Order_Information)) {
+		if (in_array("Order Location", $Fields)) {$Location_Label = $Fields['Order Location'];}
+		else {$Location_Label = __("Order Location", 'EWD_OTP');}
+		$ReturnString .= "<th>";
+		$ReturnString .= $Location_Label;
+		$ReturnString .= "</th>";
+	}
 	if (in_array("Order_Updated", $Order_Information)) {
 		if (in_array("Order Updated", $Fields)) {$Updated_Label = $Fields['Order Updated'];}
 		else {$Updated_Label = __("Order Updated", 'EWD_OTP');}
@@ -271,17 +281,7 @@ function EWD_OTP_Return_Customer_Results($Customer_ID, $Fields = array(), $Custo
 	$ReturnString .= "</tr>";
 
 	foreach ($Orders as $Order) {
-		if ($Counter >= 50) {break;}
-		if (isset($Order->Order_ID)) {$Status = $wpdb->get_row($wpdb->prepare("SELECT Order_Status, Order_Status_Created FROM $EWD_OTP_order_statuses_table_name WHERE Order_ID='%s' AND Order_Status_Created='%s' ORDER BY Order_Status_Created ASC", $Order->Order_ID, $Order->Order_Status_Updated));}
-
-		$ReturnString .= "<tr>";
-		if ($wpdb->num_rows == 0) {
-			$ReturnString .= "<div class='pure-u-1'>";
-			if ($Email_Confirmation == "Order_Email") {$ReturnString .= __("There are no order statuses for tracking number: ", 'EWD_OTP') . $TrackingNumber . " and e-mail: " . $Email . ".<br />";}
-			else {$ReturnString .= __("There are no order statuses for tracking number: ", 'EWD_OTP') . $TrackingNumber . ".<br />";}
-			$ReturnString .= "</div>";
-		}
-		else {					
+		if ($Counter >= 50) {break;}			
 			if (in_array("Order_Number", $Order_Information)) {
 				$ReturnString .= "<td>";
 				$ReturnString .= $Order->Order_Number;
@@ -317,22 +317,27 @@ function EWD_OTP_Return_Customer_Results($Customer_ID, $Fields = array(), $Custo
 					$ReturnString .= "</td>";
 				}
 			}
-			if (in_array("Order_Status", $Order_Information) or in_array("Order_Updated", $Order_Information)) {
+			if (in_array("Order_Status", $Order_Information) or in_array("Order_Updated", $Order_Information) or in_array("Order_Location", $Order_Information)) {
 				//foreach ($Statuses as $Status) {
 				if (in_array("Order_Status", $Order_Information)) {
 					$ReturnString .= "<td>";
-					$ReturnString .= $Status->Order_Status;
+					$ReturnString .= $Order->Order_Status;
+					$ReturnString .= "</td>";
+				}
+				if (in_array("Order_Location", $Order_Information)) {
+					$ReturnString .= "<td>";
+					$ReturnString .= $Order->Order_Location;
 					$ReturnString .= "</td>";
 				}
 				if (in_array("Order_Updated", $Order_Information)) {
 					$ReturnString .= "<td>";
-					$ReturnString .= $Status->Order_Status_Created;
+					$ReturnString .= $Order->Order_Status_Updated;
 					$ReturnString .= "</td>";
 				}
 				//}
 			}
-		}
 		$ReturnString .= "</tr>";
+		$Counter++;
 	}
 	$ReturnString .= "</table>";
 	$ReturnString .= "<div class='ewd-otp-tracking-results pure-g'>";
