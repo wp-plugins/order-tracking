@@ -264,6 +264,11 @@ function Add_Orders_From_Spreadsheet() {
 		elseif (empty($_FILES['Orders_Spreadsheet']['tmp_name']) || $_FILES['Orders_Spreadsheet']['tmp_name'] == 'none') {
 				$error = __('No file was uploaded here..', 'EWD_OTP');
 		}
+		/* Move the file and store the URL to pass it onwards*/   
+        /* Check that it is a .xls or .xlsx file */
+        if(!preg_match("/\.(xls.?)$/", $_FILES['Orders_Spreadsheet']['name'])) {
+            $error = __('File must be .xls or .xlsx', 'EWD_OTP');
+        }
 		/* Move the file and store the URL to pass it onwards*/ 	 	
 		else {				 
 				 	  $msg .= $_FILES['Orders_Spreadsheet']['name'];
