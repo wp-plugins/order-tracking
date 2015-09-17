@@ -327,7 +327,7 @@ $Order_Information = explode(",", $Order_Information_String);
 </div>
 
 <?php
-$Sql = "SELECT * FROM $EWD_OTP_fields_table_name ";
+$Sql = "SELECT * FROM $EWD_OTP_fields_table_name WHERE Field_Function='Orders'";
 $Fields = $wpdb->get_results($Sql);
 $Value = "";
 foreach ($Fields as $Field) {

@@ -109,7 +109,7 @@ if ($Sales_Rep_Only == "Yes") {
 
 <?php
 						
-						$Sql = "SELECT * FROM $EWD_OTP_fields_table_name ";
+						$Sql = "SELECT * FROM $EWD_OTP_fields_table_name WHERE Field_Function='Orders'";
 						$Fields = $wpdb->get_results($Sql);
 						$MetaValues = $wpdb->get_results($wpdb->prepare("SELECT Field_ID, Meta_Value FROM $EWD_OTP_fields_meta_table_name WHERE Order_ID=%d", $_GET['Order_ID']));
 						foreach ($Fields as $Field) {

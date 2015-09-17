@@ -75,6 +75,7 @@ function Update_EWD_OTP_Tables() {
 		Field_Description text DEFAULT '' NOT NULL,
 		Field_Values text DEFAULT '' NOT NULL,
 		Field_Front_End_Display text DEFAULT '' NOT NULL,
+		Field_Function text DEFAULT '' NOT NULL,
 		Field_Date_Created datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
   		UNIQUE KEY id (Field_ID)
     	)
@@ -87,6 +88,8 @@ function Update_EWD_OTP_Tables() {
   		Meta_ID mediumint(9) NOT NULL AUTO_INCREMENT,
   		Field_ID mediumint(9) DEFAULT '0',
 		Order_ID mediumint(9) DEFAULT '0',
+		Customer_ID mediumint(9) DEFAULT '0',
+		Sales_Rep_ID mediumint(9) DEFAULT '0',
 		Meta_Value text DEFAULT '' NOT NULL,
   		UNIQUE KEY id (Meta_ID)
     	)
@@ -124,5 +127,8 @@ function Update_EWD_OTP_Tables() {
 	if (get_option("EWD_OTP_Encryption_Type") == "") {update_option("EWD_OTP_Encryption_Type", "ssl");}
 	if (get_option("EWD_OTP_From_Name") == "") {update_option("EWD_OTP_From_Name", get_option("EWD_OTP_Admin_Email"));}
 	if (get_option("EWD_OTP_Username") == "") {update_option("EWD_OTP_Port", get_option("EWD_OTP_Admin_Email"));}
+
+	$Sql = "UPDATE $EWD_OTP_fields_table_name SET Field_Function='Orders' WHERE Field_Function='' OR Field_Function='Order'";
+	$wpdb->query($Sql);
 }
 ?>

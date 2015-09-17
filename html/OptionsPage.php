@@ -81,8 +81,28 @@
 	<label title='Customer_Notes'><input type='checkbox' name='order_information[]' value='Customer_Notes' <?php if(in_array("Customer_Notes", $Order_Information)) {echo "checked='checked'";} ?> /> <span>Customer Notes</span></label><br />
 	<label title='Graphic'><input type='checkbox' name='order_information[]' value='Order_Graphic' <?php if(in_array("Order_Graphic", $Order_Information)) {echo "checked='checked'";} ?> /> <span>Status Graphic</span></label><br />
 	<?php  
-		$Sql = "SELECT * FROM $EWD_OTP_fields_table_name";
+		$Sql = "SELECT * FROM $EWD_OTP_fields_table_name WHERE Field_Function='Orders'";
 		$Fields = $wpdb->get_results($Sql);
+		foreach ($Fields as $Field) {
+			echo "<label title='" . $Field->Field_ID . "'><input type='checkbox' name='order_information[]' value='" . $Field->Field_ID . "'";
+			if (in_array($Field->Field_ID, $Order_Information)) {echo "checked='checked'";}
+			echo "/> <span>" . $Field->Field_Name . "</span></label><br />";
+		}
+	?>
+	<?php  
+		$Sql = "SELECT * FROM $EWD_OTP_fields_table_name WHERE Field_Function='Customers'";
+		$Fields = $wpdb->get_results($Sql);
+		if (sizeOf($Fields) > 0) {echo "<h5>Customer Information</h5>";}
+		foreach ($Fields as $Field) {
+			echo "<label title='" . $Field->Field_ID . "'><input type='checkbox' name='order_information[]' value='" . $Field->Field_ID . "'";
+			if (in_array($Field->Field_ID, $Order_Information)) {echo "checked='checked'";}
+			echo "/> <span>" . $Field->Field_Name . "</span></label><br />";
+		}
+	?>
+	<?php  
+		$Sql = "SELECT * FROM $EWD_OTP_fields_table_name WHERE Field_Function='Sales_Reps'";
+		$Fields = $wpdb->get_results($Sql);
+		if (sizeOf($Fields) > 0) {echo "<h5>Sales Rep Information</h5>";}
 		foreach ($Fields as $Field) {
 			echo "<label title='" . $Field->Field_ID . "'><input type='checkbox' name='order_information[]' value='" . $Field->Field_ID . "'";
 			if (in_array($Field->Field_ID, $Order_Information)) {echo "checked='checked'";}

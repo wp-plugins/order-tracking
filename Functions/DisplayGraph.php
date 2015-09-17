@@ -52,12 +52,34 @@ function EWD_OTP_Display_Graph($OrderNumber) {
 			$ReturnString .= "jQuery('.ewd-otp-empty-display > img').load(resizeImage);";
 			$ReturnString .= "</script>";
 		} else {
-	  		$ReturnString .= "<div id='ewd-otp-progressbar-" . $Display_Graphic . "'><div class='" . $Display_Graphic . "' style='width: " . $CurrentPercent . "%'></div></div>";
-	  		$ReturnString .= "<div class='ewd-otp-statuses'>";
-	  		$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-initial-status'>" . $StartingStatus . "</div>";
-	  		$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-current-status' style='margin-left: " . $CurrentPercent . "%'> " . $CurrentStatus . "</div>";
-	  		$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-ending-status'>" . $EndingStatus . "</div>";
-	  		$ReturnString .= "</div>";
+			if ($StartingStatus == $CurrentStatus or $EndingStatus == $CurrentStatus) {
+				$ReturnString .= "<div id='ewd-otp-progressbar-" . $Display_Graphic . "'><div class='" . $Display_Graphic . "' style='width: " . $CurrentPercent . "%'></div></div>";
+				$ReturnString .= "<div class='ewd-otp-statuses'>";
+				$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-initial-status'>" . $StartingStatus . "</div>";
+				$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-ending-status'>" . $EndingStatus . "</div>";
+				$ReturnString .= "</div>";
+			} else if ($CurrentPercent >= 75 && $EndingStatus != $CurrentStatus) {
+				$ReturnString .= "<div id='ewd-otp-progressbar-" . $Display_Graphic . "'><div class='" . $Display_Graphic . "' style='width: " . $CurrentPercent . "%'></div></div>";
+				$ReturnString .= "<div class='ewd-otp-statuses'>";
+				$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-initial-status'>" . $StartingStatus . "</div>";
+				$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-current-status' style='margin-left: 55%'> " . $CurrentStatus . "</div>";
+				$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-ending-status'>" . $EndingStatus . "</div>";
+				$ReturnString .= "</div>";
+			} else if ($CurrentPercent <= 25) {
+				$ReturnString .= "<div id='ewd-otp-progressbar-" . $Display_Graphic . "'><div class='" . $Display_Graphic . "' style='width: " . $CurrentPercent . "%'></div></div>";
+				$ReturnString .= "<div class='ewd-otp-statuses'>";
+				$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-initial-status'>" . $StartingStatus . "</div>";
+				$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-current-status' style='margin-left: 5%'> " . $CurrentStatus . "</div>";
+				$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-ending-status'>" . $EndingStatus . "</div>";
+				$ReturnString .= "</div>";
+			} else {
+				$ReturnString .= "<div id='ewd-otp-progressbar-" . $Display_Graphic . "'><div class='" . $Display_Graphic . "' style='width: " . $CurrentPercent . "%'></div></div>";
+				$ReturnString .= "<div class='ewd-otp-statuses'>";
+				$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-initial-status'>" . $StartingStatus . "</div>";
+				$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-current-status' style='margin-left: " . ($CurrentPercent-20) . "%'> " . $CurrentStatus . "</div>";
+				$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-ending-status'>" . $EndingStatus . "</div>";
+				$ReturnString .= "</div>";
+			}
 		}
 	}
 

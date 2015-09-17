@@ -104,7 +104,7 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '',
 			$ReturnString .= "</div>";
 		}
 
-		$Sql = "SELECT * FROM $EWD_OTP_fields_table_name";
+		$Sql = "SELECT * FROM $EWD_OTP_fields_table_name WHERE Field_Function='Orders'";
 		$Custom_Fields = $wpdb->get_results($Sql);
 		foreach ($Custom_Fields as $Custom_Field) {
 			if (in_array($Custom_Field->Field_ID, $Order_Information)) {
@@ -215,7 +215,30 @@ function EWD_OTP_Return_Customer_Results($Customer_ID, $Fields = array(), $Custo
 	$Orders = $wpdb->get_results($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Customer_ID='%d' ORDER BY Order_Status_Updated LIMIT %d, 100", $Customer_ID, $Start));
 
 	$Counter = 0;
-	$ReturnString .= "</div>";
+	$ReturnString .= "<div>";
+
+	$Sql = "SELECT * FROM $EWD_OTP_fields_table_name WHERE Field_Function='Customers'";
+	$Custom_Fields = $wpdb->get_results($Sql);
+	foreach ($Custom_Fields as $Custom_Field) {
+		if (in_array($Custom_Field->Field_ID, $Order_Information)) {
+			$MetaValue = $wpdb->get_row($wpdb->prepare("SELECT Meta_Value FROM $EWD_OTP_fields_meta_table_name WHERE Customer_ID=%d AND Field_ID=%d", $Customer_ID, $Custom_Field->Field_ID));
+			if (array_key_exists($Custom_Field->Field_Name, $Fields)) {$Field_Label = $Fields[$Custom_Field->Field_Name];}
+			else {$Field_Label = $Custom_Field->Field_Name;}
+			$ReturnString .= "<div class='ewd-otp-label-values'>";
+			$ReturnString .= "<div id='ewd-otp-order-" . $Custom_Field->Field_ID . "-label' class='ewd-otp-order-label ewd-otp-bold pure-u-1-8'>";
+			$ReturnString .= $Field_Label . ":";
+			$ReturnString .= "</div>";
+			$ReturnString .= "<div id='ewd-otp-order-" . $Custom_Field->Field_ID . "' class='ewd-otp-order-content pure-u-7-8'>";
+			if ($Custom_Field->Field_Type == "file") {$ReturnString .= "<div class='ewd-otp-bottom-align'>";
+				$ReturnString .= "<a href='" . site_url("/wp-content/uploads/order-tracking-uploads/") . $MetaValue->Meta_Value . "' download>";
+				$ReturnString .= $MetaValue->Meta_Value . "</a></div>";
+			}
+			else {$ReturnString .= "<div class='ewd-otp-bottom-align'>" . stripslashes_deep($MetaValue->Meta_Value) . "</div>";}
+			$ReturnString .= "</div>";
+			$ReturnString .= "</div>";
+		}
+	}
+
 	$ReturnString .= "<table>";
 	$ReturnString .= "<tr>";
 	if (in_array("Order_Number", $Order_Information)) {
@@ -247,7 +270,7 @@ function EWD_OTP_Return_Customer_Results($Customer_ID, $Fields = array(), $Custo
 		$ReturnString .= $Notes_Label . ":";
 		$ReturnString .= "</th>";
 	}
-	$Sql = "SELECT * FROM $EWD_OTP_fields_table_name";
+	$Sql = "SELECT * FROM $EWD_OTP_fields_table_name WHERE Field_Function='Orders'";
 	$Custom_Fields = $wpdb->get_results($Sql);
 	foreach ($Custom_Fields as $Custom_Field) {
 		if (in_array($Custom_Field->Field_ID, $Order_Information)) {
@@ -303,7 +326,7 @@ function EWD_OTP_Return_Customer_Results($Customer_ID, $Fields = array(), $Custo
 				$ReturnString .= $CustomerName;
 				$ReturnString .= "</td>";
 			}
-			$Sql = "SELECT * FROM $EWD_OTP_fields_table_name";
+			$Sql = "SELECT * FROM $EWD_OTP_fields_table_name WHERE Field_Function='Orders'";
 			$Custom_Fields = $wpdb->get_results($Sql);
 			foreach ($Custom_Fields as $Custom_Field) {
 				if (in_array($Custom_Field->Field_ID, $Order_Information)) {
@@ -382,7 +405,30 @@ function EWD_OTP_Return_Sales_Rep_Results($Sales_Rep_ID, $Fields = array(), $Sal
 	$Orders = $wpdb->get_results($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Sales_Rep_ID='%d' AND Order_Status_Updated>'%s' ORDER BY Order_Status_Updated LIMIT %d, 100", $Sales_Rep_ID, $CutOffDate, $Start));
 		
 	$Counter = 0;
-	$ReturnString .= "</div>";
+	$ReturnString .= "<div>";
+
+	$Sql = "SELECT * FROM $EWD_OTP_fields_table_name WHERE Field_Function='Sales_Reps'";
+	$Custom_Fields = $wpdb->get_results($Sql);
+	foreach ($Custom_Fields as $Custom_Field) {
+		if (in_array($Custom_Field->Field_ID, $Order_Information)) {
+			$MetaValue = $wpdb->get_row($wpdb->prepare("SELECT Meta_Value FROM $EWD_OTP_fields_meta_table_name WHERE Sales_Rep_ID=%d AND Field_ID=%d", $Sales_Rep_ID, $Custom_Field->Field_ID));
+			if (array_key_exists($Custom_Field->Field_Name, $Fields)) {$Field_Label = $Fields[$Custom_Field->Field_Name];}
+			else {$Field_Label = $Custom_Field->Field_Name;}
+			$ReturnString .= "<div class='ewd-otp-label-values'>";
+			$ReturnString .= "<div id='ewd-otp-order-" . $Custom_Field->Field_ID . "-label' class='ewd-otp-order-label ewd-otp-bold pure-u-1-8'>";
+			$ReturnString .= $Field_Label . ":";
+			$ReturnString .= "</div>";
+			$ReturnString .= "<div id='ewd-otp-order-" . $Custom_Field->Field_ID . "' class='ewd-otp-order-content pure-u-7-8'>";
+			if ($Custom_Field->Field_Type == "file") {$ReturnString .= "<div class='ewd-otp-bottom-align'>";
+				$ReturnString .= "<a href='" . site_url("/wp-content/uploads/order-tracking-uploads/") . $MetaValue->Meta_Value . "' download>";
+				$ReturnString .= $MetaValue->Meta_Value . "</a></div>";
+			}
+			else {$ReturnString .= "<div class='ewd-otp-bottom-align'>" . stripslashes_deep($MetaValue->Meta_Value) . "</div>";}
+			$ReturnString .= "</div>";
+			$ReturnString .= "</div>";
+		}
+	}
+
 	$ReturnString .= "<table>";
 	$ReturnString .= "<tr>";
 	if (in_array("Order_Number", $Order_Information)) {
@@ -414,7 +460,7 @@ function EWD_OTP_Return_Sales_Rep_Results($Sales_Rep_ID, $Fields = array(), $Sal
 		$ReturnString .= $Notes_Label . ":";
 		$ReturnString .= "</th>";
 	}
-	$Sql = "SELECT * FROM $EWD_OTP_fields_table_name";
+	$Sql = "SELECT * FROM $EWD_OTP_fields_table_name WHERE Field_Function='Orders'";
 	$Custom_Fields = $wpdb->get_results($Sql);
 	foreach ($Custom_Fields as $Custom_Field) {
 		if (in_array($Custom_Field->Field_ID, $Order_Information)) {
@@ -473,7 +519,7 @@ function EWD_OTP_Return_Sales_Rep_Results($Sales_Rep_ID, $Fields = array(), $Sal
 				$ReturnString .= $CustomerName;
 				$ReturnString .= "</td>";
 			}
-			$Sql = "SELECT * FROM $EWD_OTP_fields_table_name";
+			$Sql = "SELECT * FROM $EWD_OTP_fields_table_name WHERE Field_Function='Orders'";
 			$Custom_Fields = $wpdb->get_results($Sql);
 			foreach ($Custom_Fields as $Custom_Field) {
 				if (in_array($Custom_Field->Field_ID, $Order_Information)) {

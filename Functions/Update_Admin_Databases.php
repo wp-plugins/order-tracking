@@ -31,7 +31,7 @@ function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Stat
 	);
 					 
 	//Add the custom fields to the meta table
-	$Fields = $wpdb->get_results("SELECT Field_ID, Field_Name, Field_Values, Field_Type FROM $EWD_OTP_fields_table_name");
+	$Fields = $wpdb->get_results("SELECT Field_ID, Field_Name, Field_Values, Field_Type FROM $EWD_OTP_fields_table_name WHERE Field_Function='Orders'");
 	if (is_array($Fields)) {
 		foreach ($Fields as $Field) {
 			$FieldName = str_replace(" ", "_", $Field->Field_Name);
@@ -103,14 +103,14 @@ function Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email,
 	
 					 
 	// Delete the custom field values for the given Order_ID
-	$File_Fields = $wpdb->get_results("SELECT Field_ID FROM $EWD_OTP_fields_table_name WHERE Field_Type='file'");
+	$File_Fields = $wpdb->get_results("SELECT Field_ID FROM $EWD_OTP_fields_table_name WHERE Field_Type='file' and Field_Function='Orders'");
 	foreach ($File_Fields as $File_Field) {$File_Field_IDs .= $File_Field->Field_ID . ",";}
 	$Sql = "DELETE FROM $EWD_OTP_fields_meta_table_name WHERE Order_ID='" . $Order_ID . "'";
 	if (strlen($File_Field_IDs) > 0) {$Sql .= " AND Field_ID NOT IN (" . substr($File_Field_IDs, 0, -1) . ")";}
 	$wpdb->query($Sql);
 		
 	//Add the custom fields to the meta table
-	$Fields = $wpdb->get_results("SELECT Field_ID, Field_Name, Field_Values, Field_Type FROM $EWD_OTP_fields_table_name");
+	$Fields = $wpdb->get_results("SELECT Field_ID, Field_Name, Field_Values, Field_Type FROM $EWD_OTP_fields_table_name WHERE Field_Function='Orders'");
 	if (is_array($Fields)) {
 		foreach ($Fields as $Field) {
 			$FieldName = str_replace(" ", "_", $Field->Field_Name);
@@ -239,7 +239,7 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 	$Allowable_Custom_Fields = array();
 	//List of fields that can be accepted via upload
 	$Allowed_Fields = array ("Name" => "Order_Name", "Number" => "Order_Number", "Order Status" => "Order_Status", "Display" => "Order_Display", "Notes Public" => "Order_Notes_Public", "Notes Private" => "Order_Notes_Private", "Email" => "Order_Email", "Show in Admin Table" => "Order_Display", "Sales Rep ID" => "Sales_Rep_ID");
-	$Custom_Fields_From_DB = $wpdb->get_results("SELECT Field_ID, Field_Name, Field_Values, Field_Type FROM $EWD_OTP_fields_table_name");
+	$Custom_Fields_From_DB = $wpdb->get_results("SELECT Field_ID, Field_Name, Field_Values, Field_Type FROM $EWD_OTP_fields_table_name and Field_Function='Orders'");
 	if (is_array($Custom_Fields_From_DB)) {
 		foreach ($Custom_Fields_From_DB as $Custom_Field_From_DB) {
 			$Allowable_Custom_Fields[$Custom_Field_From_DB->Field_Name] = $Custom_Field_From_DB->Field_Name;
@@ -451,7 +451,7 @@ function Delete_EWD_OTP_Location($Location) {
 }
 
 /* Adds a single new custom field to the EWD_OTP database */
-function Add_EWD_OTP_Custom_Field($Field_Name, $Field_Slug, $Field_Type, $Field_Description, $Field_Values, $Field_Front_End_Display) {
+function Add_EWD_OTP_Custom_Field($Field_Name, $Field_Slug, $Field_Type, $Field_Description, $Field_Values, $Field_Front_End_Display, $Field_Function) {
 	global $wpdb;
 	global $EWD_OTP_fields_table_name;
 	$Date = date("Y-m-d H:i:s");
@@ -465,6 +465,7 @@ function Add_EWD_OTP_Custom_Field($Field_Name, $Field_Slug, $Field_Type, $Field_
 			'Field_Description' => $Field_Description,
 			'Field_Values' => $Field_Values,
 			'Field_Front_End_Display' => $Field_Front_End_Display,
+			'Field_Function' => $Field_Function,
 			'Field_Date_Created' => $Date)
 	);
 	$update = __("Field has been successfully created.", 'EWD_OTP');
@@ -472,7 +473,7 @@ function Add_EWD_OTP_Custom_Field($Field_Name, $Field_Slug, $Field_Type, $Field_
 }
 
 /* Edits a single custom field with a given ID in the EWD_OTP database */
-function  Edit_EWD_OTP_Custom_Field($Field_ID, $Field_Name, $Field_Slug, $Field_Type, $Field_Description, $Field_Values, $Field_Front_End_Display) {
+function  Edit_EWD_OTP_Custom_Field($Field_ID, $Field_Name, $Field_Slug, $Field_Type, $Field_Description, $Field_Values, $Field_Front_End_Display, $Field_Function) {
 	global $wpdb;
 	global $EWD_OTP_fields_table_name;
 	global $EWD_OTP_Full_Version;
@@ -485,7 +486,8 @@ function  Edit_EWD_OTP_Custom_Field($Field_ID, $Field_Name, $Field_Slug, $Field_
 			'Field_Type' => $Field_Type,
 			'Field_Description' => $Field_Description,
 			'Field_Values' => $Field_Values,
-			'Field_Front_End_Display' => $Field_Front_End_Display),
+			'Field_Front_End_Display' => $Field_Front_End_Display,
+			'Field_Function' => $Field_Function),
 		array( 'Field_ID' => $Field_ID)
 	);
 	$update = __("Field has been successfully edited.", 'EWD_OTP');
@@ -511,7 +513,7 @@ function Delete_EWD_OTP_Custom_Field($Field_ID) {
 
 function Add_EWD_OTP_Sales_Rep($Sales_Rep_First_Name, $Sales_Rep_Last_Name, $Sales_Rep_WP_ID, $Sales_Rep_Created) {
 	global $wpdb;
-	global $EWD_OTP_sales_reps;
+	global $EWD_OTP_sales_reps, $EWD_OTP_fields_table_name, $EWD_OTP_fields_meta_table_name;
 		
 	$wpdb->insert( $EWD_OTP_sales_reps, 
 		array( 'Sales_Rep_First_Name' => $Sales_Rep_First_Name,
@@ -519,6 +521,45 @@ function Add_EWD_OTP_Sales_Rep($Sales_Rep_First_Name, $Sales_Rep_Last_Name, $Sal
 			'Sales_Rep_WP_ID' => $Sales_Rep_WP_ID,
 			'Sales_Rep_Created' => $Sales_Rep_Created)
 	);
+
+	$Sales_Rep_ID = $wpdb->insert_id;
+
+	//Add the custom fields to the meta table
+	$Fields = $wpdb->get_results("SELECT Field_ID, Field_Name, Field_Values, Field_Type FROM $EWD_OTP_fields_table_name WHERE Field_Function='Sales_Reps'");
+	if (is_array($Fields)) {
+		foreach ($Fields as $Field) {
+			$FieldName = str_replace(" ", "_", $Field->Field_Name);
+			if (isset($_POST[$FieldName]) or isset($_FILES[$FieldName])) {
+				// If it's a file, pass back to Prepare_Data_For_Insertion.php to upload the file and get the name
+				if ($Field->Field_Type == "file") {
+					$File_Upload_Return = EWD_OTP_Handle_File_Upload($FieldName);
+					if ($File_Upload_Return['Success'] == "No") {return $File_Upload_Return['Data'];}
+					elseif ($File_Upload_Return['Success'] == "N/A") {$NoFile = "Yes";}
+					else {$Value = $File_Upload_Return['Data'];}
+				}
+				else {
+					$Value = trim($_POST[$FieldName]);
+					$Options = explode(",", $Field->Field_Values);
+					if (sizeOf($Options) > 0 and $Options[0] != "") {
+						array_walk($Options, create_function('&$val', '$val = trim($val);'));
+						$InArray = in_array($Value, $Options);
+					}
+				}		
+				if (!isset($InArray) or $InArray) {
+					if ($NoFile != "Yes") {
+						$wpdb->insert($EWD_OTP_fields_meta_table_name,
+						array( 'Field_ID' => $Field->Field_ID,
+							'Sales_Rep_ID' => $Sales_Rep_ID,
+							'Meta_Value' => $Value)
+						);
+					}
+				}
+				elseif ($InArray == false) {$CustomFieldError = __(" One or more custom field values were incorrect.", 'EWD_OTP');}
+				unset($InArray);
+				unset($NoFile);
+			}
+		}	
+	}
 		
 	$update = __("Sales Rep has been successfully created.", 'EWD_OTP');
 	return $update;
@@ -527,7 +568,7 @@ function Add_EWD_OTP_Sales_Rep($Sales_Rep_First_Name, $Sales_Rep_Last_Name, $Sal
 /* Edits a single order with a given ID in the OTP database */
 function Edit_EWD_OTP_Sales_Rep($Sales_Rep_ID, $Sales_Rep_First_Name, $Sales_Rep_Last_Name, $Sales_Rep_WP_ID) {
 	global $wpdb;
-	global $EWD_OTP_sales_reps;
+	global $EWD_OTP_sales_reps, $EWD_OTP_fields_table_name, $EWD_OTP_fields_meta_table_name;
 		
 	$wpdb->update( $EWD_OTP_sales_reps, 
 		array( 'Sales_Rep_First_Name' => $Sales_Rep_First_Name,
@@ -535,6 +576,54 @@ function Edit_EWD_OTP_Sales_Rep($Sales_Rep_ID, $Sales_Rep_First_Name, $Sales_Rep
 			'Sales_Rep_WP_ID' => $Sales_Rep_WP_ID),
 		array( 'Sales_Rep_ID' => $Sales_Rep_ID)
 	); 
+
+	// Delete the custom field values for the given Order_ID
+	$File_Fields = $wpdb->get_results("SELECT Field_ID FROM $EWD_OTP_fields_table_name WHERE Field_Type='file' and Field_Function='Sales_Reps'");
+	foreach ($File_Fields as $File_Field) {$File_Field_IDs .= $File_Field->Field_ID . ",";}
+	$Sql = "DELETE FROM $EWD_OTP_fields_meta_table_name WHERE Sales_Rep_ID='" . $Sales_Rep_ID . "'";
+	if (strlen($File_Field_IDs) > 0) {$Sql .= " AND Field_ID NOT IN (" . substr($File_Field_IDs, 0, -1) . ")";}
+	$wpdb->query($Sql);
+		
+	//Add the custom fields to the meta table
+	$Fields = $wpdb->get_results("SELECT Field_ID, Field_Name, Field_Values, Field_Type FROM $EWD_OTP_fields_table_name WHERE Field_Function='Sales_Reps'");
+	if (is_array($Fields)) {
+		foreach ($Fields as $Field) {
+			$FieldName = str_replace(" ", "_", $Field->Field_Name);
+			if (isset($_POST[$FieldName]) or isset($_FILES[$FieldName])) {
+				// If it's a file, pass back to Prepare_Data_For_Insertion.php to upload the file and get the name
+				if ($Field->Field_Type == "file") {
+					if ($_FILES[$FieldName]['name'] != "") {
+						$wpdb->delete($EWD_OTP_fields_meta_table_name, array('Sales_Rep_ID' => $Sales_Rep_ID, 'Field_ID' => $Field->Field_ID));
+						$File_Upload_Return = EWD_OTP_Handle_File_Upload($FieldName);
+						if ($File_Upload_Return['Success'] == "No") {return $File_Upload_Return['Data'];}
+						elseif ($File_Upload_Return['Success'] == "N/A") {$NoFile = "Yes";}
+						else {$Value = $File_Upload_Return['Data'];}
+					}
+					else {$NoFile = "Yes";}
+				}
+				else {
+					$Value = trim($_POST[$FieldName]);
+					$Options = explode(",", $Field->Field_Values);
+					if (sizeOf($Options) > 0 and $Options[0] != "") {
+						array_walk($Options, create_function('&$val', '$val = trim($val);'));
+						$InArray = in_array($Value, $Options);
+					}
+				}
+				if (!isset($InArray) or $InArray) {
+					if ($NoFile != "Yes") {
+						$wpdb->insert($EWD_OTP_fields_meta_table_name,
+							array( 'Field_ID' => $Field->Field_ID,
+								'Sales_Rep_ID' => $Sales_Rep_ID,
+								'Meta_Value' => $Value)
+						);
+					}
+				}
+				elseif ($InArray == false) {$CustomFieldError = __(" One or more custom field values were incorrect.", 'UPCP');}
+				unset($InArray);
+				unset($NoFile);
+			}
+		}
+	}
 		
 	$update = __("Sales Rep has been successfully edited.", 'EWD_OTP');
 	return $update;
@@ -542,10 +631,14 @@ function Edit_EWD_OTP_Sales_Rep($Sales_Rep_ID, $Sales_Rep_First_Name, $Sales_Rep
 
 function Delete_EWD_OTP_Sales_Rep($Sales_Rep_ID) {
 	global $wpdb;
-	global $EWD_OTP_sales_reps;
+	global $EWD_OTP_sales_reps, $EWD_OTP_fields_meta_table_name;
 			
 	$wpdb->delete(
 		$EWD_OTP_sales_reps,
+		array('Sales_Rep_ID' => $Sales_Rep_ID)
+	);
+	$wpdb->delete(
+		$EWD_OTP_fields_meta_table_name,
 		array('Sales_Rep_ID' => $Sales_Rep_ID)
 	);			
 
@@ -555,7 +648,7 @@ function Delete_EWD_OTP_Sales_Rep($Sales_Rep_ID) {
 
 function Add_EWD_OTP_Customer($Customer_Name, $Customer_Email, $Sales_Rep_ID, $Customer_Created) {
 	global $wpdb;
-	global $EWD_OTP_customers;
+	global $EWD_OTP_customers, $EWD_OTP_fields_table_name, $EWD_OTP_fields_meta_table_name;
 		
 	$wpdb->insert( $EWD_OTP_customers, 
 		array( 'Customer_Name' => $Customer_Name,
@@ -563,6 +656,45 @@ function Add_EWD_OTP_Customer($Customer_Name, $Customer_Email, $Sales_Rep_ID, $C
 			'Sales_Rep_ID' => $Sales_Rep_ID,
 			'Customer_Created' => $Customer_Created)
 	);
+
+	$Customer_ID = $wpdb->insert_id;
+
+	//Add the custom fields to the meta table
+	$Fields = $wpdb->get_results("SELECT Field_ID, Field_Name, Field_Values, Field_Type FROM $EWD_OTP_fields_table_name WHERE Field_Function='Customers'");
+	if (is_array($Fields)) {
+		foreach ($Fields as $Field) {
+			$FieldName = str_replace(" ", "_", $Field->Field_Name);
+			if (isset($_POST[$FieldName]) or isset($_FILES[$FieldName])) {
+				// If it's a file, pass back to Prepare_Data_For_Insertion.php to upload the file and get the name
+				if ($Field->Field_Type == "file") {
+					$File_Upload_Return = EWD_OTP_Handle_File_Upload($FieldName);
+					if ($File_Upload_Return['Success'] == "No") {return $File_Upload_Return['Data'];}
+					elseif ($File_Upload_Return['Success'] == "N/A") {$NoFile = "Yes";}
+					else {$Value = $File_Upload_Return['Data'];}
+				}
+				else {
+					$Value = trim($_POST[$FieldName]);
+					$Options = explode(",", $Field->Field_Values);
+					if (sizeOf($Options) > 0 and $Options[0] != "") {
+						array_walk($Options, create_function('&$val', '$val = trim($val);'));
+						$InArray = in_array($Value, $Options);
+					}
+				}		
+				if (!isset($InArray) or $InArray) {
+					if ($NoFile != "Yes") {
+						$wpdb->insert($EWD_OTP_fields_meta_table_name,
+						array( 'Field_ID' => $Field->Field_ID,
+							'Customer_ID' => $Customer_ID,
+							'Meta_Value' => $Value)
+						);
+					}
+				}
+				elseif ($InArray == false) {$CustomFieldError = __(" One or more custom field values were incorrect.", 'EWD_OTP');}
+				unset($InArray);
+				unset($NoFile);
+			}
+		}	
+	}
 		
 	$update = __("Customer has been successfully created.", 'EWD_OTP');
 	return $update;
@@ -571,14 +703,62 @@ function Add_EWD_OTP_Customer($Customer_Name, $Customer_Email, $Sales_Rep_ID, $C
 /* Edits a single order with a given ID in the OTP database */
 function Edit_EWD_OTP_Customer($Customer_ID, $Customer_Name, $Customer_Email, $Sales_Rep_ID) {
 	global $wpdb;
-	global $EWD_OTP_customers;
+	global $EWD_OTP_customers, $EWD_OTP_fields_table_name, $EWD_OTP_fields_meta_table_name;
 		
 	$wpdb->update( $EWD_OTP_customers, 
 		array( 'Customer_Name' => $Customer_Name,
 			'Customer_Email' => $Customer_Email,
 			'Sales_Rep_ID' => $Sales_Rep_ID),
 		array( 'Customer_ID' => $Customer_ID)
-	); 
+	);
+
+	// Delete the custom field values for the given Order_ID
+	$File_Fields = $wpdb->get_results("SELECT Field_ID FROM $EWD_OTP_fields_table_name WHERE Field_Type='file' and Field_Function='Customers'");
+	foreach ($File_Fields as $File_Field) {$File_Field_IDs .= $File_Field->Field_ID . ",";}
+	$Sql = "DELETE FROM $EWD_OTP_fields_meta_table_name WHERE Customer_ID='" . $Customer_ID . "'";
+	if (strlen($File_Field_IDs) > 0) {$Sql .= " AND Field_ID NOT IN (" . substr($File_Field_IDs, 0, -1) . ")";}
+	$wpdb->query($Sql);
+		
+	//Add the custom fields to the meta table
+	$Fields = $wpdb->get_results("SELECT Field_ID, Field_Name, Field_Values, Field_Type FROM $EWD_OTP_fields_table_name WHERE Field_Function='Customers'");
+	if (is_array($Fields)) {
+		foreach ($Fields as $Field) {
+			$FieldName = str_replace(" ", "_", $Field->Field_Name);
+			if (isset($_POST[$FieldName]) or isset($_FILES[$FieldName])) {
+				// If it's a file, pass back to Prepare_Data_For_Insertion.php to upload the file and get the name
+				if ($Field->Field_Type == "file") {
+					if ($_FILES[$FieldName]['name'] != "") {
+						$wpdb->delete($EWD_OTP_fields_meta_table_name, array('Customer_ID' => $Customer_ID, 'Field_ID' => $Field->Field_ID));
+						$File_Upload_Return = EWD_OTP_Handle_File_Upload($FieldName);
+						if ($File_Upload_Return['Success'] == "No") {return $File_Upload_Return['Data'];}
+						elseif ($File_Upload_Return['Success'] == "N/A") {$NoFile = "Yes";}
+						else {$Value = $File_Upload_Return['Data'];}
+					}
+					else {$NoFile = "Yes";}
+				}
+				else {
+					$Value = trim($_POST[$FieldName]);
+					$Options = explode(",", $Field->Field_Values);
+					if (sizeOf($Options) > 0 and $Options[0] != "") {
+						array_walk($Options, create_function('&$val', '$val = trim($val);'));
+						$InArray = in_array($Value, $Options);
+					}
+				}
+				if (!isset($InArray) or $InArray) {
+					if ($NoFile != "Yes") {
+						$wpdb->insert($EWD_OTP_fields_meta_table_name,
+							array( 'Field_ID' => $Field->Field_ID,
+								'Customer_ID' => $Customer_ID,
+								'Meta_Value' => $Value)
+						);
+					}
+				}
+				elseif ($InArray == false) {$CustomFieldError = __(" One or more custom field values were incorrect.", 'UPCP');}
+				unset($InArray);
+				unset($NoFile);
+			}
+		}
+	} 
 		
 	$update = __("Customer has been successfully edited.", 'EWD_OTP');
 	return $update;
@@ -586,12 +766,16 @@ function Edit_EWD_OTP_Customer($Customer_ID, $Customer_Name, $Customer_Email, $S
 
 function Delete_EWD_OTP_Customer($Customer_ID) {
 	global $wpdb;
-	global $EWD_OTP_customers;
+	global $EWD_OTP_customers, $EWD_OTP_fields_meta_table_name;
 			
 	$wpdb->delete(
 		$EWD_OTP_customers,
 		array('Customer_ID' => $Customer_ID)
 	);
+	$wpdb->delete(
+		$EWD_OTP_fields_meta_table_name,
+		array('Customer_ID' => $Customer_ID)
+	);	
 
 	$update = __("Customer has been successfully deleted.", 'EWD_OTP');
 	return $update;

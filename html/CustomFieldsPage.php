@@ -216,17 +216,26 @@
 	<p><?php _e("The description of the field, which you will see as the instruction for the field.", 'EWD_OTP') ?></p>
 </div>
 <div>
-		<label for="Field_Values"><?php _e("Input Values", 'EWD_OTP') ?></label>
-		<input name="Field_Values" id="Field_Values" type="text" size="60" />
-		<p><?php _e("A comma-separated list of acceptable input values for this field. These values will be the options for select, checkbox, and radio inputs. All values will be accepted if left blank.", 'EWD_OTP') ?></p>
+	<label for="Field_Values"><?php _e("Input Values", 'EWD_OTP') ?></label>
+	<input name="Field_Values" id="Field_Values" type="text" size="60" />
+	<p><?php _e("A comma-separated list of acceptable input values for this field. These values will be the options for select, checkbox, and radio inputs. All values will be accepted if left blank.", 'EWD_OTP') ?></p>
 </div>
 <div class="form-field">
-		<label for="Field_Front_End_Display"><?php _e("Customer Order Display", 'EWD_OTP') ?></label>
-		<select name="Field_Front_End_Display" id="Field_Front_End_Display">
-				<option value='No' selected=selected><?php _e("No", 'EWD_OTP') ?></option>
-				<option value='Yes'><?php _e("Yes", 'EWD_OTP') ?></option>
-		</select>
-		<p><?php _e("If you're using the customer order form, should this field be displayed on it? (Use 'Input Values' above to restrict inputs)", 'EWD_OTP') ?></p>
+	<label for="Field_Front_End_Display"><?php _e("Customer Order Display", 'EWD_OTP') ?></label>
+	<select name="Field_Front_End_Display" id="Field_Front_End_Display">
+		<option value='No' selected=selected><?php _e("No", 'EWD_OTP') ?></option>
+		<option value='Yes'><?php _e("Yes", 'EWD_OTP') ?></option>
+	</select>
+	<p><?php _e("If you're using the customer order form, should this field be displayed on it? (Use 'Input Values' above to restrict inputs)", 'EWD_OTP') ?></p>
+</div>
+<div class="form-field">
+	<label for="Field_Function"><?php _e("Field For?", 'EWD_OTP') ?></label>
+	<select name="Field_Function" id="Field_Function">
+		<option value='Orders' selected=selected><?php _e("Orders", 'EWD_OTP') ?></option>
+		<option value='Customers'><?php _e("Customers", 'EWD_OTP') ?></option>
+		<option value='Sales_Reps'><?php _e("Sales Reps", 'EWD_OTP') ?></option>
+	</select>
+	<p><?php _e("What should this field apply to: orders, customers or sales reps?", 'EWD_OTP') ?></p>
 </div>
 
 <p class="submit"><input type="submit" name="submit" id="submit" class="button-primary" value="<?php _e('Add New Field', 'EWD_OTP') ?>"  /></p></form>

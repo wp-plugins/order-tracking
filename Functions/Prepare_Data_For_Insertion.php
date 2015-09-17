@@ -414,16 +414,17 @@ function Add_Edit_EWD_OTP_Custom_Field() {
 		$Field_Description = stripslashes_deep($_POST['Field_Description']);
 		$Field_Values = stripslashes_deep($_POST['Field_Values']);
 		$Field_Front_End_Display = stripslashes_deep($_POST['Field_Front_End_Display']);
+		$Field_Function = stripslashes_deep($_POST['Field_Function']);
 		$Field_ID = $_POST['Field_ID'];
 
 		if (!isset($error)) {
 				/* Pass the data to the appropriate function in Update_Admin_Databases.php to create the custom field */
 				if ($_POST['action'] == "Add_Custom_Field") {
-					  $user_update = Add_EWD_OTP_Custom_Field($Field_Name, $Field_Slug, $Field_Type, $Field_Description, $Field_Values, $Field_Front_End_Display);
+					$user_update = Add_EWD_OTP_Custom_Field($Field_Name, $Field_Slug, $Field_Type, $Field_Description, $Field_Values, $Field_Front_End_Display, $Field_Function);
 				}
 				/* Pass the data to the appropriate function in Update_Admin_Databases.php to edit the custom field */
 				else {
-						$user_update = Edit_EWD_OTP_Custom_Field($Field_ID, $Field_Name, $Field_Slug, $Field_Type, $Field_Description, $Field_Values, $Field_Front_End_Display);
+					$user_update = Edit_EWD_OTP_Custom_Field($Field_ID, $Field_Name, $Field_Slug, $Field_Type, $Field_Description, $Field_Values, $Field_Front_End_Display, $Field_Function);
 				}
 				$user_update = array("Message_Type" => "Update", "Message" => $user_update);
 				return $user_update;

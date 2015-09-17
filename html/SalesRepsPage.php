@@ -195,6 +195,70 @@
 	</select>
 	<p><?php _e("What WordPress user should be able to update the orders assigned to this Sales Rep?", 'EWD_OTP') ?></p>
 </div>
+
+<?php
+
+$Sql = "SELECT * FROM $EWD_OTP_fields_table_name WHERE Field_Function='Sales_Reps'";
+$Fields = $wpdb->get_results($Sql);
+
+unset($ReturnString);
+foreach ($Fields as $Field) {
+	$Value = "";
+		$ReturnString .= "<div class='form-field'><label for='" . $Field->Field_Name . "'>" . $Field->Field_Name . ":</label>";
+		if ($Field->Field_Type == "text" or $Field->Field_Type == "mediumint") {
+			  $ReturnString .= "<input name='" . $Field->Field_Name . "' id='ewd-otp-input-" . $Field->Field_ID . "' class='ewd-otp-input' type='text' value='" . $Value . "' />";
+		}
+		elseif ($Field->Field_Type == "textarea") {
+				$ReturnString .= "<textarea name='" . $Field->Field_Name . "' id='ewd-otp-input-" . $Field->Field_ID . "' class='ewd-otp-textarea'>" . $Value . "</textarea>";
+		} 
+		elseif ($Field->Field_Type == "select") { 
+				$Options = explode(",", $Field->Field_Values);
+				$ReturnString .= "<select name='" . $Field->Field_Name . "' id='ewd-otp-input-" . $Field->Field_ID . "' class='ewd-otp-select'>";
+				foreach ($Options as $Option) {
+						$ReturnString .= "<option value='" . $Option . "' ";
+						if (trim($Option) == trim($Value)) {$ReturnString .= "selected='selected'";}
+						$ReturnString .= ">" . $Option . "</option>";
+				}
+				$ReturnString .= "</select>";
+		} 
+		elseif ($Field->Field_Type == "radio") {
+				$Counter = 0;
+				$Options = explode(",", $Field->Field_Values);
+				foreach ($Options as $Option) {
+						if ($Counter != 0) {$ReturnString .= "<label class='radio'></label>";}
+						$ReturnString .= "<input type='radio' name='" . $Field->Field_Name . "' value='" . $Option . "' class='ewd-otp-radio' ";
+						if (trim($Option) == trim($Value)) {$ReturnString .= "checked";}
+						$ReturnString .= ">" . $Option;
+						$Counter++;
+				}
+		} 
+		elseif ($Field->Field_Type == "checkbox") {
+  			$Counter = 0;
+				$Options = explode(",", $Field->Field_Values);
+				$Values = explode(",", $Value);
+				foreach ($Options as $Option) {
+						if ($Counter != 0) {$ReturnString .= "<label class='radio'></label>";}
+						$ReturnString .= "<input type='checkbox' name='" . $Field->Field_Name . "[]' value='" . $Option . "' class='ewd-otp-checkbox' ";
+						if (in_array($Option, $Values)) {$ReturnString .= "checked";}
+						$ReturnString .= ">" . $Option . "</br>";
+						$Counter++;
+				}
+		}
+		elseif ($Field->Field_Type == "file") {
+				$ReturnString .= "<input name='" . $Field->Field_Name . "' class='ewd-otp-file-input' type='file' value='' />";
+		}
+		elseif ($Field->Field_Type == "date") {
+				$ReturnString .= "<input name='" . $Field->Field_Name . "' class='ewd-otp-date-input' type='date' value='' />";
+		} 
+		elseif ($Field->Field_Type == "datetime") {
+				$ReturnString .= "<input name='" . $Field->Field_Name . "' class='ewd-otp-datetime-input' type='datetime-local' value='' />";
+  	}
+		$ReturnString .= " </div>";
+}
+echo $ReturnString;
+
+?>
+
 <p class="submit"><input type="submit" name="submit" id="submit" class="button-primary" value="<?php _e('Add New Sales Rep', 'EWD_OTP') ?>"  /></p></form></div>
 <br class="clear" />
 </div>
