@@ -31,6 +31,7 @@ function Insert_Sales_Rep_Form($atts) {
 	if ($order_instructions != "Enter your sales rep number in the form below to track your orders." or $Order_Instructions == "") {$Order_Instructions = $order_instructions;}
 		
 	$ReturnString .= "<style type='text/css'>";
+	$ReturnString .= EWD_OTP_Add_Modified_Styles();
 	$ReturnString .= $Custom_CSS;
 	$ReturnString .= "</style>";
 		

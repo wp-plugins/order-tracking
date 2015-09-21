@@ -29,6 +29,7 @@ function Insert_Customer_Order_Form($atts) {
 	if (isset($_POST['Customer_Order_Submit'])) {$user_update = EWD_OTP_Save_Customer_Order($success_message, $order_status, $order_location);}
 
 	$ReturnString .= "<style type='text/css'>";
+	$ReturnString .= EWD_OTP_Add_Modified_Styles();
 	$ReturnString .= $Custom_CSS;
 	$ReturnString .= "</style>";
 

@@ -157,6 +157,10 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.4.1 =
+- Fixed styling customization for customer, sales rep, and customer order forms
+- Minor CSS fixes
+
 = 2.4.0 =
 - Extended custom field functionality to sales reps and customers
 - Changed the way statuses are displayed on the order graphic
