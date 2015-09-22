@@ -21,14 +21,14 @@ function Insert_Customer_Form($atts) {
 				'email_field_shortcode' => '',
 				'email_field_shortcode_attribute' => '',
 				'email_field_attribute_value' => '',
-				'order_instructions' => __('Enter your customer number in the form below to track your orders.', 'EWD_OTP'),
+				'order_instructions' => __('Enter your customer ID in the form below to track your orders.', 'EWD_OTP'),
 				'field_names' => '',
 				'submit_text' => __('Track', 'EWD_OTP')),
 		$atts
 		)
 	);
 		
-	if ($order_instructions != "Enter your customer number in the form below to track your orders." or $Order_Instructions == "") {$Order_Instructions = $order_instructions;}
+	if ($order_instructions != "Enter your customer ID in the form below to track your orders." or $Order_Instructions == "") {$Order_Instructions = $order_instructions;}
 		
 	$ReturnString .= "<style type='text/css'>";
 	$ReturnString .= EWD_OTP_Add_Modified_Styles();

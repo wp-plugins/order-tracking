@@ -156,7 +156,11 @@ Premium Features
 1. Admin area
 2. Sample order tracking page
 
-== Changelog ==
+== Changelog == 
+= 2.4.2 =
+- Fixed the styling functions, since a number of the settings weren't being included
+- Minor changes to customers and sales reps details pages
+
 = 2.4.1 =
 - Fixed styling customization for customer, sales rep, and customer order forms
 - Minor CSS fixes
