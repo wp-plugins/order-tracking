@@ -162,6 +162,7 @@ function EWD_OTP_Send_Email($Order_Email, $Order_Number, $Order_Status, $Order_N
 	$Message_Body = str_replace("[order-notes]", $Order_Notes_Public, $Message_Body);
 	$Message_Body = str_replace("[order-time]", $Order_Status_Updated, $Message_Body);
     $Message_Body = str_replace("[order-name]", $Order_Name, $Message_Body);
+    $Message_Body = str_replace("[customer-id]", $Order_Info->Customer_ID, $Message_Body);
     $Message_Body = str_replace("[customer-name]", $Customer_Name, $Message_Body);
 	$Message_Body = str_replace("[sales-rep]", $Sales_Rep_Name, $Message_Body);
 	$Message_Body = str_replace("[tracking-link]", $Tracking_Link, $Message_Body);

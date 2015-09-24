@@ -55,7 +55,7 @@
 	<fieldset><legend class="screen-reader-text"><span>Message Body</span></legend>
 	<label title='Message Body'></label><textarea class='ewd-otp-textarea' name='message_body'> <?php echo $Message_Body; ?></textarea><br />
 	<p>What should be in the messages sent to users? You can put [order-name], [order-number], [order-status], [order-notes] and [order-time] into the message, to include current order name, order number, order status, public order notes or the time the order was updated.</p>
-	<p>You can also use [tracking-link], [customer-name], [sales-rep] or the slug of a customer field enclosed in square brackets to include those fields in the e-mail.</p>
+	<p>You can also use [tracking-link], [customer-name], [customer-id], [sales-rep] or the slug of a customer field enclosed in square brackets to include those fields in the e-mail.</p>
 	</fieldset>
 </td>
 </tr>
