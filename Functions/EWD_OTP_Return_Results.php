@@ -190,19 +190,19 @@ function EWD_OTP_Return_Customer_Results($Customer_ID, $Fields = array(), $Custo
 	global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name, $EWD_OTP_fields_table_name, $EWD_OTP_fields_meta_table_name, $EWD_OTP_customers;
 		
 	$Order_Information_String = get_option("EWD_OTP_Order_Information");
-	$Customer_Confirmation = get_option("EWD_OTP_Customer_Confirmation");
+	$Email_Confirmation = get_option("EWD_OTP_Email_Confirmation");
 	$Order_Information = explode(",", $Order_Information_String);
 	$Localize_Date_Time = get_option("EWD_OTP_Localize_Date_Time");
 	$Cut_Off_Days = get_option("EWD_OTP_Cut_Off_Days");
 	if ($Cut_Off_Days == "") {$Cut_Off_Days = 365;}
 		
-	if ($Customer_Confirmation == "Auto_Entered") {$Customer_Email = do_shortcode($Customer_Email);}
+	if ($Email_Confirmation == "Auto_Entered") {$Customer_Email = do_shortcode($Customer_Email);}
 		
-	if ($Customer_Confirmation == "Order_Email" or $Customer_Confirmation == "Auto_Entered") {
+	if ($Email_Confirmation == "Order_Email" or $Email_Confirmation == "Auto_Entered") {
 		$Customer = $wpdb->get_results($wpdb->prepare("SELECT Customer_ID FROM $EWD_OTP_customers WHERE Customer_ID='%d' and Customer_Email='%s'", $Customer_ID, $Customer_Email));
 		if ($wpdb->num_rows == 0) {
 			$ReturnString = "There is no customer with the ID " . $Customer_ID . " and an e-mail of " . $Customer_Email;
-			return $Returnstring;
+			return $ReturnString;
 		}
 	}
 	
@@ -383,18 +383,18 @@ function EWD_OTP_Return_Sales_Rep_Results($Sales_Rep_ID, $Fields = array(), $Sal
 	global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name, $EWD_OTP_fields_table_name, $EWD_OTP_fields_meta_table_name, $EWD_OTP_sales_reps;
 		
 	$Order_Information_String = get_option("EWD_OTP_Order_Information");
-	$Sales_Rep_Confirmation = get_option("EWD_OTP_Sales_Rep_Confirmation");
+	$Email_Confirmation = get_option("EWD_OTP_Email_Confirmation");
 	$Order_Information = explode(",", $Order_Information_String);
 	$Localize_Date_Time = get_option("EWD_OTP_Localize_Date_Time");
 	$Cut_Off_Days = get_option("EWD_OTP_Cut_Off_Days");
 		
-	if ($Sales_Rep_Confirmation == "Auto_Entered") {$Sales_Rep_Email = do_shortcode($Sales_Rep_Email);}
+	if ($Email_Confirmation == "Auto_Entered") {$Sales_Rep_Email = do_shortcode($Sales_Rep_Email);}
 		
-	if ($Sales_Rep_Confirmation == "Order_Email" or $Sales_Rep_Confirmation == "Auto_Entered") {
+	if ($Email_Confirmation == "Order_Email" or $Email_Confirmation == "Auto_Entered") {
 		$Sales_Rep = $wpdb->get_results($wpdb->prepare("SELECT Sales_Rep_ID FROM $EWD_OTP_sales_reps WHERE Sales_Rep_ID='%d' and Sales_Rep_Email='%s'", $Sales_Rep_ID, $Sales_Rep_Email));
 		if ($wpdb->num_rows == 0) {
 			$ReturnString = "There is no sales rep with the ID " . $Sales_Rep_ID . " and an e-mail of " . $Sales_Rep_Email;
-			return $Returnstring;
+			return $ReturnString;
 		}
 	}
 	

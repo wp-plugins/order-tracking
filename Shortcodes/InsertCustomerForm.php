@@ -9,7 +9,7 @@ function Insert_Customer_Form($atts) {
 	$Custom_CSS = get_option('EWD_OTP_Custom_CSS');
 	$New_Window = get_option("EWD_OTP_New_Window");
 	$Order_Instructions = get_option("EWD_OTP_Form_Instructions");
-	$Email_Confirmation = get_option("EWD_OTP_Customer_Confirmation");
+	$Email_Confirmation = get_option("EWD_OTP_Email_Confirmation");
 	
 	$ReturnString = "";
 		

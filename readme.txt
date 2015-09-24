@@ -157,6 +157,9 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog == 
+= 2.4.3 =
+- Minor functionality fix
+
 = 2.4.2 =
 - Fixed the styling functions, since a number of the settings weren't being included
 - Minor changes to customers and sales reps details pages
