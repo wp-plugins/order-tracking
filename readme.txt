@@ -157,6 +157,9 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog == 
+= 2.4.5 =
+- Minor CSS fix
+
 = 2.4.4 =
 - Added "Customer ID" as one of the possible fields that can be added to an email
 
