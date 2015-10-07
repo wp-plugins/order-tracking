@@ -156,7 +156,10 @@ Premium Features
 1. Admin area
 2. Sample order tracking page
 
-== Changelog == 
+== Changelog ==
+= 2.4.6 =
+- Minor CSS update
+
 = 2.4.5 =
 - Minor CSS fix
 
