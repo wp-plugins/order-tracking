@@ -166,6 +166,16 @@ function EWD_OTP_Send_Email($Order_Email, $Order_Number, $Order_Status, $Order_N
     $Message_Body = str_replace("[customer-name]", $Customer_Name, $Message_Body);
 	$Message_Body = str_replace("[sales-rep]", $Sales_Rep_Name, $Message_Body);
 	$Message_Body = str_replace("[tracking-link]", $Tracking_Link, $Message_Body);
+
+	$Subject_Line = str_replace("[order-number]", $Order_Number, $Subject_Line);
+	$Subject_Line = str_replace("[order-status]", $Order_Status, $Subject_Line);
+	$Subject_Line = str_replace("[order-notes]", $Order_Notes_Public, $Subject_Line);
+	$Subject_Line = str_replace("[order-time]", $Order_Status_Updated, $Subject_Line);
+    $Subject_Line = str_replace("[order-name]", $Order_Name, $Subject_Line);
+    $Subject_Line = str_replace("[customer-id]", $Order_Info->Customer_ID, $Subject_Line);
+    $Subject_Line = str_replace("[customer-name]", $Customer_Name, $Subject_Line);
+	$Subject_Line = str_replace("[sales-rep]", $Sales_Rep_Name, $Subject_Line);
+	$Subject_Line = str_replace("[tracking-link]", $Tracking_Link, $Subject_Line);
 		
 	$Order_Metas = $wpdb->get_results($wpdb->prepare("SELECT Field_ID, Meta_Value FROM $EWD_OTP_fields_meta_table_name WHERE Order_ID='%d'", $Order_Info->Order_ID));
 	foreach ($Order_Metas as $Order_Meta) {

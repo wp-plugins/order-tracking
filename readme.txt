@@ -157,6 +157,9 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.4.7 =
+- Shortcode variables can now be used in the email subject line
+
 = 2.4.6 =
 - Minor CSS update
 
