@@ -838,6 +838,11 @@ function Update_EWD_OTP_Options() {
 	if (isset($_POST['display_graphic']) and $EWD_OTP_Full_Version == "Yes") {update_option('EWD_OTP_Display_Graphic', $Display_Graphic);}
 	if (isset($_POST['mobile_stylesheet']) and $EWD_OTP_Full_Version == "Yes") {update_option('EWD_OTP_Mobile_Stylesheet', $Mobile_Stylesheet);}
 
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['tracking_title_label'])) {update_option("EWD_OTP_Tracking_Title_Label", $_POST['tracking_title_label']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['tracking_description_label'])) {update_option("EWD_OTP_Tracking_Description_Label", $_POST['tracking_description_label']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['tracking_ordernumber_label'])) {update_option("EWD_OTP_Tracking_ordernumber_Label", $_POST['tracking_ordernumber_label']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['tracking_email_label'])) {update_option("EWD_OTP_Tracking_Email_Label", $_POST['tracking_email_label']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['tracking_button_label'])) {update_option("EWD_OTP_Tracking_Button_Label", $_POST['tracking_button_label']);}
 	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['order_information_label'])) {update_option("EWD_OTP_Order_Information_Label", $_POST['order_information_label']);}
 	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['order_number_label'])) {update_option("EWD_OTP_Order_Number_Label", $_POST['order_number_label']);}
 	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['order_name_label'])) {update_option("EWD_OTP_Order_Name_Label", $_POST['order_name_label']);}

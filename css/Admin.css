@@ -104,6 +104,10 @@ a {
   min-height:400px;
 }
 
+.otp-options-tab-title{
+      margin: 10px 0 5px !important;
+}
+
 @media only screen and (max-width: 650px) {
   .otp-options-page-tabbed,
   .otp-styling-page-tabbed{
@@ -203,13 +207,14 @@ margin:0 auto;
 
 }
 
+
 .otp-styling-header {
     font-weight: 600;
     font-size: 14px;
     margin: 5px 0;
     width: 100%;
 }
-.otp-styling-option {
+.otp-field-input {
   margin-bottom:10px;
 }
 
@@ -243,3 +248,4 @@ margin:0 auto;
 .otp-subsection-content .otp-option-checkbox {
   display:inline;
 }
+

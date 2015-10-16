@@ -157,6 +157,10 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.4.8 =
+- Updated labeling options
+- Updated "Dashboard" tab
+
 = 2.4.7 =
 - Shortcode variables can now be used in the email subject line
 
