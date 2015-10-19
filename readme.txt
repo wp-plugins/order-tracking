@@ -157,6 +157,9 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.4.9 =
+- Fixed the tracking graphix for email links
+
 = 2.4.8 =
 - Updated labeling options
 - Updated "Dashboard" tab

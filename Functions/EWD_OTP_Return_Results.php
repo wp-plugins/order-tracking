@@ -59,7 +59,7 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '',
 	else {					
 		if (in_array("Order_Graphic", $Order_Information)) {
 			$ReturnString .= "<div class='ewd-otp-status-graphic pure-u-1'>";
-			$ReturnString .= EWD_OTP_Display_Graph($_POST['Tracking_Number']);
+			$ReturnString .= EWD_OTP_Display_Graph($_REQUEST['Tracking_Number']);
 			$ReturnString .= "</div>";
 			$ReturnString .= "<div class='ewd-otp-clear'></div>";
 		}

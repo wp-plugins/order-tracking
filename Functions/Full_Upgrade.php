@@ -1,6 +1,6 @@
 <?php 
 function EWD_OTP_Upgrade_To_Full() {
-	global $ewd_otp_message, $Full_Version;
+	global $ewd_otp_message, $EWD_OTP_Full_Version;
 	
 	$Key = $_POST['Key'];
 	$opts = array('http'=>array('method'=>"GET"));
