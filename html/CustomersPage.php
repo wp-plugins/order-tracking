@@ -171,6 +171,37 @@
 	<input name="Sales_Rep_ID" id="Sales_Rep_ID" type="text" value="" size="60" />
 	<p><?php _e("The sales rep's ID for this customer.", 'EWD_OTP') ?></p>
 </div>
+<div class="form-field">
+	<label for="Customer_WP_ID"><?php _e("Customer WP Username:", 'EWD_OTP') ?></label>
+	<select name="Customer_WP_ID" id="Customer_WP_ID">
+	<option value=""></option>
+	<?php 
+		$Blog_ID = get_current_blog_id();
+		$Users = get_users( 'blog_id=' . $Blog_ID ); 
+		foreach ($Users as $User) {
+			echo "<option value='" . $User->ID . "' ";
+			if ($User->ID == $Customer->Customer_WP_ID) {echo "selected='selected'";}
+			echo " >" . $User->display_name . "</option>";
+		} 
+	?>
+	</select>
+	<p><?php _e("What WordPress user, if any, is assigned to this customer?", 'EWD_OTP') ?></p>
+</div>
+<div class="form-field">
+	<label for="Customer_FEUP_ID"><?php _e("Customer FEUP Username:", 'EWD_OTP') ?></label>
+	<select name="Customer_FEUP_ID" id="Customer_FEUP_ID">
+	<option value=""></option>
+	<?php 
+		$Users = EWD_FEUP_Get_All_Users(); 
+		foreach ($Users as $User) {
+			echo "<option value='" . $User->Get_User_ID() . "' ";
+			if ($User->Get_User_ID() == $Customer->Customer_FEUP_ID) {echo "selected='selected'";}
+			echo " >" . $User->Get_Username() . "</option>";
+		} 
+	?>
+	</select>
+	<p><?php _e("What FEUP user, if any, is assigned to this customer? For more information on FEUP users:", 'EWD_OTP') ?><a href="https://wordpress.org/plugins/front-end-only-users/">https://wordpress.org/plugins/front-end-only-users/</a></p>
+</div>
 
 <?php
 $Sql = "SELECT * FROM $EWD_OTP_fields_table_name WHERE Field_Function='Customers'";

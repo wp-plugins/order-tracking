@@ -7,9 +7,12 @@
 	$Use_SMTP = get_option("EWD_OTP_Use_SMTP");
 	$SMTP_Mail_Server = get_option("EWD_OTP_SMTP_Mail_Server");
 	$Encryption_Type = get_option("EWD_OTP_Encryption_Type");
-	$Message_Body = get_option("EWD_OTP_Message_Body");
+	$Email_Messages_Array = get_option("EWD_OTP_Email_Messages_Array");
     $Subject_Line = get_option("EWD_OTP_Subject_Line"); 
     $Tracking_Page = get_option("EWD_OTP_Tracking_Page");
+
+    $Email_Messages_Array = get_option("EWD_OTP_Email_Messages_Array");
+	if (!is_array($Email_Messages_Array)) {$Email_Messages_Array = array();}
 		
 	$key = 'EWD_OTP';
 	if (function_exists('mcrypt_decrypt')) {$Admin_Password = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($Encrypted_Admin_Password), MCRYPT_MODE_CBC, md5(md5($key))), "\0");}
@@ -17,10 +20,11 @@
 ?>
 <div class="wrap">
 <div id="icon-options-general" class="icon32"><br /></div><h2>Email Settings</h2>
+<p>We've switched to using the default WordPress SMTP mail function. To send SMTP email, use a plugin such as <a href='https://wordpress.org/plugins/wp-mail-smtp/'>WP Mail SMTP</a> to input your settings</p>
 
 <form method="post" action="admin.php?page=EWD-OTP-options&DisplayPage=Emails&Action=EWD_OTP_UpdateEmailSettings">
 <table class="form-table">
-<tr>
+<?php /* <tr>
 <th scope="row">"Send-From" Email Address</th>
 <td>
 	<fieldset><legend class="screen-reader-text"><span>Email Address</span></legend>
@@ -37,7 +41,7 @@
 	<p>The name on the e-mail account that order messages should be sent from to users.</p>
 	</fieldset>
 </td>
-</tr>
+</tr> */ ?>
 
 <tr>
 <th scope="row">Subject Line</th>
@@ -50,15 +54,35 @@
 </tr>
 
 <tr>
-<th scope="row">Message Body</th>
+<th scope="row">E-mail Messages</th>
 <td>
-	<fieldset><legend class="screen-reader-text"><span>Message Body</span></legend>
-	<label title='Message Body'></label><textarea class='ewd-otp-textarea' name='message_body'> <?php echo $Message_Body; ?></textarea><br />
+	<fieldset><legend class="screen-reader-text"><span>E-mail Messages</span></legend>
+	<table id='ewd-otp-email-messages-table'>
+		<tr>
+			<th></th>
+			<th>Message Name</th>
+			<th>Message</th>
+		</tr>
+		<?php 
+			$Counter = 0;
+			if (!is_array($Email_Messages_Array)) {$Email_Messages_Array = array();}
+			foreach ($Email_Messages_Array as $Email_Message_Item) { 
+				echo "<tr id='ewd-otp-email-message-" . $Counter . "'>";
+					echo "<td><a class='ewd-otp-delete-message' data-messagenumber='" . $Counter . "'>Delete</a></td>";
+					echo "<td><input type='hidden' name='Email_Message_" . $Counter . "_Name' value='" . urlencode($Email_Message_Item['Name']) . "'/>" . $Email_Message_Item['Name'] . "</td>";
+					echo "<td><input type='hidden' name='Email_Message_" . $Counter . "_Body' value='" . urlencode($Email_Message_Item['Message']) ."'/>" . $Email_Message_Item['Message'] . "</td>";
+				echo "</tr>";
+				$Counter++;
+			} 
+			echo "<tr><td colspan='4'><a class='ewd-otp-add-email' data-nextid='" . $Counter . "'>Add</a></td></tr>";
+		?>
+	</table>
 	<p>What should be in the messages sent to users? You can put [order-name], [order-number], [order-status], [order-notes] and [order-time] into the message, to include current order name, order number, order status, public order notes or the time the order was updated.</p>
 	<p>You can also use [tracking-link], [customer-name], [customer-id], [sales-rep] or the slug of a customer field enclosed in square brackets to include those fields in the e-mail.</p>
 	</fieldset>
 </td>
 </tr>
+
 <tr>
 <th scope="row">Order Tracking URL</th>
 <td>
@@ -69,6 +93,8 @@
 </td>
 </tr>
 </table>
+
+<?php /*
 <div class="otp-email-advanced-settings">
 <h3>SMTP Mail Settings</h3>
 <table class="form-table">
@@ -132,7 +158,7 @@
 </div>
 <div class="otp-email-toggle-show" onclick="ShowMoreOptions()"><a> Show Advanced Settings... </a></div>
 <div class="otp-email-toggle-hide" onclick="ShowMoreOptions()" style="display:none;"><a> Hide Advanced Settings... </a></div>
-
+*/ ?>
 <p class="submit"><input type="submit" name="Options_Submit" id="submit" class="button button-primary" value="Save Changes"  /></p></form>
 
 </div>

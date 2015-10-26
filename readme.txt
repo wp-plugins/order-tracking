@@ -157,6 +157,11 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.5.0 =
+- Complete overhaul of the e-mails system for order updates. IMPORTANT - If you're using the plugin in production, the plugin is switching from native SMTP e-mailing to using the pluggable wp_mail function, which means that options can now be set using a third party plugin (ex: https://wordpress.org/plugins/wp-mail-smtp/)
+- Associate messages with an order status, so that each status has a different email message sent out when an order is set to that status
+- Assign a WordPress or Front-End Only User (https://wordpress.org/plugins/front-end-only-users/) to a customer so that orders assigned to that customer are automatically displayed by the [customer-form] shortcode when they're logged in
+
 = 2.4.9 =
 - Fixed the tracking graphix for email links
 

@@ -354,62 +354,41 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 }
 
 function Update_EWD_OTP_Statuses() {
-	$OriginalStatusString = get_option("EWD_OTP_Statuses") . ",";
-	
-	$OriginalPercentageString = get_option("EWD_OTP_Percentages") . ",";
-
+	$Statuses_Array = array();
 	foreach ($_POST['status'] as $key => $stat) {
 		if ($stat != "") {
-			$OriginalStatusString .= stripslashes($stat) . ",";
-			$OriginalPercentageString .= $_POST['status_percentages'][$key] . ",";
+			$Statuses_Array_Item['Status'] = $stat;
+			$Statuses_Array_Item['Percentage'] = $_POST['status_percentages'][$key];
+			$Statuses_Array_Item['Message'] = stripslashes_deep(urldecode($_POST['status_messages'][$key]));
+
+			if ($Statuses_Array_Item['Message'] == "") {$Statuses_Array_Item['Message'] = 'Default';}
+
+			$Statuses_Array[] = $Statuses_Array_Item;
+			unset($Statuses_Array_Item);
 		}
 	}
 		
-	$OriginalStatusString = substr($OriginalStatusString, 0, -1);
-	$OriginalPercentageString = substr($OriginalPercentageString, 0, -1);
-		
-	//Turn the statuses and percentages into arrays, so that they can be ordered by percentage
-	$Statuses = explode(",", $OriginalStatusString);
-	$Percentages = explode(",", $OriginalPercentageString);
-		
-	asort($Percentages);
-	foreach ($Percentages as $key => $Percent) {
-		$PercentageString .= $Percent . ",";
-		$StatusString .= $Statuses[$key] . ",";
-	}
-		
-	$StatusString = substr($StatusString, 0, -1);
-	$PercentageString = substr($PercentageString, 0, -1);
-	
-	update_option("EWD_OTP_Statuses", $StatusString);
-	update_option("EWD_OTP_Percentages", $PercentageString);
+	usort($Statuses_Array, 'EWD_OTP_Status_Sort');
+
+	update_option("EWD_OTP_Statuses_Array",$Statuses_Array);
 		
 	$update = __("Statuses have been successfully updated.", 'EWD_OTP');
 	return $update;
 }
 
-function Delete_EWD_OTP_Status($Status) {
-	$OriginalStatusString = get_option("EWD_OTP_Statuses");
-	$OriginalPercentageString = get_option("EWD_OTP_Percentages");
-	
-	$Status = stripslashes(urldecode($Status));
+function EWD_OTP_Status_Sort($a, $b) {
+    return $a['Percentage'] - $b['Percentage'];
+}
 
-	$Statuses = explode(",", $OriginalStatusString);
-	$Percentages = explode(",", $OriginalPercentageString);
-		
-	foreach ($Statuses as $key => $stat) {
-		if ($stat != $Status) {
-			$StatusString .= $stat . ",";
-			$PercentageString .= $Percentages[$key] . ",";
-		}
+function Delete_EWD_OTP_Status($Status) {
+	$Statuses_Array = get_option("EWD_OTP_Statuses_Array");
+
+	foreach ($Statuses_Array as $key => $Statuses_Array_Item) {
+		if ($Statuses_Array_Item['Status'] == $Status) {unset($Statuses_Array[$key]);}
 	}
 		
-	$StatusString = substr($StatusString, 0, -1);
-	$PercentageString = substr($PercentageString, 0, -1);
-		
-	update_option("EWD_OTP_Statuses", $StatusString);
-	update_option("EWD_OTP_Percentages", $PercentageString);
-		
+	update_option("EWD_OTP_Statuses_Array", $Statuses_Array);
+
 	$update = __("Status has been successfully deleted.", 'EWD_OTP');
 	return $update;
 }
@@ -646,7 +625,7 @@ function Delete_EWD_OTP_Sales_Rep($Sales_Rep_ID) {
 	return $update;
 }
 
-function Add_EWD_OTP_Customer($Customer_Name, $Customer_Email, $Sales_Rep_ID, $Customer_Created) {
+function Add_EWD_OTP_Customer($Customer_Name, $Customer_Email, $Sales_Rep_ID, $Customer_WP_ID, $Customer_FEUP_ID, $Customer_Created) {
 	global $wpdb;
 	global $EWD_OTP_customers, $EWD_OTP_fields_table_name, $EWD_OTP_fields_meta_table_name;
 		
@@ -654,6 +633,8 @@ function Add_EWD_OTP_Customer($Customer_Name, $Customer_Email, $Sales_Rep_ID, $C
 		array( 'Customer_Name' => $Customer_Name,
 			'Customer_Email' => $Customer_Email,
 			'Sales_Rep_ID' => $Sales_Rep_ID,
+			'Customer_WP_ID' => $Customer_WP_ID,
+			'Customer_FEUP_ID' => $Customer_FEUP_ID,
 			'Customer_Created' => $Customer_Created)
 	);
 
@@ -701,14 +682,16 @@ function Add_EWD_OTP_Customer($Customer_Name, $Customer_Email, $Sales_Rep_ID, $C
 }
 
 /* Edits a single order with a given ID in the OTP database */
-function Edit_EWD_OTP_Customer($Customer_ID, $Customer_Name, $Customer_Email, $Sales_Rep_ID) {
+function Edit_EWD_OTP_Customer($Customer_ID, $Customer_Name, $Customer_Email, $Sales_Rep_ID, $Customer_WP_ID, $Customer_FEUP_ID) {
 	global $wpdb;
 	global $EWD_OTP_customers, $EWD_OTP_fields_table_name, $EWD_OTP_fields_meta_table_name;
 		
 	$wpdb->update( $EWD_OTP_customers, 
 		array( 'Customer_Name' => $Customer_Name,
 			'Customer_Email' => $Customer_Email,
-			'Sales_Rep_ID' => $Sales_Rep_ID),
+			'Sales_Rep_ID' => $Sales_Rep_ID,
+			'Customer_WP_ID' => $Customer_WP_ID,
+			'Customer_FEUP_ID' => $Customer_FEUP_ID),
 		array( 'Customer_ID' => $Customer_ID)
 	);
 
@@ -913,5 +896,22 @@ function Update_EWD_OTP_Email_Settings() {
 	if (isset($_POST['username'])) {update_option('EWD_OTP_Username', $Username);}
 	if (isset($_POST['admin_password'])) {update_option('EWD_OTP_Admin_Password', $Encrypted_Admin_Password);}
 	if (isset($_POST['encryption_type'])) {update_option('EWD_OTP_Encryption_Type', $Encryption_Type);}
+
+	//Saving reminders
+	$Counter = 0;
+	while ($Counter < 30) {
+		if (isset($_POST['Email_Message_' . $Counter . '_Name'])) {
+			$Prefix = 'Email_Message_' . $Counter;
+			
+			$Message_Item['Name'] = stripslashes_deep(urldecode($_POST[$Prefix . '_Name']));
+			$Message_Item['Message'] = stripslashes_deep(urldecode($_POST[$Prefix . '_Body']));
+
+			$Messages[] = $Message_Item; 
+			unset($Message_Item);
+		}
+		$Counter++;
+	}
+
+	if (isset($_POST['subject_line'])) {update_option("EWD_OTP_Email_Messages_Array", $Messages);}
 }
 ?>

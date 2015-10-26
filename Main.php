@@ -7,7 +7,7 @@ Author: Étoile Web Design
 Author URI: http://www.EtoileWebDesign.com/order-tracking/
 Terms and Conditions: http://www.etoilewebdesign.com/plugin-terms-and-conditions/
 Text Domain: EWD_OTP
-Version: 2.4.9
+Version: 2.5.0
 */
 
 global $EWD_OTP_db_version;
@@ -22,7 +22,7 @@ $EWD_OTP_sales_reps = $wpdb->prefix . "EWD_OTP_Sales_Reps";
 $EWD_OTP_customers = $wpdb->prefix . "EWD_OTP_Customers";
 $EWD_OTP_fields_table_name = $wpdb->prefix . "EWD_OTP_Custom_Fields";
 $EWD_OTP_fields_meta_table_name = $wpdb->prefix . "EWD_OTP_Fields_Meta";
-$EWD_OTP_db_version = "2.4.0";
+$EWD_OTP_db_version = "2.5.0";
 
 define( 'EWD_OTP_CD_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'EWD_OTP_CD_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -49,9 +49,15 @@ if ( is_admin() ){
 
 function EWD_OTP_Default_Statuses() {
 	$StatusString = get_option("EWD_OTP_Statuses");
-	if ($StatusString == "") {
-		update_option("EWD_OTP_Statuses", "Received,Processed,Shipped,Completed");
-		update_option("EWD_OTP_Percentages", "25,50,75,100");
+	$Statuses_Array = get_option("EWD_OTP_Statuses_Array");
+	if (!is_array($Statuses_Array) and $StatusString == "") {
+		$Save_Statuses_Array = array(
+			array("Status" => "Received", "Percentage" => "25", "Message" => "Default"),
+			array("Status" => "Processed", "Percentage" => "50", "Message" => "Default"),
+			array("Status" => "Shipped", "Percentage" => "75", "Message" => "Default"),
+			array("Status" => "Completed", "Percentage" => "100", "Message" => "Default")
+		);
+		update_option("EWD_OTP_Statuses_Array", $Save_Statuses_Array);
 	}
 }
 
@@ -67,6 +73,14 @@ function EWD_OTP_Plugin_Menu() {
 
 	if ($Access_Role == "") {$Access_Role = "administrator";}
 	add_menu_page('Order Tracking Plugin', 'Order Tracking', $Access_Role, 'EWD-OTP-options', 'EWD_OTP_Output_Options',null , '50.8');
+	add_submenu_page('EWD-OTP-options', 'OTP Orders', 'Orders', $Access_Role, 'EWD-OTP-options&DisplayPage=Orders', 'EWD_OTP_Output_Options');
+	add_submenu_page('EWD-OTP-options', 'OTP Statuses', 'Statuses', $Access_Role, 'EWD-OTP-options&DisplayPage=Statuses', 'EWD_OTP_Output_Options');
+	add_submenu_page('EWD-OTP-options', 'OTP Locations', 'Locations', $Access_Role, 'EWD-OTP-options&DisplayPage=Locations', 'EWD_OTP_Output_Options');
+	add_submenu_page('EWD-OTP-options', 'OTP SalesReps', 'Sales Reps', $Access_Role, 'EWD-OTP-options&DisplayPage=SalesReps', 'EWD_OTP_Output_Options');
+	add_submenu_page('EWD-OTP-options', 'OTP Customers', 'Customers', $Access_Role, 'EWD-OTP-options&DisplayPage=Customers', 'EWD_OTP_Output_Options');
+	add_submenu_page('EWD-OTP-options', 'OTP Emails', 'Emails', $Access_Role, 'EWD-OTP-options&DisplayPage=Emails', 'EWD_OTP_Output_Options');
+	add_submenu_page('EWD-OTP-options', 'OTP CustomFields', 'Custom Fields', $Access_Role, 'EWD-OTP-options&DisplayPage=CustomFields', 'EWD_OTP_Output_Options');
+	add_submenu_page('EWD-OTP-options', 'OTP Options', 'Options', $Access_Role, 'EWD-OTP-options&DisplayPage=Options', 'EWD_OTP_Output_Options');
 }
 
 function EWD_OTP_Sales_Rep_Menu() {

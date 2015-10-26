@@ -50,6 +50,9 @@ function EWD_OTP_Save_Customer_Note() {
 }
 
 function EWD_OTP_Save_Customer_Order($Success_Message, $Order_Status = "", $Order_Location = "") {
+	$Timezone = get_option("EWD_OTP_Timezone");
+	date_default_timezone_set($Timezone);
+
 	$Order_Name = sanitize_text_field(stripslashes_deep($_POST['Order_Name']));
 	$Order_Email_Address = sanitize_text_field(stripslashes_deep($_POST['Order_Email_Address']));
 	$Note = sanitize_text_field(stripslashes_deep($_POST['Customer_Notes']));
@@ -76,6 +79,9 @@ function EWD_OTP_Save_Customer_Order($Success_Message, $Order_Status = "", $Orde
 
 function Add_Edit_EWD_OTP_Sales_Rep() {
 		global $wpdb, $EWD_OTP_sales_reps;
+
+		$Timezone = get_option("EWD_OTP_Timezone");
+		date_default_timezone_set($Timezone);
 
 		$Sales_Rep_ID = $_POST['Sales_Rep_ID'];
 		$Sales_Rep_First_Name = $_POST['Sales_Rep_First_Name'];
@@ -105,20 +111,25 @@ function Add_Edit_EWD_OTP_Sales_Rep() {
 function Add_Edit_EWD_OTP_Customer() {
 		global $wpdb, $EWD_OTP_customers;
 
+		$Timezone = get_option("EWD_OTP_Timezone");
+		date_default_timezone_set($Timezone);
+
 		$Customer_ID = $_POST['Customer_ID'];
 		$Customer_Name = $_POST['Customer_Name'];
 		$Customer_Email = $_POST['Customer_Email'];
 		$Sales_Rep_ID = $_POST['Sales_Rep_ID'];
+		$Customer_WP_ID = $_POST['Customer_WP_ID'];
+		$Customer_FEUP_ID = $_POST['Customer_FEUP_ID'];
 		$Customer_Created = date("Y-m-d H:i:s"); 
 
 		if (!isset($error)) {
 				// Pass the data to the appropriate function in Update_Admin_Databases.php to create the product 
 				if ($_POST['action'] == "Add_Customer") {
-					  $user_update = Add_EWD_OTP_Customer($Customer_Name, $Customer_Email, $Sales_Rep_ID, $Customer_Created);
+					  $user_update = Add_EWD_OTP_Customer($Customer_Name, $Customer_Email, $Sales_Rep_ID, $Customer_WP_ID, $Customer_FEUP_ID, $Customer_Created);
 				}
 				// Pass the data to the appropriate function in Update_Admin_Databases.php to edit the product 
 				else {
-						$user_update = Edit_EWD_OTP_Customer($Customer_ID, $Customer_Name, $Customer_Email, $Sales_Rep_ID);
+						$user_update = Edit_EWD_OTP_Customer($Customer_ID, $Customer_Name, $Customer_Email, $Sales_Rep_ID, $Customer_WP_ID, $Customer_FEUP_ID);
 				}
 				$user_update = array("Message_Type" => "Update", "Message" => $user_update);
 				return $user_update;
@@ -144,6 +155,20 @@ function EWD_OTP_Send_Email($Order_Email, $Order_Number, $Order_Status, $Order_N
 	$Message_Body = get_option("EWD_OTP_Message_Body");
     $Subject_Line = get_option("EWD_OTP_Subject_Line"); 
     $Tracking_Page = get_option("EWD_OTP_Tracking_Page");
+
+    $Statuses_Array = get_option("EWD_OTP_Statuses_Array");
+	$Email_Messages_Array = get_option("EWD_OTP_Email_Messages_Array");
+
+	if (is_array($Statuses_Array)) {
+		foreach ($Statuses_Array as $Status_Array_Item) {
+			if ($Order_Status == $Status_Array_Item['Status']){$Message_Name = $Status_Array_Item['Message'];}
+		}
+	}
+	if (is_array($Email_Messages_Array)) {
+		foreach ($Email_Messages_Array as $Email_Array_Item) {
+			if ($Message_Name == $Email_Array_Item['Name']) {$Message_Body = $Email_Array_Item['Message'];}
+		}
+	}
 		
 	$key = 'EWD_OTP';
 	$Admin_Password = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($Encrypted_Admin_Password), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
@@ -185,14 +210,11 @@ function EWD_OTP_Send_Email($Order_Email, $Order_Number, $Order_Status, $Order_N
 
 	$Emails = explode(",", $Order_Email);
 	foreach ($Emails as $Email) {
-		if ($SMTP_Mail_Server != "") {
+		/*if ($SMTP_Mail_Server != "") {
 			require_once(EWD_OTP_CD_PLUGIN_PATH . '/PHPMailer/class.phpmailer.php');
 			require_once(EWD_OTP_CD_PLUGIN_PATH . '/PHPMailer/class.smtp.php');
 			$mail = new PHPMailer(true);
 			try {
-  				/*echo "Username: " . $Username . "<br>";
-  				echo "Password: " . $Admin_Password . "<br>";
-  				echo "Mail Server: " . $SMTP_Mail_Server . "<br>";*/
   				$mail->CharSet = 'UTF-8';
 				if ($Use_SMTP != "No") {
 					$mail->IsSMTP();
@@ -226,12 +248,13 @@ function EWD_OTP_Send_Email($Order_Email, $Order_Number, $Order_Status, $Order_N
     			//echo $e->getMessage(); // from anything else!
 			}		
 			}
-		else {
+		else { 
 			$headers = 'From: ' . $From_Name . '<' . $Admin_Email . ">\r\n" .
     					'Reply-To: ' . $Admin_Email . "\r\n" .
-    					'X-Mailer: PHP/' . phpversion();
-			$Mail_Success = mail($Order_Email, $Subject_Line, $Message_Body, $headers);
-		}
+    					'X-Mailer: PHP/' . phpversion(); */
+    					$headers = array('Content-Type: text/html; charset=UTF-8');
+			$Mail_Success = wp_mail($Email, $Subject_Line, $Message_Body, $headers);
+		//}
 	}
 }
 

@@ -58,6 +58,8 @@ function Install_EWD_OTP() {
   		Customer_ID mediumint(9) NOT NULL AUTO_INCREMENT,
 		Customer_Name text DEFAULT '' NOT NULL,
 		Sales_Rep_ID mediumint(9) DEFAULT 0 NOT NULL,
+		Customer_WP_ID mediumint(9) DEFAULT 0 NOT NULL,
+		Customer_FEUP_ID mediumint(9) DEFAULT 0 NOT NULL,
 		Customer_Email text DEFAULT '' NOT NULL,
 		Customer_Created datetime DEFAULT '0000-00-00 00:00:00' NULL,
   		UNIQUE KEY id (Customer_ID)
@@ -111,6 +113,20 @@ function Install_EWD_OTP() {
 	if (get_option("EWD_OTP_Sales_Rep_Confirmation") == "") {update_option("EWD_OTP_Sales_Rep_Confirmation", "None");}
 	if (get_option("EWD_OTP_Cut_Off_Days") == "") {update_option("EWD_OTP_Cut_Off_Days", 60);}
 
+	if (get_option("EWD_OTP_Email_Messages_Array") == "") {
+		if (get_option("EWD_OTP_Message_Body") != "") {
+			$Email_Messages_Array = array(
+				array("Name" => "Default", "Message" => get_option("EWD_OTP_Message_Body"))
+			);
+			update_option("EWD_OTP_Email_Messages_Array", $Email_Messages_Array);
+		}
+		else {
+			$Email_Messages_Array = array(
+				array("Name" => "Default", "Message" => "Hello [order-name, You have an update for your order [order-number]!")
+			);
+		}
+		update_option("EWD_OTP_Email_Messages_Array", $Email_Messages_Array);
+	}
 	if (get_option("EWD_OTP_Use_SMTP") == "") {update_option("EWD_OTP_Use_SMTP", "Yes");}
 	if (get_option("EWD_OTP_Port") == "") {update_option("EWD_OTP_Port", "25");}
 	if (get_option("EWD_OTP_Encryption_Type") == "") {update_option("EWD_OTP_Encryption_Type", "ssl");}

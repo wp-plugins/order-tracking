@@ -58,6 +58,8 @@ function Update_EWD_OTP_Tables() {
   		Customer_ID mediumint(9) NOT NULL AUTO_INCREMENT,
 		Customer_Name text DEFAULT '' NOT NULL,
 		Sales_Rep_ID mediumint(9) DEFAULT 0 NOT NULL,
+		Customer_WP_ID mediumint(9) DEFAULT 0 NOT NULL,
+		Customer_FEUP_ID mediumint(9) DEFAULT 0 NOT NULL,
 		Customer_Email text DEFAULT '' NOT NULL,
 		Customer_Created datetime DEFAULT '0000-00-00 00:00:00' NULL,
   		UNIQUE KEY id (Customer_ID)
@@ -127,6 +129,33 @@ function Update_EWD_OTP_Tables() {
 	if (get_option("EWD_OTP_Encryption_Type") == "") {update_option("EWD_OTP_Encryption_Type", "ssl");}
 	if (get_option("EWD_OTP_From_Name") == "") {update_option("EWD_OTP_From_Name", get_option("EWD_OTP_Admin_Email"));}
 	if (get_option("EWD_OTP_Username") == "") {update_option("EWD_OTP_Port", get_option("EWD_OTP_Admin_Email"));}
+	if (get_option("EWD_OTP_Email_Messages_Array") == "") {
+		if (get_option("EWD_OTP_Message_Body") != "") {
+			$Email_Messages_Array = array(
+				array("Name" => "Default", "Message" => get_option("EWD_OTP_Message_Body"))
+			);
+			update_option("EWD_OTP_Email_Messages_Array", $Email_Messages_Array);
+		}
+		else {update_option("EWD_OTP_Email_Messages_Array", array());}
+	}
+
+	if (!is_array(get_option("EWD_OTP_Statuses_Array"))) {
+		$OriginalStatusString = get_option("EWD_OTP_Statuses");
+		$OriginalPercentageString = get_option("EWD_OTP_Percentages");
+
+		$Statuses = explode(",", $OriginalStatusString);
+		$Percentages = explode(",", $OriginalPercentageString);
+
+		foreach ($Statuses as $key => $Status) {
+			$Statuses_Array_Item['Status'] = $Status;
+			$Statuses_Array_Item['Percentage'] = $Percentages[$key];
+			$Statuses_Array_Item['Message'] = 'Default';
+
+			$Statuses_Array[] = $Statuses_Array_Item;
+			unset($Statuses_Array_Item);
+		}
+		update_option("EWD_OTP_Statuses_Array",$Statuses_Array);
+	}
 
 	$Sql = "UPDATE $EWD_OTP_fields_table_name SET Field_Function='Orders' WHERE Field_Function='' OR Field_Function='Order'";
 	$wpdb->query($Sql);

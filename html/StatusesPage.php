@@ -1,8 +1,11 @@
 <?php 
-	$StatusString = get_option("EWD_OTP_Statuses");
-	$PercentageString = get_option("EWD_OTP_Percentages");
+	$Statuses_Array = get_option("EWD_OTP_Statuses_Array");
+	$Email_Messages_Array = get_option("EWD_OTP_Email_Messages_Array");
+	if (!is_array($Statuses_Array)) {$Statuses_Array = array();}
+	if (!is_array($Email_Messages_Array)) {$Email_Messages_Array = array();}
 ?>
 <div class="wrap">
+<form method="post" action="admin.php?page=EWD-OTP-options&DisplayPage=Statuses&Action=EWD_OTP_UpdateStatuses">
 	<div id="icon-options-general" class="icon32"><br /></div>
 	<h2>Statuses</h2>
 
@@ -12,6 +15,7 @@
 			<th><?php _e("Delete", 'EWD_OTP') ?></th>
 			<th><?php _e("Status", 'EWD_OTP') ?></th>
 			<th><?php _e("Percentage Complete", 'EWD_OTP') ?></th>
+			<th><?php _e("Email to Send", 'EWD_OTP') ?></th>
 		</tr>
 	</thead>
 	<tfoot>
@@ -19,26 +23,27 @@
 			<th><?php _e("Delete", 'EWD_OTP') ?></th>
 			<th><?php _e("Status", 'EWD_OTP') ?></th>
 			<th><?php _e("Percentage Complete", 'EWD_OTP') ?></th>
+			<th><?php _e("Email to Send", 'EWD_OTP') ?></th>
 		</tr>
 	</tfoot>
 			
 	<?php 
-	$Statuses = explode(",", $StatusString);
-	$Percentages = explode(",", $PercentageString);
-	foreach ($Statuses as $key => $Status) { ?>
+	if (!is_array($Statuses_Array)) {$Statuses_Array = array();}
+	foreach ($Statuses_Array as $Status_Array_Item) { ?>
 		<tr id="list-item-<?php echo $key; ?>" class="list-item">
-			<input type='hidden' name='status[]' value='<?php echo $Statuses[$key]; ?>' />
-			<input type='hidden' name='status_percentages[]' value='<?php echo $Percentages[$key]; ?>' />
-			<td class="status-delete"><a href="admin.php?page=EWD-OTP-options&Action=EWD_OTP_DeleteStatus&DisplayPage=Statuses&Status=<?php echo urlencode($Statuses[$key]); ?>"><?php _e("Delete", 'EWD_OTP') ?></a></td>
-			<td class="status"><?php echo $Statuses[$key]; ?></td>
-			<td class="status-completed"><?php echo $Percentages[$key]; ?></td>
+			<input type='hidden' name='status[]' value='<?php echo $Status_Array_Item['Status']; ?>' />
+			<input type='hidden' name='status_percentages[]' value='<?php echo $Status_Array_Item['Percentage']; ?>' />
+			<input type='hidden' name='status_messages[]' value='<?php echo urlencode($Status_Array_Item['Message']); ?>' />
+			<td class="status-delete"><a href="admin.php?page=EWD-OTP-options&Action=EWD_OTP_DeleteStatus&DisplayPage=Statuses&Status=<?php echo urlencode($Status_Array_Item['Status']); ?>"><?php _e("Delete", 'EWD_OTP') ?></a></td>
+			<td class="status"><?php echo $Status_Array_Item['Status']; ?></td>
+			<td class="status-completed"><?php echo $Status_Array_Item['Percentage']; ?></td>
+			<td class="status-message"><?php echo $Status_Array_Item['Message']; ?></td>
 		</tr>	
 	<?php } ?>
 	
 	</table>	
 
 	<h3>Add New Status:</h3>
-	<form method="post" action="admin.php?page=EWD-OTP-options&DisplayPage=Statuses&Action=EWD_OTP_UpdateStatuses">
 		<div class="form-field form-required">
 			<label for="Status"><?php _e("New Status", 'EWD_OTP') ?></label>
 			<input name="status[]" id="Status" type="text" size="60" />
@@ -47,6 +52,15 @@
 		<div class="form-field form-required">
 			<label for="Status_Percentage"><?php _e("Percentage Complete", 'EWD_OTP') ?></label>
 			<input name="status_percentages[]" id="Status_Percentage" type="text" size="60" />
+			<p><?php _e("The percentage of the shipping process completed when this status is reached; used in the shipping graphic.", 'EWD_OTP') ?></p>
+		</div>
+		<div class="form-field form-required">
+			<label for="Status_Message"><?php _e("Email to Send", 'EWD_OTP') ?></label>
+			<select name="status_messages[]" id="Status_Message"/>
+				<?php foreach ($Email_Messages_Array as $Email_Message_Item) { ?>
+					<option value='<?php echo $Email_Message_Item['Name']; ?>'><?php echo $Email_Message_Item['Name']; ?></option>
+				<?php } ?>
+			</select>
 			<p><?php _e("The percentage of the shipping process completed when this status is reached; used in the shipping graphic.", 'EWD_OTP') ?></p>
 		</div>
 	

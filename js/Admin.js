@@ -38,3 +38,40 @@ function ShowOptionTab(TabName) {
 	});
 	jQuery("#"+TabName+"_Menu").addClass("options-subnav-tab-active");
 }
+
+jQuery(document).ready(function() {
+	SetMessageDeleteHandlers();
+
+	jQuery('.ewd-otp-add-email').on('click', function(event) {
+		var ID = jQuery(this).data('nextid');
+
+		var HTML = "<tr id='ewd-otp-email-message-" + ID + "'>";
+		HTML += "<td><a class='ewd-otp-delete-message' data-reminderID='" + ID + "'>Delete</a></td>";
+		HTML += "<td><input type='text' name='Email_Message_" + ID + "_Name'></td>";
+		HTML += "<td><textarea name='Email_Message_" + ID + "_Body'></textarea></td>";
+		HTML += "</tr>";
+
+		//jQuery('table > tr#ewd-uasp-add-reminder').before(HTML);
+		jQuery('#ewd-otp-email-messages-table tr:last').before(HTML);
+
+		ID++;
+		jQuery(this).data('nextid', ID); //updates but doesn't show in DOM
+
+		SetMessageDeleteHandlers();
+
+		event.preventDefault();
+	});
+});
+
+function SetMessageDeleteHandlers() {
+	jQuery('.ewd-otp-delete-message').on('click', function(event) {
+		var ID = jQuery(this).data('messagenumber');
+		var tr = jQuery('#ewd-otp-email-message-'+ID);
+
+		tr.fadeOut(400, function(){
+            tr.remove();
+        });
+
+		event.preventDefault();
+	});
+}
