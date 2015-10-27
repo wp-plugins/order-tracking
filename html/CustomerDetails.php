@@ -48,7 +48,8 @@
 					<select name="Customer_FEUP_ID" id="Customer_FEUP_ID">
 					<option value=""></option>
 					<?php 
-						$Users = EWD_FEUP_Get_All_Users(); 
+						if (function_exists("EWD_FEUP_Get_All_Users")) {$Users = EWD_FEUP_Get_All_Users();}
+						else {$Users = array();}
 						foreach ($Users as $User) {
 							echo "<option value='" . $User->Get_User_ID() . "' ";
 							if ($User->Get_User_ID() == $Customer->Customer_FEUP_ID) {echo "selected='selected'";}

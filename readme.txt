@@ -157,6 +157,9 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.5.1 =
+- Fixed an error where the last three tabs weren't displayed if another plugin wasn't installed
+
 = 2.5.0 =
 - Complete overhaul of the e-mails system for order updates. IMPORTANT - If you're using the plugin in production, the plugin is switching from native SMTP e-mailing to using the pluggable wp_mail function, which means that options can now be set using a third party plugin (ex: https://wordpress.org/plugins/wp-mail-smtp/)
 - Associate messages with an order status, so that each status has a different email message sent out when an order is set to that status
