@@ -47,7 +47,10 @@ $Order_Information = explode(",", $Order_Information_String);
 		<div class="alignleft actions">
 				<select name='action'>
   					<option value='-1' selected='selected'><?php _e("Bulk Actions", 'EWD_OTP') ?></option>
-						<?php foreach ($Statuses as $Status) {echo "<option value='" . $Status . "'>" . $Status  . "</option>";} ?>
+  						<?php if (!is_array($Statuses_Array)) {$Statuses_Array = array();}
+							foreach ($Statuses_Array as $Status_Array_Item) { ?>
+							<option value='<?php echo $Status_Array_Item['Status']; ?>'><?php echo $Status_Array_Item['Status']; ?></option>
+						<?php } ?>
 						<option value='hide'><?php _e("Hide Order", 'EWD_OTP') ?></option>
 						<option value='delete'><?php _e("Delete", 'EWD_OTP') ?></option>
 				</select>

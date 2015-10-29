@@ -159,6 +159,9 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.5.3 =
+- Put the correct statuses back in the 'Bulk Actions' select box
+
 = 2.5.2 =
 - Fixed an error where new statuses wouldn't display
 
