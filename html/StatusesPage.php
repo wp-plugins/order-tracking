@@ -61,7 +61,7 @@
 					<option value='<?php echo $Email_Message_Item['Name']; ?>'><?php echo $Email_Message_Item['Name']; ?></option>
 				<?php } ?>
 			</select>
-			<p><?php _e("The percentage of the shipping process completed when this status is reached; used in the shipping graphic.", 'EWD_OTP') ?></p>
+			<p><?php _e("The message that is sent out when this status is selected, if the emailing frequency is set to 'On Change'.", 'EWD_OTP') ?></p>
 		</div>
 	
 		<p class="submit"><input type="submit" name="Statuses_Submit" id="submit" class="button button-primary" value="Add Status"  /></p>

@@ -11,6 +11,8 @@ Easily post status updates on your WordPress site and send automatic email notif
 
 == Description ==
 
+<a href='http://www.etoilewebdesign.com/order-tracking-demo/'>Order Tracking Demo</a>
+
 This order tracking software allows you to post updates about the status of orders or tickets that can be viewed through the front-end of your WordPress site. It’s software that's easy to use through the WordPress admin panel and completely customizable with CSS. Orders can be input and updated manually, or entered by uploading a spreadsheet. Options are available to decide what information is displayed, to style the tracking form, to import and export orders via spreadsheet,to send out status update emails and more!
 
 Simply insert the ‘order-tracking’ shortcode into any page, and the tracking form will be displayed. It's the simplest order tracking system around!
@@ -157,6 +159,9 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.5.2 =
+- Fixed an error where new statuses wouldn't display
+
 = 2.5.1 =
 - Fixed an error where the last three tabs weren't displayed if another plugin wasn't installed
 

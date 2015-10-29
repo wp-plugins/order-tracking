@@ -1,5 +1,5 @@
 <?php 
-$StatusString = get_option("EWD_OTP_Statuses"); 
+$Statuses_Array = get_option("EWD_OTP_Statuses_Array"); 
 $LocationsString = get_option("EWD_OTP_Locations");
 
 $Order_Information_String = get_option("EWD_OTP_Order_Information");
@@ -265,9 +265,9 @@ $Order_Information = explode(",", $Order_Information_String);
 <div>
 		<label for="Order_Status"><?php _e("Order Status", 'EWD_OTP') ?></label>
 		<select name="Order_Status" id="Order_Status" />
-		<?php $Statuses = explode(",", $StatusString);
-			foreach ($Statuses as $Status) { ?>
-			<option value='<?php echo $Status; ?>'><?php echo $Status; ?></option>
+		<?php if (!is_array($Statuses_Array)) {$Statuses_Array = array();}
+			foreach ($Statuses_Array as $Status_Array_Item) { ?>
+			<option value='<?php echo $Status_Array_Item['Status']; ?>'><?php echo $Status_Array_Item['Status']; ?></option>
 		<?php } ?>
 		</select>
 		<p><?php _e("The status that visitors will see if they enter the order number.", 'EWD_OTP') ?></p>

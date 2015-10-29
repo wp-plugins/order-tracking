@@ -1,5 +1,5 @@
 <?php 
-$StatusString = get_option("EWD_OTP_Statuses");
+$Statuses_Array = get_option("EWD_OTP_Statuses_Array");
 $LocationsString = get_option("EWD_OTP_Locations"); 
 $Order = $wpdb->get_row($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_ID='%d'", $_GET['Order_ID']));
 $Customers = $wpdb->get_results("SELECT * FROM $EWD_OTP_customers");
@@ -41,9 +41,9 @@ if ($Sales_Rep_Only == "Yes") {
 <div>
 		<label for="Order_Status"><?php _e("Order Status", 'EWD_OTP') ?></label>
 		<select name="Order_Status" id="Order_Status" />
-		<?php $Statuses = explode(",", $StatusString);
-					foreach ($Statuses as $Status) { ?>
-					<option value='<?php echo $Status; ?>' <?php if ($Order->Order_Status == $Status) {echo "selected='selected'";} ?>><?php echo $Status; ?></option>
+		<?php if (!is_array($Statuses_Array)) {$Statuses_Array = array();}
+			foreach ($Statuses_Array as $Status_Array_Item) { ?>
+				<option value='<?php echo $Status_Array_Item['Status']; ?>' <?php if ($Order->Order_Status == $Status_Array_Item['Status']) {echo "selected='selected'";} ?>><?php echo $Status_Array_Item['Status']; ?></option>
 		<?php } ?>
 		</select>
 		<p><?php _e("The status that visitors will see if they enter the order number.", 'EWD_OTP') ?></p>
