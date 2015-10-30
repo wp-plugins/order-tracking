@@ -7,7 +7,7 @@ Author: Étoile Web Design
 Author URI: http://www.EtoileWebDesign.com/order-tracking/
 Terms and Conditions: http://www.etoilewebdesign.com/plugin-terms-and-conditions/
 Text Domain: EWD_OTP
-Version: 2.5.3
+Version: 2.5.4
 */
 
 global $EWD_OTP_db_version;
@@ -125,9 +125,7 @@ function Add_EWD_OTP_Scripts() {
 
 add_action( 'wp_enqueue_scripts', 'Add_EWD_OTP_FrontEnd_Scripts' );
 function Add_EWD_OTP_FrontEnd_Scripts() {
-	$AJAX_Reload = get_option("EWD_OTP_AJAX_Reload");
-
-	if ($AJAX_Reload == "Yes") {wp_enqueue_script('ewd-otp-js', plugins_url( '/js/ewd-otp-js.js' , __FILE__ ), array( 'jquery' ));}
+	wp_enqueue_script('ewd-otp-js', plugins_url( '/js/ewd-otp-js.js' , __FILE__ ), array( 'jquery' ));
 }
 
 

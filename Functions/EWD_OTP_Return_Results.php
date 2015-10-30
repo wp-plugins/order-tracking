@@ -7,6 +7,7 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '',
 	$Email_Confirmation = get_option("EWD_OTP_Email_Confirmation");
 	$Order_Information = explode(",", $Order_Information_String);
 	$Localize_Date_Time = get_option("EWD_OTP_Localize_Date_Time");
+	$Display_Graphic = get_option("EWD_OTP_Display_Graphic");
 
 	$Order_Number_Label = get_option("EWD_OTP_Order_Number_Label");
 		if ($Order_Number_Label == "") {$Order_Number_Label = __("Order Number", "EWD_OTP");}
@@ -58,7 +59,7 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '',
 	}
 	else {					
 		if (in_array("Order_Graphic", $Order_Information)) {
-			$ReturnString .= "<div class='ewd-otp-status-graphic pure-u-1'>";
+			$ReturnString .= "<div class='ewd-otp-status-graphic pure-u-1 ewd-otp-" . $Display_Graphic . "'>";
 			$ReturnString .= EWD_OTP_Display_Graph($_REQUEST['Tracking_Number']);
 			$ReturnString .= "</div>";
 			$ReturnString .= "<div class='ewd-otp-clear'></div>";

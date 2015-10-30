@@ -159,6 +159,9 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.5.4 =
+- Improved the sizing of the tracking graphic on page load
+
 = 2.5.3 =
 - Put the correct statuses back in the 'Bulk Actions' select box
 

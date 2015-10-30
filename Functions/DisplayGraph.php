@@ -30,7 +30,6 @@ function EWD_OTP_Display_Graph($OrderNumber) {
 	} else {
 		if (($Display_Graphic == "Default") or ($Display_Graphic == "Streamlined") or ($Display_Graphic == "Sleek")) {  
 			$DisplayLength = round($CurrentPercent / 100, 1) * 10;
-			$ReturnString .= "";
 			$ReturnString .= "<div class='ewd-otp-empty-display'>";
 			$ReturnString .= "<img src='" . EWD_OTP_CD_PLUGIN_URL . "images/" . $Display_Graphic .".png' style='width: 100%'/></div>";
 			$ReturnString .= "<div class='ewd-otp-full-display' style='width:" . $CurrentPercent . "%'>";
@@ -41,16 +40,7 @@ function EWD_OTP_Display_Graph($OrderNumber) {
 	    	$ReturnString .= "<div class='ewd-otp-display-status ewd-otp-current-status-length-" . $DisplayLength . "' id='ewd-otp-current-status'>" . $CurrentStatus . "</div>";
 	    	$ReturnString .= "<div class='ewd-otp-display-status' id='ewd-otp-ending-status'>" . $EndingStatus . "</div>";
 			$ReturnString .= "</div>";
-			$ReturnString .= "<script>";
-			$ReturnString .= "function resizeImage() {";
-			$ReturnString .= "	var imgEmpty = jQuery('.ewd-otp-empty-display > img');";
-			$ReturnString .= "	var imgFull = jQuery('.ewd-otp-full-display > img');";
-			$ReturnString .= "	imgFull.width(imgEmpty.width());";
-			$ReturnString .= "	jQuery('.ewd-otp-status-graphic').height(imgEmpty.height());";
-			$ReturnString .= "} ";
-			$ReturnString .= "jQuery(window).resize(resizeImage);";
-			$ReturnString .= "jQuery('.ewd-otp-empty-display > img').load(resizeImage);";
-			$ReturnString .= "</script>";
+			$ReturnString .= "<div class='ewd-otp-clear'></div>";
 		} else {
 			if ($StartingStatus == $CurrentStatus or $EndingStatus == $CurrentStatus) {
 				$ReturnString .= "<div id='ewd-otp-progressbar-" . $Display_Graphic . "'><div class='" . $Display_Graphic . "' style='width: " . $CurrentPercent . "%'></div></div>";
