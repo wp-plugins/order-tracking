@@ -1,5 +1,5 @@
 jQuery(document).ready(function() {
-	jQuery("#ewd-otp-tracking-form").submit(function( event ) {
+	jQuery(".ewd-otp-ajax-form").submit(function( event ) {
 		event.preventDefault();
 		EWD_OTP_Ajax_Reload();
 	});

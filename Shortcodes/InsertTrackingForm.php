@@ -16,7 +16,7 @@ function Insert_Tracking_Form($atts) {
 	$Submit_Text = get_option("EWD_OTP_Tracking_Button_Label");
 	$Email_Confirmation = get_option("EWD_OTP_Email_Confirmation");
 	$Order_Information_Label = get_option("EWD_OTP_Order_Information_Label");
-		if ($Order_Information_Label == "") {$Order_Information_Label = __("Order Information", "EWD_OTP");}
+	if ($Order_Information_Label == "") {$Order_Information_Label = __("Order Information", "EWD_OTP");}
 	$ReturnString = "";
 		
 	// Get the attributes passed by the shortcode, and store them in new variables for processing
@@ -74,7 +74,10 @@ function Insert_Tracking_Form($atts) {
 		$ReturnString .= "<div class='ewd-otp-ajax-results'></div>";
 		$ReturnString .= "</div>";
 	}
-		
+	
+	if ($AJAX_Reload == "Yes") {$Form_Class = 'ewd-otp-ajax-form';}
+	else {$Form_Class = 'ewd-otp-non-ajax-form';}
+
 	if ($show_orders != "Yes" ) {
 		//Put in the tracking form
 		$ReturnString .= "<div id='ewd-otp-tracking-form-div' class='mt-12'>";
@@ -84,7 +87,7 @@ function Insert_Tracking_Form($atts) {
 		$ReturnString .= $Order_Instructions;
 		$ReturnString .= "</div>";
 		if ($New_Window == "Yes") {$ReturnString .= "<form action='#' method='post' target='_blank' id='ewd-otp-tracking-form' class='pure-form pure-form-aligned'>";}
-		else {$ReturnString .= "<form action='#' method='post' id='ewd-otp-tracking-form' class='pure-form pure-form-aligned'>";}
+		else {$ReturnString .= "<form action='#' method='post' id='ewd-otp-tracking-form' class='pure-form pure-form-aligned " . $Form_Class . "'>";}
 		$ReturnString .= "<input type='hidden' name='ewd-otp-action' value='track' />";
 		$ReturnString .= "<input type='hidden' id='ewd-otp-field-labels' name='field-labels' value='" . $field_names . "' />";
 		$ReturnString .= "<div class='pure-control-group'>";

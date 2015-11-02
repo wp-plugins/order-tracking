@@ -159,6 +159,9 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.5.5 =
+- Fixed an AJAX bug which was preventing the tracking form from submitting
+
 = 2.5.4 =
 - Improved the sizing of the tracking graphic on page load
 
