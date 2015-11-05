@@ -34,6 +34,8 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '',
 		if ($Order_Updated_Label == "") {$Order_Updated_Label = __("Order Updated", "EWD_OTP");}
 		if (array_key_exists ("Order Updated", $Fields)) {$Order_Updated_Label = $Fields['Order Updated'];}
 
+	if ($notes_submit == "") {$notes_submit = __('Add Note', 'EWD_OTP');}
+
 	//Calculate how many blank columns are in the status table
 	$Status_Column_Size = 5;
 	if (in_array("Order_Status", $Order_Information)) {$Status_Column_Size--;}

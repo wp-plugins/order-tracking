@@ -28,7 +28,7 @@ $Order_Information = explode(",", $Order_Information_String);
 			$Sql = "SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_Display='Yes' ";
 				if (isset($_POST['OrderNumber'])) {$Sql .= "AND Order_Number LIKE '%" . $_POST['OrderNumber'] . "%' ";}
 				if ($Sales_Rep_Only == "Yes") {$Sql .= " AND Sales_Rep_ID='" . $Sales_Rep_ID . "'";}
-				if (isset($_GET['OrderBy']) and $_GET['DisplayPage'] == "Dashboard") {$Sql .= "ORDER BY " . $_GET['OrderBy'] . " " . $_GET['Order'] . " ";}
+				if (isset($_GET['OrderBy']) and $_GET['DisplayPage'] == "Orders") {$Sql .= "ORDER BY " . $_GET['OrderBy'] . " " . $_GET['Order'] . " ";}
 				else {$Sql .= "ORDER BY Order_Number ";}
 				$Sql .= "LIMIT " . ($Page - 1)*20 . ",20";
 				$myrows = $wpdb->get_results($Sql);

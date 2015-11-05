@@ -1,6 +1,5 @@
 <?php 
-$StatusString = get_option("EWD_OTP_Statuses");
-$Statuses = explode(",", $StatusString);
+$Statuses_Array = get_option("EWD_OTP_Statuses_Array"); 
 
 $Order_Information_String = get_option("EWD_OTP_Order_Information");
 $Order_Information = explode(",", $Order_Information_String);
@@ -43,7 +42,7 @@ $Order_Information = explode(",", $Order_Information_String);
 									<h3 class='hndle'><span><?php _e("Thank You!", 'EWD_OTP') ?></span></h3>
 							 		<div class="inside">
 											<?php if (get_option("EWD_OTP_Install_Flag") == "Yes") { ?><ul><li><?php _e("Thanks for installing Order Tracking.", 'EWD_OTP'); ?><br> <a href='http://www.facebook.com/EtoileWebDesign'><?php _e("Follow us on Facebook", 'EWD_OTP'); ?></a> <?php _e("to suggest new features or hear about upcoming ones!", 'EWD_OTP');?>  </li></ul>
-											<?php } else { ?><ul><li><?php _e("Thanks for upgrading to version 2.6.0!", 'EWD_OTP'); ?><br> <a href='https://www.youtube.com/channel/UCZPuaoetCJB1vZOmpnMxJNw'><?php _e("Subscribe to our YouTube channel ", 'EWD_OTP'); ?></a> <?php _e("for tutorial videos on this and our other plugins!", 'EWD_OTP');?> </li></ul><?php } ?>
+											<?php } else { ?><ul><li><?php _e("Thanks for upgrading to version 2.6.1!", 'EWD_OTP'); ?><br> <a href='https://www.youtube.com/channel/UCZPuaoetCJB1vZOmpnMxJNw'><?php _e("Subscribe to our YouTube channel ", 'EWD_OTP'); ?></a> <?php _e("for tutorial videos on this and our other plugins!", 'EWD_OTP');?> </li></ul><?php } ?>
 											
 											<?php /*if (get_option("EWD_OTP_Install_Flag") == "Yes") { ?><ul><li><?php _e("Thanks for installing the Ultimate Product Catalogue Plugin.", 'EWD_OTP'); ?><br> <a href='http://www.facebook.com/EtoileWebDesign'><?php _e("Follow us on Facebook", 'EWD_OTP'); ?></a> <?php _e("to suggest new features or hear about upcoming ones!", 'EWD_OTP');?> </li></ul>
 											<?php } else { ?><ul><li><?php _e("Thanks for upgrading to version 2.2.9!", 'EWD_OTP'); ?><br> <a href='http://www.facebook.com/EtoileWebDesign'><?php _e("Follow us on Facebook", 'EWD_OTP'); ?></a> <?php _e("to suggest new features or hear about upcoming ones!", 'EWD_OTP');?> </li></ul><?php } */?>
@@ -114,7 +113,10 @@ $Order_Information = explode(",", $Order_Information_String);
 		<div class="alignleft actions">
 				<select name='action'>
   					<option value='-1' selected='selected'><?php _e("Bulk Actions", 'EWD_OTP') ?></option>
-						<?php foreach ($Statuses as $Status) {echo "<option value='" . $Status . "'>" . $Status  . "</option>";} ?>
+						<?php if (!is_array($Statuses_Array)) {$Statuses_Array = array();}
+							foreach ($Statuses_Array as $Status_Array_Item) { ?>
+							<option value='<?php echo $Status_Array_Item['Status']; ?>'><?php echo $Status_Array_Item['Status']; ?></option>
+						<?php } ?>
 						<option value='hide'><?php _e("Hide Order", 'EWD_OTP') ?></option>
 						<option value='delete'><?php _e("Delete", 'EWD_OTP') ?></option>
 				</select>

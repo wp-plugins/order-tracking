@@ -45,7 +45,10 @@ function Insert_Customer_Form($atts) {
 		
 	//If there's a tracking number that's already been submitted, display the results
 	$WP_User = wp_get_current_user();
-	$FEUP_User = new FEUP_User();
+	if (function_exists('EWD_FEUP_Get_All_Users')) {
+		$FEUP_Installed = true;
+		$FEUP_User = new FEUP_User();
+	}
 	if (isset($_POST['Customer_ID'])) {
 		$Customer_ID = $_POST['Customer_ID'];
 		$Customer_Email = $_POST['Customer_Email'];
@@ -55,7 +58,7 @@ function Insert_Customer_Form($atts) {
 		$Customer_ID = $Customer->Customer_ID;
 		$Customer_Email = $Customer->Customer_Email;
 	}
-	elseif ($FEUP_User->Is_Logged_In()) {
+	elseif ($FEUP_Installed and $FEUP_User->Is_Logged_In()) {
 		$Customer = $wpdb->get_row($wpdb->prepare("SELECT Customer_ID, Customer_Email FROM $EWD_OTP_customers WHERE Customer_FEUP_ID=%d", $FEUP_User->Get_User_ID()));
 		$Customer_ID = $Customer->Customer_ID;
 		$Customer_Email = $Customer->Customer_Email;
