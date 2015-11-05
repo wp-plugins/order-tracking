@@ -8,6 +8,7 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '',
 	$Order_Information = explode(",", $Order_Information_String);
 	$Localize_Date_Time = get_option("EWD_OTP_Localize_Date_Time");
 	$Display_Graphic = get_option("EWD_OTP_Display_Graphic");
+	$Allow_Order_Payments = get_option("EWD_OTP_Allow_Order_Payments");
 
 	$Order_Number_Label = get_option("EWD_OTP_Order_Number_Label");
 		if ($Order_Number_Label == "") {$Order_Number_Label = __("Order Number", "EWD_OTP");}
@@ -21,6 +22,8 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '',
 	$Customer_Notes_Label = get_option("EWD_OTP_Customer_Notes_Label");
 		if ($Customer_Notes_Label == "") {$Customer_Notes_Label = __("Customer Notes", "EWD_OTP");}
 		if (array_key_exists ("Customer Notes", $Fields)) {$Customer_Notes_Label = $Fields['Customer Notes'];}
+	$Order_Payment_Label = __("Order Payment", 'EWD_OTP');
+	$Order_Payment_Completed_Label = __("Payment Completed",'EWD_OTP');
 	$Order_Status_Label = get_option("EWD_OTP_Order_Status_Label");
 		if ($Order_Status_Label == "") {$Order_Status_Label = __("Order Status", "EWD_OTP");}
 		if (array_key_exists ("Order Status", $Fields)) {$Order_Status_Label = $Fields['Order Status'];}
@@ -121,11 +124,35 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '',
 					$ReturnString .= "<a href='" . site_url("/wp-content/uploads/order-tracking-uploads/") . $MetaValue->Meta_Value . "' download>";
 					$ReturnString .= $MetaValue->Meta_Value . "</a></div>";
 				}
+				elseif ($Custom_Field->Field_Type == "picture") {
+					$ReturnString .= "<div class='ewd-otp-bottom-align'>";
+					$ReturnString .= "<img src='" . site_url("/wp-content/uploads/order-tracking-uploads/") . $MetaValue->Meta_Value . "' />";
+					$ReturnString .= "</div>";
+				}
 				else {$ReturnString .= "<div class='ewd-otp-bottom-align'>" . stripslashes_deep($MetaValue->Meta_Value) . "</div>";}
 				$ReturnString .= "</div>";
 				$ReturnString .= "</div>";
 			}
 		}
+
+		if ($Allow_Order_Payments == "Yes" and $Order->Order_Payment_Price > 0) {
+			$ReturnString .= "<div class='ewd-otp-label-values'>";
+			$ReturnString .= "<div id='ewd-otp-customer-notes-label' class='ewd-otp-order-label ewd-otp-bold pure-u-1-8'>";
+			$ReturnString .= $Order_Payment_Label . ":";
+			$ReturnString .= "</div>";
+			if ($Order->Order_Payment_Completed != "Yes") {
+				$ReturnString .= "<div id='ewd-otp-order-name' class='ewd-otp-order-content pure-u-7-8'>";
+				$ReturnString .= "<div class='ewd-otp-bottom-align'>" . EWD_OTP_Insert_Payment_Form($Order) . "</div>";
+				$ReturnString .= "</div>";
+			}
+			else {
+				$ReturnString .= "<div id='ewd-otp-order-name' class='ewd-otp-order-content pure-u-7-8'>";
+				$ReturnString .= "<div class='ewd-otp-bottom-align'>" . $Order_Payment_Completed_Label . "</div>";
+				$ReturnString .= "</div>";
+			}
+			$ReturnString .= "</div>";
+		}
+
 		$ReturnString .= "<div class='ewd-otp-status-label'>";
 		if (in_array("Order_Status", $Order_Information)) {
 			$ReturnString .= "<div id='ewd-otp-status-header' class='ewd-otp-status-message pure-u-1-5 mt-12 mb-6 ewd-otp-bold'>";
@@ -234,6 +261,11 @@ function EWD_OTP_Return_Customer_Results($Customer_ID, $Fields = array(), $Custo
 				$ReturnString .= "<a href='" . site_url("/wp-content/uploads/order-tracking-uploads/") . $MetaValue->Meta_Value . "' download>";
 				$ReturnString .= $MetaValue->Meta_Value . "</a></div>";
 			}
+			elseif ($Custom_Field->Field_Type == "picture") {
+				$ReturnString .= "<div class='ewd-otp-bottom-align'>";
+				$ReturnString .= "<img src='" . site_url("/wp-content/uploads/order-tracking-uploads/") . $MetaValue->Meta_Value . "' />";
+				$ReturnString .= "</div>";
+			}
 			else {$ReturnString .= "<div class='ewd-otp-bottom-align'>" . stripslashes_deep($MetaValue->Meta_Value) . "</div>";}
 			$ReturnString .= "</div>";
 			$ReturnString .= "</div>";
@@ -337,6 +369,9 @@ function EWD_OTP_Return_Customer_Results($Customer_ID, $Fields = array(), $Custo
 						$ReturnString .= "<a href='" . site_url("/wp-content/uploads/order-tracking-uploads/") . $MetaValue->Meta_Value . "' download>";
 						$ReturnString .= $MetaValue->Meta_Value . "</a>";
 					}
+					elseif ($Custom_Field->Field_Type == "picture") {
+						$ReturnString .= "<img src='" . site_url("/wp-content/uploads/order-tracking-uploads/") . $MetaValue->Meta_Value . "' />";
+					}
 					else {$ReturnString .= $MetaValue->Meta_Value;}
 					$ReturnString .= "</td>";
 				}
@@ -423,6 +458,11 @@ function EWD_OTP_Return_Sales_Rep_Results($Sales_Rep_ID, $Fields = array(), $Sal
 			if ($Custom_Field->Field_Type == "file") {$ReturnString .= "<div class='ewd-otp-bottom-align'>";
 				$ReturnString .= "<a href='" . site_url("/wp-content/uploads/order-tracking-uploads/") . $MetaValue->Meta_Value . "' download>";
 				$ReturnString .= $MetaValue->Meta_Value . "</a></div>";
+			}
+			elseif ($Custom_Field->Field_Type == "picture") {
+				$ReturnString .= "<div class='ewd-otp-bottom-align'>";
+				$ReturnString .= "<img src='" . site_url("/wp-content/uploads/order-tracking-uploads/") . $MetaValue->Meta_Value . "' />";
+				$ReturnString .= "</div>";
 			}
 			else {$ReturnString .= "<div class='ewd-otp-bottom-align'>" . stripslashes_deep($MetaValue->Meta_Value) . "</div>";}
 			$ReturnString .= "</div>";
@@ -530,6 +570,9 @@ function EWD_OTP_Return_Sales_Rep_Results($Sales_Rep_ID, $Fields = array(), $Sal
 						$ReturnString .= "<a href='" . site_url("/wp-content/uploads/order-tracking-uploads/") . $MetaValue->Meta_Value . "' download>";
 						$ReturnString .= $MetaValue->Meta_Value . "</a>";
 					}
+					elseif ($Custom_Field->Field_Type == "picture") {
+						$ReturnString .= "<img src='" . site_url("/wp-content/uploads/order-tracking-uploads/") . $MetaValue->Meta_Value . "' />";
+					}
 					else {$ReturnString .= $MetaValue->Meta_Value;}
 					$ReturnString .= "</td>";
 				}
@@ -564,6 +607,35 @@ function EWD_OTP_Return_Sales_Rep_Results($Sales_Rep_ID, $Fields = array(), $Sal
 		$ReturnString .= "</div>";
 	}
 		
+	return $ReturnString;
+}
+
+function EWD_OTP_Insert_Payment_Form($Order) {
+	$PayPal_Email_Address = get_option("EWD_OTP_PayPal_Email_Address"); 
+	$Pricing_Currency_Code = get_option("EWD_OTP_Pricing_Currency_Code"); 
+	$Thank_You_URL = get_option("EWD_OTP_Thank_You_URL"); 
+
+	$ReturnString = "<div class='ewd-otp-paypal-form'>";
+	$ReturnString .= "<form action='https://www.paypal.com/cgi-bin/webscr' method='post' class='standard-form'>";
+	//$ReturnString .= "<form action='https://www.sandbox.paypal.com/cgi-bin/webscr' method='post' class='standard-form'>";
+    $ReturnString .= "<input type='hidden' name='item_name_1' value='" . __("Order payment for order number ", 'EWD_OTP') . " " . $Order->Order_Number . "' />";
+    $ReturnString .= "<input type='hidden' name='quantity_1' value='1' />";
+    $ReturnString .= "<input type='hidden' name='amount_1' value='" . $Order->Order_Payment_Price . "' />";
+	$ReturnString .= "<input type='hidden' name='custom' value='" . $Order->Order_ID . "' />";
+   	$ReturnString .= "<input type='hidden' name='cmd' value='_cart' />";
+   	$ReturnString .= "<input type='hidden' name='upload' value='1' />";
+   	$ReturnString .= "<input type='hidden' name='business' value='" . $PayPal_Email_Address . "' />";
+
+   	$ReturnString .= "<input type='hidden' name='currency_code' value='" . $Pricing_Currency_Code . "' />";
+   	//$ReturnString .= "<input type='hidden' name='lc' value='CA' />"
+   	//$ReturnString .= "<input type='hidden' name='rm' value='2' />";
+   	$ReturnString .= "<input type='hidden' name='return' value='" . $Thank_You_URL . "' />";
+   	//$ReturnString .= "<input type='hidden' name='cancel_return' value='" . ' />
+   	$ReturnString .= "<input type='hidden' name='notify_url' value='" . get_site_url() . "' />";
+
+   	$ReturnString .= "<input type='submit' class='submit-button' value='Proceed to Payment' />";
+	$ReturnString .= "</form>";
+	$ReturnString .= "</div>";
 	return $ReturnString;
 }
 ?>

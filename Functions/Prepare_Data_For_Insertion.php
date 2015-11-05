@@ -17,18 +17,25 @@ function Add_Edit_EWD_OTP_Order() {
 		$Order_Display = $_POST['Order_Display'];
 		$Customer_ID = $_POST['Customer_ID'];
 		$Sales_Rep_ID = $_POST['Sales_Rep_ID'];
+		$Order_Payment_Price = $_POST['Order_Payment_Price'];
+		$Order_Payment_Completed = $_POST['Order_Payment_Completed'];
+		$Order_PayPal_Receipt_Number = $_POST['Order_PayPal_Receipt_Number'];
 		$Order_Status_Updated = date("Y-m-d H:i:s"); 
+
+		if ($_POST['action'] != "Add_Order") {
+			$Current_Status = $wpdb->get_var($wpdb->prepare("SELECT Order_Status FROM $EWD_OTP_orders_table_name WHERE Order_ID=%d", $Order_ID));
+		}
 
 		if (!isset($error)) {
 				// Pass the data to the appropriate function in Update_Admin_Databases.php to create the product 
 				if ($_POST['action'] == "Add_Order") {
-					$user_update = Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email_Address, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID);
+					$user_update = Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email_Address, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $Order_Payment_Price, $Order_Payment_Completed, $Order_PayPal_Receipt_Number);
 					if (($Order_Email == "Change" or $Order_Email == "Creation") and $Order_Email_Address != "") {EWD_OTP_Send_Email($Order_Email_Address, $Order_Number, $Order_Status, $Order_Notes_Public, $Order_Status_Updated, $Order_Name, "Yes");}
 				}
 				// Pass the data to the appropriate function in Update_Admin_Databases.php to edit the product 
 				else {
-					$user_update = Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email_Address, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID);
-					if ($Order_Email == "Change" and $Order_Email_Address != "") {EWD_OTP_Send_Email($Order_Email_Address, $Order_Number, $Order_Status, $Order_Notes_Public, $Order_Status_Updated, $Order_Name);}
+					$user_update = Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email_Address, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $Order_Payment_Price, $Order_Payment_Completed, $Order_PayPal_Receipt_Number);
+					if ($Order_Email == "Change" and $Order_Email_Address != "" and $Current_Status != $Order_Status) {EWD_OTP_Send_Email($Order_Email_Address, $Order_Number, $Order_Status, $Order_Notes_Public, $Order_Status_Updated, $Order_Name);}
 				}
 				$user_update = array("Message_Type" => "Update", "Message" => $user_update);
 				return $user_update;

@@ -120,6 +120,10 @@
 										$ReturnString .= "<td><input name='" . $Field->Field_Name . "' class='ewd-otp-file-input' type='file' value='" . $Value . "' /><br />";
 										$ReturnString .= "Current File: " . $Value . "</td>";
 								}
+								elseif ($Field->Field_Type == "picture") {
+										$ReturnString .= "<td><input name='" . $Field->Field_Name . "' class='ewd-otp-file-input' type='file' value='" . $Value . "' /><br />";
+										$ReturnString .= "Current Image: <img class='ewd-otp-preview-image' src='" . site_url("/wp-content/uploads/order-tracking-uploads/") . $Value . "' /><br />";
+								}
 								elseif ($Field->Field_Type == "date") {
 										$ReturnString .= "<td><input name='" . $Field->Field_Name . "' class='ewd-otp-date-input' type='date' value='" . $Value . "' /></td>";
 								} 

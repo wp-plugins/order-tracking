@@ -32,6 +32,7 @@
 					<option value='checkbox' <?php if ($Field->Field_Type == "checkbox") {echo "selected=selected";} ?>><?php _e("Checkbox", 'EWD_OTP') ?></option>
 					<option value='textarea' <?php if ($Field->Field_Type == "textarea") {echo "selected=selected";} ?>><?php _e("Text Area", 'EWD_OTP') ?></option>
 					<option value='file' <?php if ($Field->Field_Type == "file") {echo "selected=selected";} ?>><?php _e("File", 'EWD_OTP') ?></option>
+					<option value='picture' <?php if ($Field->Field_Type == "picture") {echo "selected=selected";} ?>><?php _e("Picture", 'EWD_OTP') ?></option>
 					<option value='date' <?php if ($Field->Field_Type == "date") {echo "selected=selected";} ?>><?php _e("Date", 'EWD_OTP') ?></option>
 					<option value='datetime' <?php if ($Field->Field_Type == "datetime") {echo "selected=selected";} ?>><?php _e("Date/Time", 'EWD_OTP') ?></option>
 				</select>

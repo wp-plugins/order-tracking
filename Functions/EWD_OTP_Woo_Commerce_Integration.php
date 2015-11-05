@@ -59,8 +59,11 @@ function Add_WooCommerce_Order($post_id) {
 		$Order_Display = "Yes";
 		$Order_Status_Updated = date("Y-m-d H:i:s");
 		$Sales_Rep_ID = 0;
+		$Order_Payment_Price = 0;
+		$Order_Payment_Completed = "Yes";
+		$Order_PayPal_Receipt_Number = "";
 
-		$Message = Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $post_id);
+		$Message = Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $Order_Payment_Price, $Order_Payment_Completed, $Order_PayPal_Receipt_Number, $post_id);
 		if (($Order_Email == "Change" or $Order_Email == "Creation") and $Order_Email != "") {EWD_OTP_Send_Email($Order_Email, $Order_Number, $Order_Status, $Order_Notes_Public, $Order_Status_Updated, $Order_Name, "Yes");}
 	}
 }

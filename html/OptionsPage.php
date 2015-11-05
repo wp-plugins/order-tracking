@@ -14,6 +14,12 @@
 	$Display_Graphic = get_option("EWD_OTP_Display_Graphic");
 	$Mobile_Stylesheet = get_option("EWD_OTP_Mobile_Stylesheet");
 
+	$Allow_Order_Payments = get_option("EWD_OTP_Allow_Order_Payments");
+	$Default_Payment_Status = get_option("EWD_OTP_Default_Payment_Status"); 
+	$PayPal_Email_Address = get_option("EWD_OTP_PayPal_Email_Address"); 
+	$Pricing_Currency_Code = get_option("EWD_OTP_Pricing_Currency_Code"); 
+	$Thank_You_URL = get_option("EWD_OTP_Thank_You_URL"); 
+
 	$Tracking_Title_Label = get_option("EWD_OTP_Tracking_Title_Label");
 	$Tracking_Ordernumber_Label = get_option("EWD_OTP_Tracking_Ordernumber_Label");
 	$Tracking_Email_Label = get_option("EWD_OTP_Tracking_Email_Label");
@@ -52,6 +58,7 @@
 	<ul class="otp-options-submenu otp-options-page-tabbed-nav">
 		<li><a id="Basic_Menu" class="MenuTab options-subnav-tab <?php if ($Display_Tab == '' or $Display_Tab == 'Basic') {echo 'options-subnav-tab-active';}?>" onclick="ShowOptionTab('Basic');">Basic</a></li>
 		<li><a id="Premium_Menu" class="MenuTab options-subnav-tab <?php if ($Display_Tab == 'Premium') {echo 'options-subnav-tab-active';}?>" onclick="ShowOptionTab('Premium');">Premium</a></li>
+		<li><a id="Payment_Menu" class="MenuTab options-subnav-tab <?php if ($Display_Tab == 'Payment') {echo 'options-subnav-tab-active';}?>" onclick="ShowOptionTab('Payment');">Payment</a></li>
 		<li><a id="Labelling_Menu" class="MenuTab options-subnav-tab <?php if ($Display_Tab == 'Labelling') {echo 'options-subnav-tab-active';}?>" onclick="ShowOptionTab('Labelling');">Labelling</a></li>
 		<li><a id="Styling_Menu" class="MenuTab options-subnav-tab <?php if ($Display_Tab == 'Styling') {echo 'options-subnav-tab-active';}?>" onclick="ShowOptionTab('Styling');">Styling</a></li>
 	</ul>
@@ -334,6 +341,97 @@
 	<label title='Yes'><input type='radio' name='mobile_stylesheet' value='Yes' <?php if($Mobile_Stylesheet == "Yes") {echo "checked='checked'";} ?> <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/> <span>Yes</span></label><br />
 	<label title='No'><input type='radio' name='mobile_stylesheet' value='No' <?php if($Mobile_Stylesheet == "No") {echo "checked='checked'";} ?> <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/> <span>No</span></label><br />
 	<p>Should the mobile stylesheet for the plugin be included, so that the tracking form better fits mobile device screens?</p>
+	</fieldset>
+</td>
+</tr>
+</table>
+</div>
+
+<div id='Payment' class='otp-option-set otp-hidden'>
+<h2 id="payment-order-options" class="otp-options-tab-title">Payment Options</h2>
+<table class="form-table">
+<tr>
+<th scope="row">Allow Order Payment By PayPal</th>
+<td>
+	<fieldset><legend class="screen-reader-text"><span>Allow Order Payment By PayPal</span></legend>
+	<label title='Yes'><input type='radio' name='allow_order_payments' value='Yes' <?php if($Allow_Order_Payments == "Yes") {echo "checked='checked'";} ?> <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/> <span>Yes</span></label><br />
+	<label title='No'><input type='radio' name='allow_order_payments' value='No' <?php if($Allow_Order_Payments == "No") {echo "checked='checked'";} ?> <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>/> <span>No</span></label><br />
+	<p>Should order payment be possible via PayPal?</p>
+	</fieldset>
+</td>
+</tr>
+
+<tr>
+<th scope="row">Default Post-Payment Status</th>
+<td>
+	<fieldset><legend class="screen-reader-text"><span>Default Post-Payment Status</span></legend>
+	<label title='Default Payment Status'></label><select name='default_payment_status' <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>> 
+		<option value="None"<?php if($Default_Payment_Status == "None") {echo " selected=selected";} ?>>No Change</option>
+		<?php
+			$Statuses_Array = get_option("EWD_OTP_Statuses_Array");
+			if (!is_array($Statuses_Array)) {$Statuses_Array = array();}
+			foreach ($Statuses_Array as $Status_Array_Item) {
+		?>
+			<option value="<?php echo $Status_Array_Item['Status']; ?>" <?php if($Status_Array_Item['Status'] == $Default_Payment_Status) {echo " selected=selected";} ?>><?php echo $Status_Array_Item['Status']; ?></option>
+		<?php } ?>
+	</select>
+	<p>What status, if any, should an order be set to after payment is received?</p>
+	</fieldset>
+</td>
+</tr>
+
+<tr>
+<th scope="row">PayPal Email Address</th>
+<td>
+	<fieldset><legend class="screen-reader-text"><span>PayPal Email Address</span></legend>
+	<label title='PayPal Email Address'><input type='text' name='paypal_email_address' value='<?php echo $PayPal_Email_Address; ?>' <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?> /></label><br />
+	<p>If PayPal payments are possible, what e-mail address is associated with the PayPal account?</p>
+	</fieldset>
+</td>
+</tr>
+
+<tr>
+<th scope="row">Pricing Currency</th>
+<td>
+	<fieldset><legend class="screen-reader-text"><span>Pricing Currency</span></legend>
+	<label title='Pricing Currency'></label><select name='pricing_currency_code' <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?>>
+	<option value="AUD" <?php if($Pricing_Currency_Code == "AUD") {echo " selected=selected";} ?>><?php _e("Australian Dollar", 'EWD_UASP'); ?></option>
+	<option value="BRL" <?php if($Pricing_Currency_Code == "BRL") {echo " selected=selected";} ?>><?php _e("Brazilian Real", 'EWD_UASP'); ?></option>
+	<option value="CAD" <?php if($Pricing_Currency_Code == "CAD") {echo " selected=selected";} ?>><?php _e("Canadian Dollar", 'EWD_UASP'); ?></option>
+	<option value="CZK" <?php if($Pricing_Currency_Code == "CZK") {echo " selected=selected";} ?>><?php _e("Czech Koruna", 'EWD_UASP'); ?></option>
+	<option value="DKK" <?php if($Pricing_Currency_Code == "DKK") {echo " selected=selected";} ?>><?php _e("Danish Krone", 'EWD_UASP'); ?></option>
+	<option value="EUR" <?php if($Pricing_Currency_Code == "EUR") {echo " selected=selected";} ?>><?php _e("Euro", 'EWD_UASP'); ?></option>
+	<option value="HKD" <?php if($Pricing_Currency_Code == "HKD") {echo " selected=selected";} ?>><?php _e("Hong Kong Dollar", 'EWD_UASP'); ?></option>
+	<option value="HUF" <?php if($Pricing_Currency_Code == "HUF") {echo " selected=selected";} ?>><?php _e("Hungarian Forint", 'EWD_UASP'); ?></option>
+	<option value="ILS" <?php if($Pricing_Currency_Code == "ILS") {echo " selected=selected";} ?>><?php _e("Israeli New Sheqel", 'EWD_UASP'); ?></option>
+	<option value="JPY" <?php if($Pricing_Currency_Code == "JPY") {echo " selected=selected";} ?>><?php _e("Japanese Yen", 'EWD_UASP'); ?></option>
+	<option value="MYR" <?php if($Pricing_Currency_Code == "MYR") {echo " selected=selected";} ?>><?php _e("Malaysian Ringgit", 'EWD_UASP'); ?></option>
+	<option value="MXN" <?php if($Pricing_Currency_Code == "MXN") {echo " selected=selected";} ?>><?php _e("Mexican Peso", 'EWD_UASP'); ?></option>
+	<option value="NOK" <?php if($Pricing_Currency_Code == "NOK") {echo " selected=selected";} ?>><?php _e("Norwegian Krone", 'EWD_UASP'); ?></option>
+	<option value="NZD" <?php if($Pricing_Currency_Code == "NZD") {echo " selected=selected";} ?>><?php _e("New Zealand Dollar", 'EWD_UASP'); ?></option>
+	<option value="PHP" <?php if($Pricing_Currency_Code == "PHP") {echo " selected=selected";} ?>><?php _e("Philippine Peso", 'EWD_UASP'); ?></option>
+	<option value="PLN" <?php if($Pricing_Currency_Code == "PLN") {echo " selected=selected";} ?>><?php _e("Polish Zloty", 'EWD_UASP'); ?></option>
+	<option value="GBP" <?php if($Pricing_Currency_Code == "GBP") {echo " selected=selected";} ?>><?php _e("Pound Sterling", 'EWD_UASP'); ?></option>
+	<option value="RUB" <?php if($Pricing_Currency_Code == "RUB") {echo " selected=selected";} ?>><?php _e("Russian Ruble", 'EWD_UASP'); ?></option>
+	<option value="SGD" <?php if($Pricing_Currency_Code == "SGD") {echo " selected=selected";} ?>><?php _e("Singapore Dollar", 'EWD_UASP'); ?></option>
+	<option value="SEK" <?php if($Pricing_Currency_Code == "SEK") {echo " selected=selected";} ?>><?php _e("Swedish Krona", 'EWD_UASP'); ?></option>
+	<option value="CHF" <?php if($Pricing_Currency_Code == "CHF") {echo " selected=selected";} ?>><?php _e("Swiss Franc", 'EWD_UASP'); ?></option>
+	<option value="TWD" <?php if($Pricing_Currency_Code == "TWD") {echo " selected=selected";} ?>><?php _e("Taiwan New Dollar", 'EWD_UASP'); ?></option>
+	<option value="THB" <?php if($Pricing_Currency_Code == "THB") {echo " selected=selected";} ?>><?php _e("Thai Baht", 'EWD_UASP'); ?></option>
+	<option value="TRY" <?php if($Pricing_Currency_Code == "TRY") {echo " selected=selected";} ?>><?php _e("Turkish Lira", 'EWD_UASP'); ?></option>
+	<option value="USD" <?php if($Pricing_Currency_Code == "USD") {echo " selected=selected";} ?>><?php _e("U.S. Dollar", 'EWD_UASP'); ?></option>
+	</select>
+	<p>What currency are your subscriptions priced in?</p>
+	</fieldset>
+</td>
+</tr>
+
+<tr>
+<th scope="row">"Thank You" Page URL</th>
+<td>
+	<fieldset><legend class="screen-reader-text"><span>"Thank You" Page URL</span></legend>
+	<label title='Thank You Page URL'><input type='text' name='thank_you_url' value='<?php echo $Thank_You_URL; ?>' <?php if ($EWD_OTP_Full_Version != "Yes") {echo "disabled";} ?> /></label><br />
+	<p>What page should customers be taken to after successfully completing a PayPal payment?</p>
 	</fieldset>
 </td>
 </tr>

@@ -21,6 +21,9 @@ function Update_EWD_OTP_Tables() {
 		WooCommerce_ID mediumint(9) DEFAULT 0 NOT NULL,
 		Order_Status_Updated datetime DEFAULT '0000-00-00 00:00:00' NULL,
 		Order_Display text DEFAULT '' NOT NULL,
+		Order_Payment_Price text DEFAULT '' NOT NULL,
+		Order_Payment_Completed text DEFAULT '' NOT NULL,
+		Order_PayPal_Receipt_Number text DEFAULT '' NOT NULL,
   		UNIQUE KEY id (Order_ID)
     	)
 		DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
@@ -123,6 +126,12 @@ function Update_EWD_OTP_Tables() {
 	if (get_option("EWD_OTP_Customer_Confirmation") == "") {update_option("EWD_OTP_Customer_Confirmation", "None");}
 	if (get_option("EWD_OTP_Sales_Rep_Confirmation") == "") {update_option("EWD_OTP_Sales_Rep_Confirmation", "None");}
 	if (get_option("EWD_OTP_Cut_Off_Days") == "") {update_option("EWD_OTP_Cut_Off_Days", 60);}
+
+	if (get_option("EWD_OTP_Allow_Order_Payments") == "") {update_option("EWD_OTP_Allow_Order_Payments", "No");}
+	if (get_option("EWD_OTP_Default_Payment_Status") == "") {update_option("EWD_OTP_Default_Payment_Status", "None");}
+	if (get_option("EWD_OTP_PayPal_Email_Address") == "") {update_option("EWD_OTP_PayPal_Email_Address", "");}
+	if (get_option("EWD_OTP_Pricing_Currency_Code") == "") {update_option("EWD_OTP_Pricing_Currency_Code", "AUD");}
+	if (get_option("EWD_OTP_Thank_You_URL") == "") {update_option("EWD_OTP_Thank_You_URL", "");} 
 
 	if (get_option("EWD_OTP_Use_SMTP") == "") {update_option("EWD_OTP_Use_SMTP", "Yes");}
 	if (get_option("EWD_OTP_Port") == "") {update_option("EWD_OTP_Port", "25");}

@@ -159,6 +159,11 @@ Premium Features
 2. Sample order tracking page
 
 == Changelog ==
+= 2.6.0 =
+- Added PayPal integration, so orders can be paid for via PayPal
+- Added a "picture" custom field type, so that an image of the product being shipped can be included
+- Fixed a number of small errors
+
 = 2.5.5 =
 - Fixed an AJAX bug which was preventing the tracking form from submitting
 

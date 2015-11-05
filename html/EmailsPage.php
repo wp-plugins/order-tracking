@@ -69,8 +69,8 @@
 			foreach ($Email_Messages_Array as $Email_Message_Item) { 
 				echo "<tr id='ewd-otp-email-message-" . $Counter . "'>";
 					echo "<td><a class='ewd-otp-delete-message' data-messagenumber='" . $Counter . "'>Delete</a></td>";
-					echo "<td><input type='hidden' name='Email_Message_" . $Counter . "_Name' value='" . urlencode($Email_Message_Item['Name']) . "'/>" . $Email_Message_Item['Name'] . "</td>";
-					echo "<td><input type='hidden' name='Email_Message_" . $Counter . "_Body' value='" . urlencode($Email_Message_Item['Message']) ."'/>" . $Email_Message_Item['Message'] . "</td>";
+					echo "<td><input class='ewd-otp-array-text-input' type='text' name='Email_Message_" . $Counter . "_Name' value='" . $Email_Message_Item['Name']. "'/></td>";
+					echo "<td><textarea class='ewd-otp-array-textarea' name='Email_Message_" . $Counter . "_Body'>" . $Email_Message_Item['Message'] . "</textarea></td>";
 				echo "</tr>";
 				$Counter++;
 			} 

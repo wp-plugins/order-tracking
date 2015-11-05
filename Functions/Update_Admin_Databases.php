@@ -2,7 +2,7 @@
 /* The file contains all of the functions which make changes to the OTP tables */
 
 /* Adds a single new order to the OTP database */
-function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $WooCommerce_ID = 0) {
+function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $Order_Payment_Price, $Order_Payment_Completed, $Order_PayPal_Receipt_Number, $WooCommerce_ID = 0) {
 	global $wpdb;
 	global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name, $EWD_OTP_fields_table_name, $EWD_OTP_fields_meta_table_name;
 		
@@ -17,6 +17,9 @@ function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Stat
 			'Order_Display' => $Order_Display,
 			'Customer_ID' => $Customer_ID,
 			'Sales_Rep_ID' => $Sales_Rep_ID,
+			'Order_Payment_Price' => $Order_Payment_Price,
+			'Order_Payment_Completed' => $Order_Payment_Completed,
+			'Order_PayPal_Receipt_Number' => $Order_PayPal_Receipt_Number,
 			'WooCommerce_ID' => $WooCommerce_ID,
 			'Order_Status_Updated' => $Order_Status_Updated)
 	);
@@ -37,7 +40,7 @@ function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Stat
 			$FieldName = str_replace(" ", "_", $Field->Field_Name);
 			if (isset($_POST[$FieldName]) or isset($_FILES[$FieldName])) {
 				// If it's a file, pass back to Prepare_Data_For_Insertion.php to upload the file and get the name
-				if ($Field->Field_Type == "file") {
+				if ($Field->Field_Type == "file" or $Field->Field_Type == "picture") {
 					$File_Upload_Return = EWD_OTP_Handle_File_Upload($FieldName);
 					if ($File_Upload_Return['Success'] == "No") {return $File_Upload_Return['Data'];}
 					elseif ($File_Upload_Return['Success'] == "N/A") {$NoFile = "Yes";}
@@ -72,7 +75,7 @@ function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Stat
 }
 
 /* Edits a single order with a given ID in the OTP database */
-function Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID) {
+function Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $Order_Payment_Price, $Order_Payment_Completed, $Order_PayPal_Receipt_Number) {
 	global $wpdb;
 	global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name, $EWD_OTP_fields_table_name, $EWD_OTP_fields_meta_table_name;
 	
@@ -87,6 +90,9 @@ function Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email,
 			'Order_Display' => $Order_Display,
 			'Customer_ID' => $Customer_ID,
 			'Sales_Rep_ID' => $Sales_Rep_ID,
+			'Order_Payment_Price' => $Order_Payment_Price,
+			'Order_Payment_Completed' => $Order_Payment_Completed,
+			'Order_PayPal_Receipt_Number' => $Order_PayPal_Receipt_Number,
 			'Order_Status_Updated' => $Order_Status_Updated),
 		array( 'Order_ID' => $Order_ID)
 	);
@@ -116,7 +122,7 @@ function Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email,
 			$FieldName = str_replace(" ", "_", $Field->Field_Name);
 			if (isset($_POST[$FieldName]) or isset($_FILES[$FieldName])) {
 				// If it's a file, pass back to Prepare_Data_For_Insertion.php to upload the file and get the name
-				if ($Field->Field_Type == "file") {
+				if ($Field->Field_Type == "file" or $Field->Field_Type == "picture") {
 					if ($_FILES[$FieldName]['name'] != "") {
 						$wpdb->delete($EWD_OTP_fields_meta_table_name, array('Order_ID' => $Order_ID, 'Field_ID' => $Field->Field_ID));
 						$File_Upload_Return = EWD_OTP_Handle_File_Upload($FieldName);
@@ -510,7 +516,7 @@ function Add_EWD_OTP_Sales_Rep($Sales_Rep_First_Name, $Sales_Rep_Last_Name, $Sal
 			$FieldName = str_replace(" ", "_", $Field->Field_Name);
 			if (isset($_POST[$FieldName]) or isset($_FILES[$FieldName])) {
 				// If it's a file, pass back to Prepare_Data_For_Insertion.php to upload the file and get the name
-				if ($Field->Field_Type == "file") {
+				if ($Field->Field_Type == "file" or $Field->Field_Type == "picture") {
 					$File_Upload_Return = EWD_OTP_Handle_File_Upload($FieldName);
 					if ($File_Upload_Return['Success'] == "No") {return $File_Upload_Return['Data'];}
 					elseif ($File_Upload_Return['Success'] == "N/A") {$NoFile = "Yes";}
@@ -570,7 +576,7 @@ function Edit_EWD_OTP_Sales_Rep($Sales_Rep_ID, $Sales_Rep_First_Name, $Sales_Rep
 			$FieldName = str_replace(" ", "_", $Field->Field_Name);
 			if (isset($_POST[$FieldName]) or isset($_FILES[$FieldName])) {
 				// If it's a file, pass back to Prepare_Data_For_Insertion.php to upload the file and get the name
-				if ($Field->Field_Type == "file") {
+				if ($Field->Field_Type == "file" or $Field->Field_Type == "picture") {
 					if ($_FILES[$FieldName]['name'] != "") {
 						$wpdb->delete($EWD_OTP_fields_meta_table_name, array('Sales_Rep_ID' => $Sales_Rep_ID, 'Field_ID' => $Field->Field_ID));
 						$File_Upload_Return = EWD_OTP_Handle_File_Upload($FieldName);
@@ -647,7 +653,7 @@ function Add_EWD_OTP_Customer($Customer_Name, $Customer_Email, $Sales_Rep_ID, $C
 			$FieldName = str_replace(" ", "_", $Field->Field_Name);
 			if (isset($_POST[$FieldName]) or isset($_FILES[$FieldName])) {
 				// If it's a file, pass back to Prepare_Data_For_Insertion.php to upload the file and get the name
-				if ($Field->Field_Type == "file") {
+				if ($Field->Field_Type == "file" or $Field->Field_Type == "picture") {
 					$File_Upload_Return = EWD_OTP_Handle_File_Upload($FieldName);
 					if ($File_Upload_Return['Success'] == "No") {return $File_Upload_Return['Data'];}
 					elseif ($File_Upload_Return['Success'] == "N/A") {$NoFile = "Yes";}
@@ -709,7 +715,7 @@ function Edit_EWD_OTP_Customer($Customer_ID, $Customer_Name, $Customer_Email, $S
 			$FieldName = str_replace(" ", "_", $Field->Field_Name);
 			if (isset($_POST[$FieldName]) or isset($_FILES[$FieldName])) {
 				// If it's a file, pass back to Prepare_Data_For_Insertion.php to upload the file and get the name
-				if ($Field->Field_Type == "file") {
+				if ($Field->Field_Type == "file" or $Field->Field_Type == "picture") {
 					if ($_FILES[$FieldName]['name'] != "") {
 						$wpdb->delete($EWD_OTP_fields_meta_table_name, array('Customer_ID' => $Customer_ID, 'Field_ID' => $Field->Field_ID));
 						$File_Upload_Return = EWD_OTP_Handle_File_Upload($FieldName);
@@ -820,6 +826,12 @@ function Update_EWD_OTP_Options() {
 	if (isset($_POST['woocommerce_integration']) and $EWD_OTP_Full_Version == "Yes") {update_option('EWD_OTP_WooCommerce_Integration', $WooCommerce_Integration);}
 	if (isset($_POST['display_graphic']) and $EWD_OTP_Full_Version == "Yes") {update_option('EWD_OTP_Display_Graphic', $Display_Graphic);}
 	if (isset($_POST['mobile_stylesheet']) and $EWD_OTP_Full_Version == "Yes") {update_option('EWD_OTP_Mobile_Stylesheet', $Mobile_Stylesheet);}
+
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['allow_order_payments'])) {update_option("EWD_OTP_Allow_Order_Payments", $_POST['allow_order_payments']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['default_payment_status'])) {update_option("EWD_OTP_Default_Payment_Status", $_POST['default_payment_status']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['paypal_email_address'])) {update_option("EWD_OTP_PayPal_Email_Address", $_POST['paypal_email_address']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['pricing_currency_code'])) {update_option("EWD_OTP_Pricing_Currency_Code", $_POST['pricing_currency_code']);}
+	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['thank_you_url'])) {update_option("EWD_OTP_Thank_You_URL", $_POST['thank_you_url']);}
 
 	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['tracking_title_label'])) {update_option("EWD_OTP_Tracking_Title_Label", $_POST['tracking_title_label']);}
 	if ($EWD_OTP_Full_Version == "Yes" and isset($_POST['tracking_description_label'])) {update_option("EWD_OTP_Tracking_Description_Label", $_POST['tracking_description_label']);}

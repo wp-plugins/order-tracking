@@ -244,7 +244,7 @@ foreach ($Fields as $Field) {
 						$Counter++;
 				}
 		}
-		elseif ($Field->Field_Type == "file") {
+		elseif ($Field->Field_Type == "file" or $Field->Field_Type == "picture") {
 				$ReturnString .= "<input name='" . $Field->Field_Name . "' class='ewd-otp-file-input' type='file' value='' />";
 		}
 		elseif ($Field->Field_Type == "date") {

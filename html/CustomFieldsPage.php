@@ -205,6 +205,7 @@
 			<option value='checkbox'><?php _e("Checkbox", 'EWD_OTP') ?></option>
 			<option value='textarea'><?php _e("Text Area", 'EWD_OTP') ?></option>
 			<option value='file'><?php _e("File", 'EWD_OTP') ?></option>
+			<option value='picture'><?php _e("Picture", 'EWD_OTP') ?></option>
 			<option value='date'><?php _e("Date", 'EWD_OTP') ?></option>
 			<option value='datetime'><?php _e("Date/Time", 'EWD_OTP') ?></option>
 	</select>
