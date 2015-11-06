@@ -70,5 +70,6 @@ function EWD_OTP_Add_Modified_Styles() {
 		if (get_option("EWD_OTP_Styling_Button_Border") != "") {$StylesString .= "border:" . get_option("EWD_OTP_Styling_Button_Border") . " !important;";} 
 		if (get_option("EWD_OTP_Styling_Button_Margin") != "") {$StylesString .= "margin:" . get_option("EWD_OTP_Styling_Button_Margin") . " !important;";} 
 		if (get_option("EWD_OTP_Styling_Button_Padding") != "") {$StylesString .= "padding:" . get_option("EWD_OTP_Styling_Button_Padding") . " !important;";} 
+		$StylesString .="}\n";
 return $StylesString;
 }

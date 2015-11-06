@@ -172,6 +172,9 @@ Premium Features
 10. The 'Streamlined' tracking graphic
 
 == Changelog ==
+= 2.6.2 =
+- Fixed a bug preventing CSS customizations
+
 = 2.6.1 =
 - Fixed bugs on the Dashboard and Orders tabs
 - Fixed a bug with the customer note button for AJAX orders
