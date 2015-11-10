@@ -7,15 +7,13 @@ function EWD_OTP_Display_Graph($OrderNumber) {
 	
 	$Display_Graphic = get_option("EWD_OTP_Display_Graphic");
 
-	$StatusString = get_option("EWD_OTP_Statuses");
-	$PercentageString = get_option("EWD_OTP_Percentages");
-	$Statuses = explode(",", $StatusString);
-	$Percentages = explode(",", $PercentageString);
+	$Statuses_Array = get_option("EWD_OTP_Statuses_Array");
 	
-	foreach ($Statuses as $key => $Status) {
-		if ($Order->Order_Status == $Status) {$CurrentStatus = $Status; $CurrentPercent = $Percentages[$key];}
-		elseif ($key == 0) {$StartingStatus = $Status; $StartingPercent = $Percentages[$key];}
-		elseif (($key+1) == sizeOf($Statuses)) {$EndingStatus = $Status; $EndingPercent = $Percentages[$key];}
+	if (!is_array($Statuses_Array)) {$Statuses_Array = array();}
+	foreach ($Statuses_Array as $key => $Status_Array_Item) {
+		if ($Order->Order_Status == $Status_Array_Item['Status']) {$CurrentStatus = $Status_Array_Item['Status']; $CurrentPercent = $Status_Array_Item['Percentage'];}
+		elseif ($key == 0) {$StartingStatus = $Status_Array_Item['Status']; $StartingPercent = $Status_Array_Item['Percentage'];}
+		elseif (($key+1) == sizeOf($Statuses_Array)) {$EndingStatus = $Status_Array_Item['Status']; $EndingPercent = $Status_Array_Item['Percentage'];}
 	}
 		
 	$Browser = get_user_browser();

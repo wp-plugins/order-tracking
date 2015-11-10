@@ -100,26 +100,30 @@
 			echo "/> <span>" . $Field->Field_Name . "</span></label><br />";
 		}
 	?>
+	<h5>Customer Information</h5>
+	<label title='Customer Name'><input type='checkbox' name='order_information[]' value='Customer_Name' <?php if(in_array("Customer_Name", $Order_Information)) {echo "checked='checked'";} ?> /> <span>Customer Name</span></label><br />
+	<label title='Customer Email'><input type='checkbox' name='order_information[]' value='Customer_Email' <?php if(in_array("Customer_Email", $Order_Information)) {echo "checked='checked'";} ?> /> <span>Customer Email</span></label><br />
 	<?php  
 		$Sql = "SELECT * FROM $EWD_OTP_fields_table_name WHERE Field_Function='Customers'";
 		$Fields = $wpdb->get_results($Sql);
-		if (sizeOf($Fields) > 0) {echo "<h5>Customer Information</h5>";}
 		foreach ($Fields as $Field) {
 			echo "<label title='" . $Field->Field_ID . "'><input type='checkbox' name='order_information[]' value='" . $Field->Field_ID . "'";
 			if (in_array($Field->Field_ID, $Order_Information)) {echo "checked='checked'";}
 			echo "/> <span>" . $Field->Field_Name . "</span></label><br />";
 		}
 	?>
+	<h5>Sales Rep Information</h5>
 	<?php  
 		$Sql = "SELECT * FROM $EWD_OTP_fields_table_name WHERE Field_Function='Sales_Reps'";
 		$Fields = $wpdb->get_results($Sql);
-		if (sizeOf($Fields) > 0) {echo "<h5>Sales Rep Information</h5>";}
 		foreach ($Fields as $Field) {
 			echo "<label title='" . $Field->Field_ID . "'><input type='checkbox' name='order_information[]' value='" . $Field->Field_ID . "'";
 			if (in_array($Field->Field_ID, $Order_Information)) {echo "checked='checked'";}
 			echo "/> <span>" . $Field->Field_Name . "</span></label><br />";
 		}
 	?>
+	<label title='Sales Rep First Name'><input type='checkbox' name='order_information[]' value='Sales_Rep_First_Name' <?php if(in_array("Sales_Rep_First_Name", $Order_Information)) {echo "checked='checked'";} ?> /> <span>Sales Rep First Name</span></label><br />
+	<label title='Sales Rep Last Name'><input type='checkbox' name='order_information[]' value='Sales_Rep_Last_Name' <?php if(in_array("Sales_Rep_Last_Name", $Order_Information)) {echo "checked='checked'";} ?> /> <span>Sales Rep Last Name</span></label><br />
 	<p>Select what information should be displayed for each order.</p>
 	</fieldset>
 </td>

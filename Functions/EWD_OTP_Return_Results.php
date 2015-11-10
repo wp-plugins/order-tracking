@@ -229,13 +229,19 @@ function EWD_OTP_Return_Customer_Results($Customer_ID, $Fields = array(), $Custo
 	if ($Email_Confirmation == "Auto_Entered") {$Customer_Email = do_shortcode($Customer_Email);}
 		
 	if ($Email_Confirmation == "Order_Email" or $Email_Confirmation == "Auto_Entered") {
-		$Customer = $wpdb->get_results($wpdb->prepare("SELECT Customer_ID FROM $EWD_OTP_customers WHERE Customer_ID='%d' and Customer_Email='%s'", $Customer_ID, $Customer_Email));
+		$Customer = $wpdb->get_row($wpdb->prepare("SELECT * FROM $EWD_OTP_customers WHERE Customer_ID='%d' and Customer_Email='%s'", $Customer_ID, $Customer_Email));
+	}
+	else {
+		$Customer = $wpdb->get_row($wpdb->prepare("SELECT * FROM $EWD_OTP_customers WHERE Customer_ID='%d'", $Customer_ID));
+	}
+	
+	if ($Email_Confirmation == "Order_Email" or $Email_Confirmation == "Auto_Entered") {
 		if ($wpdb->num_rows == 0) {
 			$ReturnString = "There is no customer with the ID " . $Customer_ID . " and an e-mail of " . $Customer_Email;
 			return $ReturnString;
 		}
 	}
-	
+
 	$Page = $_POST['Page'];
 	$Start = ($Page) * 50;
 	$CutOffDate = date("Y-m-d H:i:s", time()-(60*60*24*$Cut_Off_Days));
@@ -247,11 +253,36 @@ function EWD_OTP_Return_Customer_Results($Customer_ID, $Fields = array(), $Custo
 	$Counter = 0;
 	$ReturnString .= "<div>";
 
+	if (in_array("Customer_Name", $Order_Information)) {
+		if (in_array("Customer Name", $Fields)) {$Customer_Name_Label = $Fields['Customer Name'];}
+		else {$Customer_Name_Label = __("Customer Name", 'EWD_OTP');}
+		$ReturnString .= "<div class='ewd-otp-label-values'>";
+		$ReturnString .= "<div id='ewd-otp-order-name-label' class='ewd-otp-order-label ewd-otp-bold pure-u-1-8'>";
+		$ReturnString .= $Customer_Name_Label . ":";
+		$ReturnString .= "</div>";
+		$ReturnString .= "<div id='ewd-otp-order-name' class='ewd-otp-order-content pure-u-7-8'>";
+		$ReturnString .= "<div class='ewd-otp-bottom-align'>" . $Customer->Customer_Name . "</div>";
+		$ReturnString .= "</div>";
+		$ReturnString .= "</div>";
+	}
+	if (in_array("Customer_Name", $Order_Information)) {
+		if (in_array("Customer Email", $Fields)) {$Customer_Email_Label = $Fields['Customer Email'];}
+		else {$Customer_Email_Label = __("Customer Email", 'EWD_OTP');}
+		$ReturnString .= "<div class='ewd-otp-label-values'>";
+		$ReturnString .= "<div id='ewd-otp-order-name-label' class='ewd-otp-order-label ewd-otp-bold pure-u-1-8'>";
+		$ReturnString .= $Customer_Email_Label . ":";
+		$ReturnString .= "</div>";
+		$ReturnString .= "<div id='ewd-otp-order-name' class='ewd-otp-order-content pure-u-7-8'>";
+		$ReturnString .= "<div class='ewd-otp-bottom-align'>" . $Customer->Customer_Email . "</div>";
+		$ReturnString .= "</div>";
+		$ReturnString .= "</div>";
+	}
+
 	$Sql = "SELECT * FROM $EWD_OTP_fields_table_name WHERE Field_Function='Customers'";
 	$Custom_Fields = $wpdb->get_results($Sql);
 	foreach ($Custom_Fields as $Custom_Field) {
 		if (in_array($Custom_Field->Field_ID, $Order_Information)) {
-			$MetaValue = $wpdb->get_row($wpdb->prepare("SELECT Meta_Value FROM $EWD_OTP_fields_meta_table_name WHERE Customer_ID=%d AND Field_ID=%d", $Customer_ID, $Custom_Field->Field_ID));
+			$MetaValue = $wpdb->get_row($wpdb->prepare("SELECT Meta_Value FROM $EWD_OTP_fields_meta_table_name WHERE Customer_ID=%d AND Field_ID=%d", $Customer->Customer_ID, $Custom_Field->Field_ID));
 			if (array_key_exists($Custom_Field->Field_Name, $Fields)) {$Field_Label = $Fields[$Custom_Field->Field_Name];}
 			else {$Field_Label = $Custom_Field->Field_Name;}
 			$ReturnString .= "<div class='ewd-otp-label-values'>";
@@ -293,14 +324,6 @@ function EWD_OTP_Return_Customer_Results($Customer_ID, $Fields = array(), $Custo
 	if (in_array("Order_Notes", $Order_Information)) {
 		if (in_array("Order Notes", $Fields)) {$Notes_Label = $Fields['Order Notes'];}
 		else {$Notes_Label = __("Order Notes", 'EWD_OTP');}
-		$ReturnString .= "<th>";
-		$ReturnString .= $Notes_Label . ":";
-		$ReturnString .= "</th>";
-	}
-	if (in_array("Customer_Name", $Order_Information)) {
-		$CustomerName = $wpdb->get_var ($wpdb->prepare("SELECT Customer_Name FROM $EWD_OTP_customers WHERE Customer_ID=%d", $Order->Customer_ID));
-		if (in_array("Customer Name", $Fields)) {$Notes_Label = $Fields['Customer Name'];}
-		else {$Notes_Label = __("Customer Name", 'EWD_OTP');}
 		$ReturnString .= "<th>";
 		$ReturnString .= $Notes_Label . ":";
 		$ReturnString .= "</th>";
@@ -353,12 +376,6 @@ function EWD_OTP_Return_Customer_Results($Customer_ID, $Fields = array(), $Custo
 			if (in_array("Order_Notes", $Order_Information)) {
 				$ReturnString .= "<td>";
 				$ReturnString .= $Order->Order_Notes_Public;
-				$ReturnString .= "</td>";
-			}
-			if (in_array("Customer_Name", $Order_Information)) {
-				$CustomerName = $wpdb->get_var ($wpdb->prepare("SELECT Customer_Name FROM $EWD_OTP_customers WHERE Customer_ID=%d", $Order->Customer_ID));
-				$ReturnString .= "<td>";
-				$ReturnString .= $CustomerName;
 				$ReturnString .= "</td>";
 			}
 			$Sql = "SELECT * FROM $EWD_OTP_fields_table_name WHERE Field_Function='Orders'";
@@ -429,7 +446,13 @@ function EWD_OTP_Return_Sales_Rep_Results($Sales_Rep_ID, $Fields = array(), $Sal
 	if ($Email_Confirmation == "Auto_Entered") {$Sales_Rep_Email = do_shortcode($Sales_Rep_Email);}
 		
 	if ($Email_Confirmation == "Order_Email" or $Email_Confirmation == "Auto_Entered") {
-		$Sales_Rep = $wpdb->get_results($wpdb->prepare("SELECT Sales_Rep_ID FROM $EWD_OTP_sales_reps WHERE Sales_Rep_ID='%d' and Sales_Rep_Email='%s'", $Sales_Rep_ID, $Sales_Rep_Email));
+		$Sales_Rep = $wpdb->get_results($wpdb->prepare("SELECT * FROM $EWD_OTP_sales_reps WHERE Sales_Rep_ID='%d' and Sales_Rep_Email='%s'", $Sales_Rep_ID, $Sales_Rep_Email));
+	}
+	else {
+		$Sales_Rep = $wpdb->get_results($wpdb->prepare("SELECT * FROM $EWD_OTP_sales_reps WHERE Sales_Rep_ID='%d'", $Sales_Rep_ID));
+	}
+	
+	if ($Email_Confirmation == "Order_Email" or $Email_Confirmation == "Auto_Entered") {
 		if ($wpdb->num_rows == 0) {
 			$ReturnString = "There is no sales rep with the ID " . $Sales_Rep_ID . " and an e-mail of " . $Sales_Rep_Email;
 			return $ReturnString;
@@ -445,11 +468,36 @@ function EWD_OTP_Return_Sales_Rep_Results($Sales_Rep_ID, $Fields = array(), $Sal
 	$Counter = 0;
 	$ReturnString .= "<div>";
 
+	if (in_array("Sales_Rep_First_Name", $Order_Information)) {
+		if (in_array("Sales Rep First Name", $Fields)) {$Sales_Rep_First_Name_Label = $Fields['Sales Rep First Name'];}
+		else {$Sales_Rep_First_Name_Label = __("Sales Rep First Name", 'EWD_OTP');}
+		$ReturnString .= "<div class='ewd-otp-label-values'>";
+		$ReturnString .= "<div id='ewd-otp-order-name-label' class='ewd-otp-order-label ewd-otp-bold pure-u-1-8'>";
+		$ReturnString .= $Sales_Rep_First_Name_Label . ":";
+		$ReturnString .= "</div>";
+		$ReturnString .= "<div id='ewd-otp-order-name' class='ewd-otp-order-content pure-u-7-8'>";
+		$ReturnString .= "<div class='ewd-otp-bottom-align'>" . $Sales_Rep->Sales_Rep_First_Name . "</div>";
+		$ReturnString .= "</div>";
+		$ReturnString .= "</div>";
+	}
+	if (in_array("Sales_Rep_Last_Name", $Order_Information)) {
+		if (in_array("Sales Rep Last Name", $Fields)) {$Sales_Rep_Last_Name_Label = $Fields['Sales Rep Last Name'];}
+		else {$Sales_Rep_Last_Name_Label = __("Sales Rep Last Name", 'EWD_OTP');}
+		$ReturnString .= "<div class='ewd-otp-label-values'>";
+		$ReturnString .= "<div id='ewd-otp-order-name-label' class='ewd-otp-order-label ewd-otp-bold pure-u-1-8'>";
+		$ReturnString .= $Sales_Rep_Last_Name_Label . ":";
+		$ReturnString .= "</div>";
+		$ReturnString .= "<div id='ewd-otp-order-name' class='ewd-otp-order-content pure-u-7-8'>";
+		$ReturnString .= "<div class='ewd-otp-bottom-align'>" . $Sales_Rep->Sales_Rep_Last_Name . "</div>";
+		$ReturnString .= "</div>";
+		$ReturnString .= "</div>";
+	}
+
 	$Sql = "SELECT * FROM $EWD_OTP_fields_table_name WHERE Field_Function='Sales_Reps'";
 	$Custom_Fields = $wpdb->get_results($Sql);
 	foreach ($Custom_Fields as $Custom_Field) {
 		if (in_array($Custom_Field->Field_ID, $Order_Information)) {
-			$MetaValue = $wpdb->get_row($wpdb->prepare("SELECT Meta_Value FROM $EWD_OTP_fields_meta_table_name WHERE Sales_Rep_ID=%d AND Field_ID=%d", $Sales_Rep_ID, $Custom_Field->Field_ID));
+			$MetaValue = $wpdb->get_row($wpdb->prepare("SELECT Meta_Value FROM $EWD_OTP_fields_meta_table_name WHERE Sales_Rep_ID=%d AND Field_ID=%d", $Sales_Rep->Sales_Rep_ID, $Custom_Field->Field_ID));
 			if (array_key_exists($Custom_Field->Field_Name, $Fields)) {$Field_Label = $Fields[$Custom_Field->Field_Name];}
 			else {$Field_Label = $Custom_Field->Field_Name;}
 			$ReturnString .= "<div class='ewd-otp-label-values'>";
@@ -491,14 +539,6 @@ function EWD_OTP_Return_Sales_Rep_Results($Sales_Rep_ID, $Fields = array(), $Sal
 	if (in_array("Order_Notes", $Order_Information)) {
 		if (in_array("Order Notes", $Fields)) {$Notes_Label = $Fields['Order Notes'];}
 		else {$Notes_Label = __("Order Notes", 'EWD_OTP');}
-		$ReturnString .= "<th>";
-		$ReturnString .= $Notes_Label . ":";
-		$ReturnString .= "</th>";
-	}
-	if (in_array("Customer_Name", $Order_Information)) {
-		$CustomerName = $wpdb->get_var ($wpdb->prepare("SELECT Customer_Name FROM $EWD_OTP_customers WHERE Customer_ID=%d", $Order->Customer_ID));
-		if (in_array("Customer Name", $Fields)) {$Notes_Label = $Fields['Customer Name'];}
-		else {$Notes_Label = __("Customer Name", 'EWD_OTP');}
 		$ReturnString .= "<th>";
 		$ReturnString .= $Notes_Label . ":";
 		$ReturnString .= "</th>";

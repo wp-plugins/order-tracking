@@ -46,7 +46,7 @@ jQuery(document).ready(function() {
 		var ID = jQuery(this).data('nextid');
 
 		var HTML = "<tr id='ewd-otp-email-message-" + ID + "'>";
-		HTML += "<td><a class='ewd-otp-delete-message' data-reminderID='" + ID + "'>Delete</a></td>";
+		HTML += "<td><a class='ewd-otp-delete-message' data-messagenumber='" + ID + "'>Delete</a></td>";
 		HTML += "<td><input type='text' name='Email_Message_" + ID + "_Name'></td>";
 		HTML += "<td><textarea name='Email_Message_" + ID + "_Body'></textarea></td>";
 		HTML += "</tr>";
