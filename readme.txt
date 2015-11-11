@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: Rustaurius, EtoileWebDesign
 Donate Link: http://www.etoilewebdesign.com/plugin-donations/
-Tags: order tracking, order tracking system, order tracking software, e-commerce, delivery, delivery note, product shipping, ship orders, shipping, shop, track email, track, purchase orders, order processing, order management, inventory management, deliveries, order status, customer orders, customer support, ticket tracking, support tickets, support ticket, tickets, client, customer, helpdesk, support software, help desk, help desk software, WooCommerce, order tracking app, tracking updated app, order status app, PayPal, widget, widgets
+Tags: order tracking, order management, order management system, order tracking system, order tracking software, e-commerce, delivery, delivery note, product shipping, ship orders, shipping, shop, track email, track, purchase orders, order processing, inventory management, deliveries, order status, customer orders, customer support, ticket tracking, support tickets, support ticket, tickets, client, customer, helpdesk, support software, help desk, help desk software, WooCommerce, order tracking app, tracking updated app, order status app, PayPal, widget, widgets
 Requires at least: 3.5.0
 Tested up to: 4.3
 License: GPLv3
@@ -13,7 +13,7 @@ Easily post status updates, collect payments, import from WooCommerce and send e
 
 <a href='http://www.etoilewebdesign.com/order-tracking-demo/'>Order Tracking Demo</a>
 
-This order tracking software allows you to post updates about the status of orders or tickets that can be viewed through the front-end of your WordPress site. It’s software that's easy to use through the WordPress admin panel and completely customizable with CSS. Orders can be input and updated manually, or entered by uploading a spreadsheet. Accept payment for orders through PayPal, or turn on WooCommerce integration to automatically create orders whenever someone checks out! Options are available to decide what information is displayed, to style the tracking form, to import and export orders via spreadsheet,to send out status update emails and more!
+This order tracking software allows you to manage order quickly and easily by posting updates about the status of orders or tickets that can be viewed through the front-end of your WordPress site. It’s software that's easy to use through the WordPress admin panel and completely customizable with CSS. Orders can be inputted and updated manually, or entered by uploading a spreadsheet. Accept payment for orders through PayPal, or turn on WooCommerce integration to automatically create orders whenever someone checks out! Options are available to decide what information is displayed, to style the tracking form, to import and export orders via spreadsheet,to send out status update emails and more!
 
 Simply insert the ‘tracking-form’ shortcode into any page, and the tracking form will be displayed. It's the simplest order tracking system around!
 
