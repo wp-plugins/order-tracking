@@ -172,6 +172,9 @@ Premium Features
 10. The 'Streamlined' tracking graphic
 
 == Changelog ==
+= 2.6.4 =
+- Minor CSS update
+
 = 2.6.3 =
 - Small fixes for the display graphic, customer and sales rep tracking forms
 

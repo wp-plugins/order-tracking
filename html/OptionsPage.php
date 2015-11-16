@@ -425,7 +425,7 @@
 	<option value="TRY" <?php if($Pricing_Currency_Code == "TRY") {echo " selected=selected";} ?>><?php _e("Turkish Lira", 'EWD_UASP'); ?></option>
 	<option value="USD" <?php if($Pricing_Currency_Code == "USD") {echo " selected=selected";} ?>><?php _e("U.S. Dollar", 'EWD_UASP'); ?></option>
 	</select>
-	<p>What currency are your subscriptions priced in?</p>
+	<p>What currency are your orders priced in?</p>
 	</fieldset>
 </td>
 </tr>
