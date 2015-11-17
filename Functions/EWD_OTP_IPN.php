@@ -23,6 +23,7 @@ function EWD_OTP_IPN() {
 	global  $wpdb;
 	global  $EWD_OTP_orders_table_name;
 
+	$Order_Email = get_option("EWD_OTP_Order_Email");
 	$Default_Payment_Status = get_option("EWD_OTP_Default_Payment_Status"); 
 	$PayPal_Email_Address = get_option("EWD_OTP_PayPal_Email_Address"); 
 

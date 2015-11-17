@@ -172,6 +172,9 @@ Premium Features
 10. The 'Streamlined' tracking graphic
 
 == Changelog ==
+= 2.6.5 =
+- Fixed the PayPal IPN function so that an email is sent out if the status of an order is changed after payment
+
 = 2.6.4 =
 - Minor CSS update
 
