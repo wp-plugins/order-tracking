@@ -25,7 +25,8 @@ $Order_Information = explode(",", $Order_Information_String);
 			if (isset($_GET['Page'])) {$Page = $_GET['Page'];}
 			else {$Page = 1;}
 			
-			$Sql = "SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_Display='Yes' ";
+			$Sql = "SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_ID!='0' ";
+				if (!isset($_POST['OrderNumber'])) {$Sql .= "AND  Order_Display='Yes' ";}
 				if (isset($_POST['OrderNumber'])) {$Sql .= "AND Order_Number LIKE '%" . $_POST['OrderNumber'] . "%' ";}
 				if ($Sales_Rep_Only == "Yes") {$Sql .= " AND Sales_Rep_ID='" . $Sales_Rep_ID . "'";}
 				if (isset($_GET['OrderBy']) and $_GET['DisplayPage'] == "Orders") {$Sql .= "ORDER BY " . $_GET['OrderBy'] . " " . $_GET['Order'] . " ";}
