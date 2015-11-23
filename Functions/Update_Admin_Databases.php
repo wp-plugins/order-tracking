@@ -251,7 +251,7 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 		
 	$Allowable_Custom_Fields = array();
 	//List of fields that can be accepted via upload
-	$Allowed_Fields = array ("Name" => "Order_Name", "Number" => "Order_Number", "Order Status" => "Order_Status", "Display" => "Order_Display", "Notes Public" => "Order_Notes_Public", "Notes Private" => "Order_Notes_Private", "Email" => "Order_Email", "Show in Admin Table" => "Order_Display", "Sales Rep ID" => "Sales_Rep_ID");
+	$Allowed_Fields = array ("Name" => "Order_Name", "Number" => "Order_Number", "Order Status" => "Order_Status", "Location" => "Order_Location", "Display" => "Order_Display", "Notes Public" => "Order_Notes_Public", "Notes Private" => "Order_Notes_Private", "Email" => "Order_Email", "Show in Admin Table" => "Order_Display", "Sales Rep ID" => "Sales_Rep_ID");
 	$Custom_Fields_From_DB = $wpdb->get_results("SELECT Field_ID, Field_Name, Field_Values, Field_Type FROM $EWD_OTP_fields_table_name WHERE Field_Function='Orders'");
 	if (is_array($Custom_Fields_From_DB)) {
 		foreach ($Custom_Fields_From_DB as $Custom_Field_From_DB) {

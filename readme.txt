@@ -174,6 +174,9 @@ Premium Features
 10. The 'Streamlined' tracking graphic
 
 == Changelog ==
+= 2.6.8 =
+- Added location as a column that can be uploaded via spreadsheet
+
 = 2.6.7 =
 - Added a new "Internal" column to statuses, which can be used to create statuses that are only visible to admins and sales reps, not to customers or visitors
 
