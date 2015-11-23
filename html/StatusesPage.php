@@ -16,6 +16,7 @@
 			<th><?php _e("Status", 'EWD_OTP') ?></th>
 			<th><?php _e("Percentage Complete", 'EWD_OTP') ?></th>
 			<th><?php _e("Email to Send", 'EWD_OTP') ?></th>
+			<th><?php _e("Internal Status", 'EWD_OTP') ?></th>
 		</tr>
 	</thead>
 	<tfoot>
@@ -24,6 +25,7 @@
 			<th><?php _e("Status", 'EWD_OTP') ?></th>
 			<th><?php _e("Percentage Complete", 'EWD_OTP') ?></th>
 			<th><?php _e("Email to Send", 'EWD_OTP') ?></th>
+			<th><?php _e("Internal Status", 'EWD_OTP') ?></th>
 		</tr>
 	</tfoot>
 			
@@ -34,10 +36,12 @@
 			<input type='hidden' name='status[]' value='<?php echo $Status_Array_Item['Status']; ?>' />
 			<input type='hidden' name='status_percentages[]' value='<?php echo $Status_Array_Item['Percentage']; ?>' />
 			<input type='hidden' name='status_messages[]' value='<?php echo urlencode($Status_Array_Item['Message']); ?>' />
+			<input type='hidden' name='status_internals[]' value='<?php echo urlencode($Status_Array_Item['Internal']); ?>' />
 			<td class="status-delete"><a href="admin.php?page=EWD-OTP-options&Action=EWD_OTP_DeleteStatus&DisplayPage=Statuses&Status=<?php echo urlencode($Status_Array_Item['Status']); ?>"><?php _e("Delete", 'EWD_OTP') ?></a></td>
 			<td class="status"><?php echo $Status_Array_Item['Status']; ?></td>
 			<td class="status-completed"><?php echo $Status_Array_Item['Percentage']; ?></td>
 			<td class="status-message"><?php echo $Status_Array_Item['Message']; ?></td>
+			<td class="status-internal"><?php echo $Status_Array_Item['Internal']; ?></td>
 		</tr>	
 	<?php } ?>
 	
@@ -62,6 +66,14 @@
 				<?php } ?>
 			</select>
 			<p><?php _e("The message that is sent out when this status is selected, if the emailing frequency is set to 'On Change'.", 'EWD_OTP') ?></p>
+		</div>
+		<div class="form-field form-required">
+			<label for="Status_Internal"><?php _e("Internal Status?", 'EWD_OTP') ?></label>
+			<select name="status_internals[]" id="Status_Internal"/>
+				<option value='No'>No</option>
+				<option value='Yes'>Yes</option>
+			</select>
+			<p><?php _e("Should this status only be seen by admins and sales reps?", 'EWD_OTP') ?></p>
 		</div>
 	
 		<p class="submit"><input type="submit" name="Statuses_Submit" id="submit" class="button button-primary" value="Add Status"  /></p>

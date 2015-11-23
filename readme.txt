@@ -55,7 +55,10 @@ Click here to find out more and to purchase the premium version:
 * Italian (thanks to MD Ariful)
 * German (thanks to Benko)
 * Norwegian (thanks to EinarSkaug)
+* Portugese (thanks to Jaoa)
 * Spanish (Thanks to Pablo M.)
+* Turkish
+* Vietnamese
 
 
 Check out our Frequently Asked Questions here: 
@@ -172,6 +175,9 @@ Premium Features
 10. The 'Streamlined' tracking graphic
 
 == Changelog ==
+= 2.6.7 =
+- Added a new "Internal" column to statuses, which can be used to create statuses that are only visible to admins and sales reps, not to customers or visitors
+
 = 2.6.6 =
 - Made hidden orders visible when using the "Search Orders" button
 

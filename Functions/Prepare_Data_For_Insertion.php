@@ -6,6 +6,9 @@ function Add_Edit_EWD_OTP_Order() {
 		$Timezone = get_option("EWD_OTP_Timezone");
 		date_default_timezone_set($Timezone);
 
+		$Statuses_Array = get_option("EWD_OTP_Statuses_Array");
+		if (!is_array($Statuses_Array)) {$Statuses_Array = array();}
+
 		$Order_ID = $_POST['Order_ID'];
 		$Order_Name = $_POST['Order_Name'];
 		$Order_Number = $_POST['Order_Number'];
@@ -23,19 +26,33 @@ function Add_Edit_EWD_OTP_Order() {
 		$Order_Status_Updated = date("Y-m-d H:i:s"); 
 
 		if ($_POST['action'] != "Add_Order") {
-			$Current_Status = $wpdb->get_var($wpdb->prepare("SELECT Order_Status FROM $EWD_OTP_orders_table_name WHERE Order_ID=%d", $Order_ID));
+			$Order_Info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_ID=%d", $Order_ID));
+			$Current_Status = $Order_Info->Order_Status;
+		}
+
+		foreach ($Statuses_Array as $Status_Array_Item) {
+			if ($Order_Status == $Status_Array_Item['Status']) {
+				if ($Status_Array_Item['Internal'] != "Yes") {
+					$Order_External_Status = $Order_Status;
+					$Order_Internal_Status = "No";
+				}
+				else {
+					$Order_External_Status = $Order_Info->Order_External_Status;
+					$Order_Internal_Status = "Yes";
+				}
+			}
 		}
 
 		if (!isset($error)) {
 				// Pass the data to the appropriate function in Update_Admin_Databases.php to create the product 
 				if ($_POST['action'] == "Add_Order") {
-					$user_update = Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email_Address, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $Order_Payment_Price, $Order_Payment_Completed, $Order_PayPal_Receipt_Number);
+					$user_update = Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email_Address, $Order_Status, $Order_External_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $Order_Payment_Price, $Order_Payment_Completed, $Order_PayPal_Receipt_Number, $Order_Internal_Status);
 					if (($Order_Email == "Change" or $Order_Email == "Creation") and $Order_Email_Address != "") {EWD_OTP_Send_Email($Order_Email_Address, $Order_Number, $Order_Status, $Order_Notes_Public, $Order_Status_Updated, $Order_Name, "Yes");}
 				}
 				// Pass the data to the appropriate function in Update_Admin_Databases.php to edit the product 
 				else {
-					$user_update = Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email_Address, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $Order_Payment_Price, $Order_Payment_Completed, $Order_PayPal_Receipt_Number);
-					if ($Order_Email == "Change" and $Order_Email_Address != "" and $Current_Status != $Order_Status) {EWD_OTP_Send_Email($Order_Email_Address, $Order_Number, $Order_Status, $Order_Notes_Public, $Order_Status_Updated, $Order_Name);}
+					$user_update = Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email_Address, $Order_Status, $Order_External_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $Order_Payment_Price, $Order_Payment_Completed, $Order_PayPal_Receipt_Number, $Order_Internal_Status);
+					if ($Order_Email == "Change" and $Order_Email_Address != "" and $Current_Status != $Order_Status and $Order_Internal_Status != "Yes") {EWD_OTP_Send_Email($Order_Email_Address, $Order_Number, $Order_Status, $Order_Notes_Public, $Order_Status_Updated, $Order_Name);}
 				}
 				$user_update = array("Message_Type" => "Update", "Message" => $user_update);
 				return $user_update;
@@ -427,19 +444,36 @@ function Mass_Status_EWD_OTP_Orders() {
 		
 		$Timezone = get_option("EWD_OTP_Timezone");
 		date_default_timezone_set($Timezone);
+
+		$Statuses_Array = get_option("EWD_OTP_Statuses_Array");
+		if (!is_array($Statuses_Array)) {$Statuses_Array = array();}
 		
 		$Orders = $_POST['Orders_Bulk'];
 		$Status = $_POST['action'];
 		$Update_Time = date("Y-m-d H:i:s");
 		
 		if (is_array($Orders)) {
-				foreach ($Orders as $Order) {
-						if ($Order != "") {
-								Update_EWD_OTP_Order_Status($Order, $Status, $Update_Time);
-								$Order_Info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_ID='%d'", $Order));
-								if ($Order_Email == "Change" and $Order_Info->Order_Email != "") {EWD_OTP_Send_Email($Order_Info->Order_Email, $Order_Info->Order_Number, $Order_Info->Order_Status, $Order_Info->Order_Notes_Public, $Order_Info->Order_Status_Updated, $Order_Info->Order_Name);}
+			foreach ($Orders as $Order) {
+				if ($Order != "") {
+					$Order_Info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_ID='%d'", $Order));
+
+					foreach ($Statuses_Array as $Status_Array_Item) {
+						if ($Order_Status == $Status_Array_Item['Status']) {
+							if ($Status_Array_Item['Internal'] != "Yes") {
+								$Order_External_Status = $Status;
+								$Order_Internal_Status = "No";
+							}
+							else {
+								$Order_External_Status = $Order_Info->Order_External_Status;
+								$Order_Internal_Status = "Yes";
+							}
 						}
+					}
+
+					Update_EWD_OTP_Order_Status($Order, $Status, $Update_Time, $Order_Internal_Status, $Order_External_Status);
+					if ($Order_Email == "Change" and $Order_Info->Order_Email != "" and $Order_Internal_Status != "Yes") {EWD_OTP_Send_Email($Order_Info->Order_Email, $Order_Info->Order_Number, $Order_Info->Order_Status, $Order_Info->Order_Notes_Public, $Order_Info->Order_Status_Updated, $Order_Info->Order_Name);}
 				}
+			}
 		}
 		
 		$update = __("Orders have been successfully hidden.", 'EWD_OTP');

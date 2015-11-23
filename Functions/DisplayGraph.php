@@ -10,10 +10,11 @@ function EWD_OTP_Display_Graph($OrderNumber) {
 	$Statuses_Array = get_option("EWD_OTP_Statuses_Array");
 	
 	if (!is_array($Statuses_Array)) {$Statuses_Array = array();}
-	foreach ($Statuses_Array as $key => $Status_Array_Item) {
+	foreach ($Statuses_Array as $Status_Array_Item) {if ($Status_Array_Item['Internal'] != "Yes") {$Filtered_Statuses_Array[] = $Status_Array_Item;}}
+	foreach ($Filtered_Statuses_Array as $key => $Status_Array_Item) {
 		if ($Order->Order_Status == $Status_Array_Item['Status']) {$CurrentStatus = $Status_Array_Item['Status']; $CurrentPercent = $Status_Array_Item['Percentage'];}
 		elseif ($key == 0) {$StartingStatus = $Status_Array_Item['Status']; $StartingPercent = $Status_Array_Item['Percentage'];}
-		elseif (($key+1) == sizeOf($Statuses_Array)) {$EndingStatus = $Status_Array_Item['Status']; $EndingPercent = $Status_Array_Item['Percentage'];}
+		elseif (($key+1) == sizeOf($Filtered_Statuses_Array)) {$EndingStatus = $Status_Array_Item['Status']; $EndingPercent = $Status_Array_Item['Percentage'];}
 	}
 		
 	$Browser = get_user_browser();

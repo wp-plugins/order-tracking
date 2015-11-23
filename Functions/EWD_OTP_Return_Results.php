@@ -54,7 +54,7 @@ function EWD_OTP_Return_Results($TrackingNumber, $Fields = array(), $Email = '',
 		}
 	}
 	else {$Order = $wpdb->get_row($wpdb->prepare("SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_Number='%s'", $TrackingNumber));}
-	if (isset($Order->Order_ID)) {$Statuses = $wpdb->get_results($wpdb->prepare("SELECT Order_Status, Order_Location, Order_Status_Created FROM $EWD_OTP_order_statuses_table_name WHERE Order_ID='%s' ORDER BY Order_Status_Created ASC", $Order->Order_ID));}
+	if (isset($Order->Order_ID)) {$Statuses = $wpdb->get_results($wpdb->prepare("SELECT Order_Status, Order_Location, Order_Status_Created FROM $EWD_OTP_order_statuses_table_name WHERE Order_ID='%s' AND Order_Internal_Status!='Yes' ORDER BY Order_Status_Created ASC", $Order->Order_ID));}
 
 	if ($wpdb->num_rows == 0) {
 		$ReturnString .= "<div class='pure-u-1'>";
@@ -399,7 +399,7 @@ function EWD_OTP_Return_Customer_Results($Customer_ID, $Fields = array(), $Custo
 				//foreach ($Statuses as $Status) {
 				if (in_array("Order_Status", $Order_Information)) {
 					$ReturnString .= "<td>";
-					$ReturnString .= $Order->Order_Status;
+					$ReturnString .= $Order->Order_External_Status;
 					$ReturnString .= "</td>";
 				}
 				if (in_array("Order_Location", $Order_Information)) {

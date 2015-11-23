@@ -4,13 +4,14 @@ function Update_EWD_OTP_Tables() {
   	global $wpdb;
    	global $EWD_OTP_db_version;
 	global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name, $EWD_OTP_fields_table_name, $EWD_OTP_fields_meta_table_name, $EWD_OTP_sales_reps, $EWD_OTP_customers;
-    
+
 	/* Create the Orders data table */  
    	$sql = "CREATE TABLE $EWD_OTP_orders_table_name (
   		Order_ID mediumint(9) NOT NULL AUTO_INCREMENT,
 		Order_Name text DEFAULT '' NOT NULL,
 		Order_Number text DEFAULT '' NOT NULL,
 		Order_Status text DEFAULT '' NOT NULL,
+		Order_External_Status text DEFAULT '' NOT NULL,
 		Order_Location text DEFAULT '' NOT NULL,
 		Order_Notes_Public text DEFAULT '' NOT NULL,
 		Order_Notes_Private text DEFAULT '' NOT NULL,
@@ -36,6 +37,7 @@ function Update_EWD_OTP_Tables() {
 		Order_ID mediumint(9) DEFAULT 0 NOT NULL,
 		Order_Status text DEFAULT '' NOT NULL,
 		Order_Location text DEFAULT '' NOT NULL,
+		Order_Internal_Status text DEFAULT '' NOT NULL,
 		Order_Status_Created datetime DEFAULT '0000-00-00 00:00:00' NULL,
   		UNIQUE KEY id (Order_Status_ID)
     	)
@@ -168,5 +170,17 @@ function Update_EWD_OTP_Tables() {
 
 	$Sql = "UPDATE $EWD_OTP_fields_table_name SET Field_Function='Orders' WHERE Field_Function='' OR Field_Function='Order'";
 	$wpdb->query($Sql);
+
+	//Add internal/external statuses
+	$Sql = "SELECT Order_ID FROM $EWD_OTP_orders_table_name WHERE Order_External_Status=''";
+	$wpdb->get_results($Sql);
+	$Blank_Rows = $wpdb->num_rows;
+
+	$Sql = "SELECT Order_ID FROM $EWD_OTP_orders_table_name WHERE Order_External_Status=''";
+	$wpdb->get_results($Sql);
+	if ($wpdb->num_rows == $Blank_Rows) {
+		$Sql = "UPDATE $EWD_OTP_orders_table_name SET Order_External_Status=Order_Status";
+		$wpdb->query($Sql);
+	}
 }
 ?>

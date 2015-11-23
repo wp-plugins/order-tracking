@@ -2,7 +2,7 @@
 /* The file contains all of the functions which make changes to the OTP tables */
 
 /* Adds a single new order to the OTP database */
-function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $Order_Payment_Price, $Order_Payment_Completed, $Order_PayPal_Receipt_Number, $WooCommerce_ID = 0) {
+function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_External_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $Order_Payment_Price, $Order_Payment_Completed, $Order_PayPal_Receipt_Number, $Order_Internal_Status, $WooCommerce_ID = 0) {
 	global $wpdb;
 	global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name, $EWD_OTP_fields_table_name, $EWD_OTP_fields_meta_table_name;
 		
@@ -10,6 +10,7 @@ function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Stat
 		array( 'Order_Name' => $Order_Name,
 			'Order_Number' => $Order_Number,
 			'Order_Status' => $Order_Status,
+			'Order_External_Status' => $Order_External_Status,
 			'Order_Location' => $Order_Location,
 			'Order_Notes_Public' => $Order_Notes_Public,
 			'Order_Notes_Private' => $Order_Notes_Private,
@@ -30,6 +31,7 @@ function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Stat
 		array( 'Order_ID' => $Order_ID,
 			'Order_Status' => $Order_Status,
 			'Order_Location' => $Order_Location,
+			'Order_Internal_Status' => $Order_Internal_Status,
 			'Order_Status_Created' => $Order_Status_Updated)
 	);
 					 
@@ -75,7 +77,7 @@ function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Stat
 }
 
 /* Edits a single order with a given ID in the OTP database */
-function Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $Order_Payment_Price, $Order_Payment_Completed, $Order_PayPal_Receipt_Number) {
+function Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_External_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $Order_Payment_Price, $Order_Payment_Completed, $Order_PayPal_Receipt_Number, $Order_Internal_Status) {
 	global $wpdb;
 	global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name, $EWD_OTP_fields_table_name, $EWD_OTP_fields_meta_table_name;
 	
@@ -83,6 +85,7 @@ function Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email,
 		array( 'Order_Name' => $Order_Name,
 			'Order_Number' => $Order_Number,
 			'Order_Status' => $Order_Status,
+			'Order_External_Status' => $Order_External_Status,
 			'Order_Location' => $Order_Location,
 			'Order_Notes_Public' => $Order_Notes_Public,
 			'Order_Notes_Private' => $Order_Notes_Private,
@@ -103,6 +106,7 @@ function Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email,
 			array( 'Order_ID' => $Order_ID,
 				'Order_Status' => $Order_Status,
 				'Order_Location' => $Order_Location,
+				'Order_Internal_Status' => $Order_Internal_Status,
 				'Order_Status_Created' => $Order_Status_Updated)
 		);
 	}
@@ -160,12 +164,14 @@ function Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email,
 	return $update;
 }
 
-function Update_EWD_OTP_Order_Status($Order_ID, $Order_Status, $Order_Status_Updated) {
-	global $wpdb;
+function Update_EWD_OTP_Order_Status($Order_ID, $Order_Status, $Order_Status_Updated, $Order_Internal_Status = "", $Order_External_Status = "") {
 	global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name;
-		
+	
+	if ($Order_External_Status == "" ) {$Order_External_Status = $Order_Status;}	
+
 	$wpdb->update( $EWD_OTP_orders_table_name, 
 		array( 'Order_Status' => $Order_Status,
+			'Order_External_Status' => $Order_External_Status,
 			'Order_Location' => $Order_Location,
 			'Order_Status_Updated' => $Order_Status_Updated),
 		array( 'Order_ID' => $Order_ID)
@@ -174,6 +180,7 @@ function Update_EWD_OTP_Order_Status($Order_ID, $Order_Status, $Order_Status_Upd
 		array( 'Order_ID' => $Order_ID,
 			'Order_Status' => $Order_Status,
 			'Order_Location' => $Order_Location,
+			'Order_Internal_Status' => $Order_Internal_Status,
 			'Order_Status_Created' => $Order_Status_Updated)
 	);
 	$update = __("Order status has been successfully edited.", 'EWD_OTP');
@@ -366,6 +373,7 @@ function Update_EWD_OTP_Statuses() {
 			$Statuses_Array_Item['Status'] = $stat;
 			$Statuses_Array_Item['Percentage'] = $_POST['status_percentages'][$key];
 			$Statuses_Array_Item['Message'] = stripslashes_deep(urldecode($_POST['status_messages'][$key]));
+			$Statuses_Array_Item['Internal'] = stripslashes_deep(urldecode($_POST['status_internals'][$key]));
 
 			if ($Statuses_Array_Item['Message'] == "") {$Statuses_Array_Item['Message'] = 'Default';}
 

@@ -40,6 +40,7 @@ function Add_WooCommerce_Order($post_id) {
 	if ($Post_Type == "shop_order") {
 		$Post_Status = get_post_status($post_id);
 		$Order_Status = Return_WC_Order_Status($Post_Status);
+		$Order_External_Status = $Order_Status;
 
 		$Order_Key = get_post_meta($post_id, "_order_key", true);
 		$Order_Email = get_post_meta($post_id, "_billing_email", true);
@@ -62,8 +63,9 @@ function Add_WooCommerce_Order($post_id) {
 		$Order_Payment_Price = 0;
 		$Order_Payment_Completed = "Yes";
 		$Order_PayPal_Receipt_Number = "";
+		$Order_Internal_Status;
 
-		$Message = Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $Order_Payment_Price, $Order_Payment_Completed, $Order_PayPal_Receipt_Number, $post_id);
+		$Message = Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_External_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $Order_Payment_Price, $Order_Payment_Completed, $Order_PayPal_Receipt_Number, $Order_Internal_Status, $post_id);
 		if (($Order_Email == "Change" or $Order_Email == "Creation") and $Order_Email != "") {EWD_OTP_Send_Email($Order_Email, $Order_Number, $Order_Status, $Order_Notes_Public, $Order_Status_Updated, $Order_Name, "Yes");}
 	}
 }
