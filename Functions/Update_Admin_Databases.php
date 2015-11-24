@@ -299,6 +299,7 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 	for ($column = 0; $column < $highestColumnIndex; $column++) {
 		if (!array_key_exists($column, $Custom_Fields)) {$Fields[] = $Allowed_Fields[$Titles[$column]];}
 		if ($Allowed_Fields[$Titles[$column]] == "Order_Status") {$Status_Column = $column;}
+		if ($Allowed_Fields[$Titles[$column]] == "Order_Location") {$Location_Column = $column;}
 		if ($Allowed_Fields[$Titles[$column]] == "Order_Number") {$Number_Column = $column;}
 	}
 	$FieldsString = implode(",", $Fields);
@@ -313,6 +314,7 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 		foreach ($Order as $Col_Index => $Value) {
 			if (!array_key_exists($Col_Index, $Custom_Fields)) {$Values[] = esc_sql($Value);}
 			if (isset($Status_Column) and $Status_Column == $Col_Index) {$Status = $Value;}
+			if (isset($Location_Column) and $Location_Column == $Col_Index) {$Location = $Value;}
 			if (isset($Number_Column) and $Number_Column == $Col_Index) {$Number = $Value;}
 			if (array_key_exists($Col_Index, $Custom_Fields)) {
 				$Custom_Fields_To_Insert[$Custom_Fields[$Col_Index]] = $Value;
@@ -343,7 +345,7 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 		if (($Order_Email == "Change" or $Order_Email == "Creation") and $Order_Email_Address != "") {}
 				
 		if (isset($Status)) {
-			$wpdb->query($wpdb->prepare("INSERT INTO $EWD_OTP_order_statuses_table_name (Order_ID, Order_Status, Order_Status_Created) VALUES (%d, %s, %s)", $Order_ID, $Status, $Date));
+			$wpdb->query($wpdb->prepare("INSERT INTO $EWD_OTP_order_statuses_table_name (Order_ID, Order_Status, Order_Location, Order_Status_Created) VALUES (%d, %s, %s, %s)", $Order_ID, $Status, $Location, $Date));
 		}
 
 		if (is_array($Custom_Fields_To_Insert)) {
@@ -355,6 +357,7 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 		}
 
 		unset($Status);
+		unset($Location);
 		unset($Number);
 		unset($Order_ID);
 		unset($Values);

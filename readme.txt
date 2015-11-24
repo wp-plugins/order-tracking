@@ -174,6 +174,9 @@ Premium Features
 10. The 'Streamlined' tracking graphic
 
 == Changelog ==
+= 2.6.9 =
+- Updated location spreadsheet uploads so that all locations added will display
+
 = 2.6.8 =
 - Added location as a column that can be uploaded via spreadsheet
 
