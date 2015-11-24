@@ -258,3 +258,20 @@ margin:0 auto;
   display:inline;
 }
 
+/***********************************************************************************
+* POINTERS
+***********************************************************************************/
+
+.wp-pointer-content ul {
+  list-style: disc;
+  padding-left: 40px;
+}
+
+.wp-pointer-content iframe {
+  margin-top:18px;
+}
+
+.ewd-otp-pointer-count {
+  margin-top: 40px;
+  margin-bottom: -40px;
+}

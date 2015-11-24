@@ -7,7 +7,7 @@ Author: Etoile Web Design
 Author URI: http://www.EtoileWebDesign.com/order-tracking/
 Terms and Conditions: http://www.etoilewebdesign.com/plugin-terms-and-conditions/
 Text Domain: EWD_OTP
-Version: 2.6.9
+Version: 2.6.10
 */
 
 global $EWD_OTP_db_version;
@@ -33,6 +33,7 @@ $wpdb->show_errors();  */
 /* When plugin is activated */
 register_activation_hook(__FILE__,'Install_EWD_OTP');
 register_activation_hook(__FILE__,'EWD_OTP_Default_Statuses');
+register_activation_hook(__FILE__,'Run_EWD_OTP_Tutorial');
 
 /* When plugin is deactivation*/
 register_deactivation_hook( __FILE__, 'Remove_EWD_OTP' );
@@ -155,6 +156,35 @@ function EWD_OTP_Admin_Options() {
 	echo "<link rel='stylesheet' type='text/css' href='$url' />\n";
 }
 
+function Run_EWD_OTP_Tutorial() {
+	update_option("EWD_OTP_Run_Tutorial", "Yes");
+}
+	
+if (get_option("EWD_OTP_Run_Tutorial") == "Yes" and $_GET['page'] == 'EWD-OTP-options') {
+	add_action( 'admin_enqueue_scripts', function( $page ) {
+	  $Pointers = EWD_OTP_Return_Pointers();
+	
+	  //Arguments: pointers php file, version (dots will be replaced), prefix
+	  $manager = new EWD_OTP_PointersManager( $Pointers, '1.0', 'ewd_otp_admin_pointers' );
+	  $manager->parse();
+	  $pointers = $manager->filter( $page );
+	  if ( empty( $pointers ) ) { // nothing to do if no pointers pass the filter
+	    return;
+	  }
+	  wp_enqueue_style( 'wp-pointer' );
+	  $js_url = plugins_url( 'js/ewd-otp-pointers.js', __FILE__ );
+	  wp_enqueue_script( 'ewd_otp_admin_pointers', $js_url, array('wp-pointer'), NULL, TRUE );
+	  //data to pass to javascript
+	  $data = array(
+	    'next_label' => __( 'Next' ),
+	    'close_label' => __('Close'),
+	    'pointers' => $pointers
+	  );
+	  wp_localize_script( 'ewd_otp_admin_pointers', 'MyAdminPointers', $data );
+	} );
+	update_option("EWD_OTP_Run_Tutorial", "No");
+}
+
 add_action('activated_plugin','save_otp_error');
 function save_otp_error(){
 	update_option('plugin_error',  ob_get_contents());
@@ -170,7 +200,10 @@ if (isset($_POST['EWD_OTP_Upgrade_To_Full'])) {
 include "Functions/DisplayGraph.php";
 include "Functions/Error_Notices.php";
 include "Functions/EWD_OTP_Export_To_Excel.php";
+include "Functions/EWD_OTP_Help_Pointers.php";
 include "Functions/EWD_OTP_Output_Options.php";
+include "Functions/EWD_OTP_Pointers_Manager_Interface.php";
+include "Functions/EWD_OTP_Pointers_Manager_Class.php";
 include "Functions/EWD_OTP_Return_Results.php";
 include "Functions/EWD_OTP_Styling.php";
 include "Functions/EWD_OTP_Widgets.php";
