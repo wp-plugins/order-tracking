@@ -22,7 +22,7 @@
 <div id="icon-options-general" class="icon32"><br /></div><h2>Email Settings</h2>
 <p>We've switched to using the default WordPress SMTP mail function. To send SMTP email, use a plugin such as <a href='https://wordpress.org/plugins/wp-mail-smtp/'>WP Mail SMTP</a> to input your settings</p>
 
-<form method="post" action="admin.php?page=EWD-OTP-options&DisplayPage=Emails&Action=EWD_OTP_UpdateEmailSettings">
+<form method="post" action="admin.php?page=EWD-OTP-options&DisplayPage=Emails&OTPAction=EWD_OTP_UpdateEmailSettings">
 <table class="form-table">
 <?php /* <tr>
 <th scope="row">"Send-From" Email Address</th>

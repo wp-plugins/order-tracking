@@ -7,7 +7,7 @@
 		<div class="form-wrap SalesRepDetail">
 				<a href="admin.php?page=EWD-OTP-options&DisplayPage=SalesReps" class="NoUnderline">&#171; <?php _e("Back", 'EWD_OTP') ?></a>
 				<h3><?php echo __("Edit ", 'EWD_OTP') . $SalesRep->Sales_Rep_First_Name . " " . $SalesRep->Sales_Rep_Last_Name . __(" (Sales Rep ID: ", 'EWD_OTP') . $SalesRep->Sales_Rep_ID . ")"; ?></h3>
-				<form id="addtag" method="post" action="admin.php?page=EWD-OTP-options&Action=EWD_OTP_EditSalesRep&DisplayPage=SalesReps" class="validate" enctype="multipart/form-data">
+				<form id="addtag" method="post" action="admin.php?page=EWD-OTP-options&OTPAction=EWD_OTP_EditSalesRep&DisplayPage=SalesReps" class="validate" enctype="multipart/form-data">
 				<input type="hidden" name="action" value="Edit_Sales_Rep" />
 				<input type="hidden" name="Sales_Rep_ID" value="<?php echo $SalesRep->Sales_Rep_ID; ?>" />
 				<?php wp_nonce_field(); ?>

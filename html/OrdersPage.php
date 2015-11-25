@@ -39,7 +39,7 @@ $Order_Information = explode(",", $Order_Information_String);
 				$Current_Page_With_Order_By = "admin.php?page=EWD-OTP-options&DisplayPage=Orders";
 				if (isset($_GET['OrderBy'])) {$Current_Page_With_Order_By .= "&OrderBy=" .$_GET['OrderBy'] . "&Order=" . $_GET['Order'];}?>
 
-<form action="admin.php?page=EWD-OTP-options&DisplayPage=Orders&Action=EWD_OTP_MassAction" method="post">    
+<form action="admin.php?page=EWD-OTP-options&DisplayPage=Orders&OTPAction=EWD_OTP_MassAction" method="post">    
 <p class="search-box">
 	<label class="screen-reader-text" for="post-search-input">Search Orders:</label>
 	<input type="search" id="post-search-input" name="OrderNumber" value="">
@@ -57,7 +57,7 @@ $Order_Information = explode(",", $Order_Information_String);
 						<option value='delete'><?php _e("Delete", 'EWD_OTP') ?></option>
 				</select>
 				<input type="submit" name="" id="doaction" class="button-secondary action" value="<?php _e('Apply', 'EWD_OTP') ?>"  />
-				<a class='confirm button-secondary action' href='admin.php?page=EWD-OTP-options&Action=EWD_OTP_DeleteAllOrders&DisplayPage=Orders'>Delete All Orders</a>
+				<a class='confirm button-secondary action' href='admin.php?page=EWD-OTP-options&OTPAction=EWD_OTP_DeleteAllOrders&DisplayPage=Orders'>Delete All Orders</a>
 		</div>
 		<div class='tablenav-pages <?php if ($Number_of_Pages == 1) {echo "one-page";} ?>'>
 				<span class="displaying-num"><?php echo $wpdb->num_rows; ?> <?php _e("items", 'EWD_OTP') ?></span>
@@ -189,11 +189,11 @@ $Order_Information = explode(",", $Order_Information_String);
 								echo "</th>";
 								echo "<td class='name column-name'>";
 								echo "<strong>";
-								echo "<a class='row-title' href='admin.php?page=EWD-OTP-options&Action=EWD_OTP_Order_Details&Selected=Order&Order_ID=" . $Order->Order_ID ."' title='Edit " . $Order->Order_Number . "'>" . $Order->Order_Number . "</a></strong>";
+								echo "<a class='row-title' href='admin.php?page=EWD-OTP-options&OTPAction=EWD_OTP_Order_Details&Selected=Order&Order_ID=" . $Order->Order_ID ."' title='Edit " . $Order->Order_Number . "'>" . $Order->Order_Number . "</a></strong>";
 								echo "<br />";
 								echo "<div class='row-actions'>";
 								echo "<span class='delete'>";
-								echo "<a class='delete-tag' href='admin.php?page=EWD-OTP-options&Action=EWD_OTP_HideOrder&DisplayPage=Orders&Order_ID=" . $Order->Order_ID ."'>" . __("Hide", 'EWD_OTP') . "</a>";
+								echo "<a class='delete-tag' href='admin.php?page=EWD-OTP-options&OTPAction=EWD_OTP_HideOrder&DisplayPage=Orders&Order_ID=" . $Order->Order_ID ."'>" . __("Hide", 'EWD_OTP') . "</a>";
 		 						echo "</span>";
 								echo "</div>";
 								echo "<div class='hidden' id='inline_" . $Order->Order_ID ."'>";
@@ -248,7 +248,7 @@ $Order_Information = explode(",", $Order_Information_String);
 <div class="form-wrap">
 <h2><?php _e("Add New Order", 'EWD_OTP') ?></h2>
 <!-- Form to create a new order -->
-<form id="addtag" method="post" action="admin.php?page=EWD-OTP-options&Action=EWD_OTP_AddOrder&DisplayPage=Orders" class="validate" enctype="multipart/form-data">
+<form id="addtag" method="post" action="admin.php?page=EWD-OTP-options&OTPAction=EWD_OTP_AddOrder&DisplayPage=Orders" class="validate" enctype="multipart/form-data">
 <input type="hidden" name="action" value="Add_Order" />
 <?php wp_nonce_field(); ?>
 <?php wp_referer_field(); ?>
@@ -413,7 +413,7 @@ echo $ReturnString;
 
 <h3><?php _e("Add/Update Orders from Spreadsheet", 'EWD_OTP') ?></h3>
 <?php if ($EWD_OTP_Full_Version == "Yes") { ?>
-<form id="addtag" method="post" action="admin.php?page=EWD-OTP-options&Action=EWD_OTP_AddOrderSpreadsheet&DisplayPage=Orders" class="validate" enctype="multipart/form-data">
+<form id="addtag" method="post" action="admin.php?page=EWD-OTP-options&OTPAction=EWD_OTP_AddOrderSpreadsheet&DisplayPage=Orders" class="validate" enctype="multipart/form-data">
 <div class="form-field form-required">
 		<label for="Orders_Spreadsheet"><?php _e("Spreadhseet Containing Orders", 'EWD_OTP') ?></label>
 		<input name="Orders_Spreadsheet" id="Orders_Spreadsheet" type="file" value=""/>
@@ -435,7 +435,7 @@ echo $ReturnString;
 <?php if ($EWD_OTP_Full_Version == "Yes") { ?>
 <div class="wrap">
 
-<form method="post" action="admin.php?page=EWD-OTP-options&Action=EWD_OTP_ExportToExcel">
+<form method="post" action="admin.php?page=EWD-OTP-options&OTPAction=EWD_OTP_ExportToExcel">
 <p><?php _e("Downloads all orders currently in the database to Excel", 'EWD_OTP') ?></p>
 <p class="submit"><input type="submit" name="Export_Submit" id="submit" class="button button-primary" value="Export to Excel"  /></p>
 </form>

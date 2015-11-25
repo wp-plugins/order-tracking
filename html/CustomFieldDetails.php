@@ -7,7 +7,7 @@
 		<div class="form-wrap TagDetail">
 			<a href="admin.php?page=EWD-OTP-options&DisplayPage=CustomFields" class="NoUnderline">&#171; <?php _e("Back", 'EWD_OTP') ?></a>
 			<h3>Edit <?php echo $Field->Field_Name;?></h3>
-			<form id="addtag" method="post" action="admin.php?page=EWD-OTP-options&Action=EWD_OTP_EditCustomField&DisplayPage=CustomFields" class="validate" enctype="multipart/form-data">
+			<form id="addtag" method="post" action="admin.php?page=EWD-OTP-options&OTPAction=EWD_OTP_EditCustomField&DisplayPage=CustomFields" class="validate" enctype="multipart/form-data">
 			<input type="hidden" name="action" value="Edit_Custom_Field" />
 			<input type="hidden" name="Field_ID" value="<?php echo $Field->Field_ID; ?>" />
 			<?php wp_nonce_field(); ?>

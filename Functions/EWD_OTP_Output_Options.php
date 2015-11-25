@@ -11,8 +11,8 @@ function EWD_OTP_Output_Options() {
 	else { 
 		$Display_Page = null;
 	}
-	if (!isset($_GET['Action'])) {
-		$_GET['Action'] = null;
+	if (!isset($_GET['OTPAction'])) {
+		$_GET['OTPAction'] = null;
 	}
 
 	if (!isset($_GET['OrderBy'])) {
@@ -20,10 +20,10 @@ function EWD_OTP_Output_Options() {
 	}
 
 	include( plugin_dir_path( __FILE__ ) . '../html/AdminHeader.php');
-	if ($_GET['Action'] == "EWD_OTP_Order_Details") {include( plugin_dir_path( __FILE__ ) . '../html/OrdersDetails.php');}
-	elseif ($_GET['Action'] == "EWD_OTP_CustomerDetails") {include( plugin_dir_path( __FILE__ ) . '../html/CustomerDetails.php');}
-	elseif ($_GET['Action'] == "EWD_OTP_RepDetails") {include( plugin_dir_path( __FILE__ ) . '../html/SalesRepDetails.php');}
-	elseif ($_GET['Action'] == "EWD_OTP_FieldDetails") {include( plugin_dir_path( __FILE__ ) . '../html/CustomFieldDetails.php');}
+	if ($_GET['OTPAction'] == "EWD_OTP_Order_Details") {include( plugin_dir_path( __FILE__ ) . '../html/OrdersDetails.php');}
+	elseif ($_GET['OTPAction'] == "EWD_OTP_CustomerDetails") {include( plugin_dir_path( __FILE__ ) . '../html/CustomerDetails.php');}
+	elseif ($_GET['OTPAction'] == "EWD_OTP_RepDetails") {include( plugin_dir_path( __FILE__ ) . '../html/SalesRepDetails.php');}
+	elseif ($_GET['OTPAction'] == "EWD_OTP_FieldDetails") {include( plugin_dir_path( __FILE__ ) . '../html/CustomFieldDetails.php');}
 	else {include( plugin_dir_path( __FILE__ ) . '../html/MainScreen.php');}
 	include( plugin_dir_path( __FILE__ ) . '../html/AdminFooter.php');
 }

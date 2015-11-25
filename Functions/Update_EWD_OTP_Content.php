@@ -6,8 +6,8 @@
 function Update_EWD_OTP_Content() {
 	global $ewd_otp_message;
 
-	if (isset($_GET['Action'])) {
-		switch ($_GET['Action']) {
+	if (isset($_GET['OTPAction'])) {
+		switch ($_GET['OTPAction']) {
 	    	case "EWD_OTP_UpdateStatuses":
 	       		$ewd_otp_message = Update_EWD_OTP_Statuses();
 				break;

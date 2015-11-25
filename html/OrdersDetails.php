@@ -19,7 +19,7 @@ if ($Sales_Rep_Only == "Yes") {
 <div class="form-wrap">
 <h2><?php _e("Edit Order", 'EWD_OTP') ?></h2>
 <!-- Form to edit an order -->
-<form id="addtag" method="post" action="admin.php?page=EWD-OTP-options&Action=EWD_OTP_EditOrder&DisplayPage=Orders" class="validate" enctype="multipart/form-data">
+<form id="addtag" method="post" action="admin.php?page=EWD-OTP-options&OTPAction=EWD_OTP_EditOrder&DisplayPage=Orders" class="validate" enctype="multipart/form-data">
 <input type="hidden" name="action" value="Edit_Order" />
 <?php wp_nonce_field(); ?>
 <?php wp_referer_field(); ?>

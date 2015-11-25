@@ -22,7 +22,7 @@
 				$Current_Page_With_Order_By = "admin.php?page=EWD-OTP-options&DisplayPage=Customers";
 				if (isset($_GET['OrderBy'])) {$Current_Page_With_Order_By .= "&OrderBy=" .$_GET['OrderBy'] . "&Order=" . $_GET['Order'];}?>
 
-<form action="admin.php?page=EWD-OTP-options&Action=EWD_OTP_MassDeleteCustomers&DisplayPage=Customers" method="post">   
+<form action="admin.php?page=EWD-OTP-options&OTPAction=EWD_OTP_MassDeleteCustomers&DisplayPage=Customers" method="post">   
 <div class="tablenav top">
 		<div class="alignleft actions">
 				<select name='action'>
@@ -97,14 +97,14 @@
 								echo "</th>";
 								echo "<td class='name column-name'>";
 								echo "<strong>";
-								echo "<a class='row-title' href='admin.php?page=EWD-OTP-options&Action=EWD_OTP_CustomerDetails&Selected=Customer&Customer_ID=" . $Customer->Customer_ID ."' title='Edit " . $Customer->Customer_ID . "'>" . $Customer->Customer_Name . "</a></strong>";
+								echo "<a class='row-title' href='admin.php?page=EWD-OTP-options&OTPAction=EWD_OTP_CustomerDetails&Selected=Customer&Customer_ID=" . $Customer->Customer_ID ."' title='Edit " . $Customer->Customer_ID . "'>" . $Customer->Customer_Name . "</a></strong>";
 								echo "<br />";
 								echo "<div class='row-actions'>";
 								/*echo "<span class='edit'>";
 								echo "<a href='admin.php?page=EWD-OTP-options&Action=UPCP_Category_Details&Selected=Category&Category_ID=" . $Category->Category_ID ."'>Edit</a>";
 		 						echo " | </span>";*/
 								echo "<span class='delete'>";
-								echo "<a class='delete-tag' href='admin.php?page=EWD-OTP-options&Action=EWD_OTP_DeleteCustomer&DisplayPage=Customers&Customer_ID=" . $Customer->Customer_ID ."'>" . __("Delete", 'EWD_OTP') . "</a>";
+								echo "<a class='delete-tag' href='admin.php?page=EWD-OTP-options&OTPAction=EWD_OTP_DeleteCustomer&DisplayPage=Customers&Customer_ID=" . $Customer->Customer_ID ."'>" . __("Delete", 'EWD_OTP') . "</a>";
 		 						echo "</span>";
 								echo "</div>";
 								echo "<div class='hidden' id='inline_" . $Customer->Customer_ID ."'>";
@@ -152,7 +152,7 @@
 
 <div class="form-wrap">
 <h3><?php _e("Add a New Customer", 'EWD_OTP') ?></h3>
-<form id="addcat" method="post" action="admin.php?page=EWD-OTP-options&Action=EWD_OTP_AddCustomer&DisplayPage=Customers" class="validate" enctype="multipart/form-data">
+<form id="addcat" method="post" action="admin.php?page=EWD-OTP-options&OTPAction=EWD_OTP_AddCustomer&DisplayPage=Customers" class="validate" enctype="multipart/form-data">
 <input type="hidden" name="action" value="Add_Customer" />
 <?php wp_nonce_field(); ?>
 <?php wp_referer_field(); ?>

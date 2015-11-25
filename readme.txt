@@ -174,6 +174,9 @@ Premium Features
 10. The 'Streamlined' tracking graphic
 
 == Changelog ==
+= 2.6.11 =
+- Fixed a plugin permalink conflict
+
 = 2.6.10 =
 - Added in a walkthrough for new installations
 

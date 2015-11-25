@@ -66,7 +66,7 @@
 
 <div class="otp-options-page-tabbed-content">
 
-<form method="post" action="admin.php?page=EWD-OTP-options&DisplayPage=Options&Action=EWD_OTP_UpdateOptions">
+<form method="post" action="admin.php?page=EWD-OTP-options&DisplayPage=Options&OTPAction=EWD_OTP_UpdateOptions">
 <div id='Basic' class='otp-option-set'>
 <h2 id="basic-order-options" class="otp-options-tab-title">Basic Options</h2>
 <table class="form-table">

@@ -22,7 +22,7 @@
 				$Current_Page_With_Order_By = "admin.php?page=EWD-OTP-options&DisplayPage=CustomFields";
 				if (isset($_GET['OrderBy'])) {$Current_Page_With_Order_By .= "&OrderBy=" .$_GET['OrderBy'] . "&Order=" . $_GET['Order'];}?>
 
-<form action="admin.php?page=EWD-OTP-options&Action=EWD_OTP_MassDeleteCustomFields&DisplayPage=CustomFields" method="post">    
+<form action="admin.php?page=EWD-OTP-options&OTPAction=EWD_OTP_MassDeleteCustomFields&DisplayPage=CustomFields" method="post">    
 <div class="tablenav top">
 		<div class="alignleft actions">
 				<select name='action'>
@@ -123,11 +123,11 @@
 								echo "</th>";
 								echo "<td class='name column-name'>";
 								echo "<strong>";
-								echo "<a class='row-title' href='admin.php?page=EWD-OTP-options&Action=EWD_OTP_FieldDetails&Selected=CustomField&Field_ID=" . $Field->Field_ID ."' title='Edit " . $Field->Field_Name . "'>" . $Field->Field_Name . "</a></strong>";
+								echo "<a class='row-title' href='admin.php?page=EWD-OTP-options&OTPAction=EWD_OTP_FieldDetails&Selected=CustomField&Field_ID=" . $Field->Field_ID ."' title='Edit " . $Field->Field_Name . "'>" . $Field->Field_Name . "</a></strong>";
 								echo "<br />";
 								echo "<div class='row-actions'>";
 								echo "<span class='delete'>";
-								echo "<a class='delete-tag' href='admin.php?page=EWD-OTP-options&Action=EWD_OTP_DeleteCustomField&DisplayPage=CustomFields&Field_ID=" . $Field->Field_ID ."'>" . __("Delete", 'EWD_OTP') . "</a>";
+								echo "<a class='delete-tag' href='admin.php?page=EWD-OTP-options&OTPAction=EWD_OTP_DeleteCustomField&DisplayPage=CustomFields&Field_ID=" . $Field->Field_ID ."'>" . __("Delete", 'EWD_OTP') . "</a>";
 		 						echo "</span>";
 								echo "</div>";
 								echo "<div class='hidden' id='inline_" . $Field->Field_ID ."'>";
@@ -181,7 +181,7 @@
 <div class="form-wrap">
 <h2><?php _e("Add New Field", 'EWD_OTP') ?></h2>
 <!-- Form to create a new field -->
-<form id="addtag" method="post" action="admin.php?page=EWD-OTP-options&Action=EWD_OTP_AddCustomField&DisplayPage=CustomFields" class="validate" enctype="multipart/form-data">
+<form id="addtag" method="post" action="admin.php?page=EWD-OTP-options&OTPAction=EWD_OTP_AddCustomField&DisplayPage=CustomFields" class="validate" enctype="multipart/form-data">
 <input type="hidden" name="action" value="Add_Custom_Field" />
 <?php wp_nonce_field(); ?>
 <?php wp_referer_field(); ?>

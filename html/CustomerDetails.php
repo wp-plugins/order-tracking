@@ -7,7 +7,7 @@
 		<div class="form-wrap CustomerDetail">
 				<a href="admin.php?page=EWD-OTP-options&DisplayPage=Customers" class="NoUnderline">&#171; <?php _e("Back", 'EWD_OTP') ?></a>
 				<h3><?php echo __("Edit ", 'EWD_OTP') . $Customer->Customer_Name . __(" (Customer ID: ", 'EWD_OTP') . $Customer->Customer_ID . ")"; ?></h3>
-				<form id="addtag" method="post" action="admin.php?page=EWD-OTP-options&Action=EWD_OTP_EditCustomer&DisplayPage=Customers" class="validate" enctype="multipart/form-data">
+				<form id="addtag" method="post" action="admin.php?page=EWD-OTP-options&OTPAction=EWD_OTP_EditCustomer&DisplayPage=Customers" class="validate" enctype="multipart/form-data">
 				<input type="hidden" name="action" value="Edit_Customers" />
 				<input type="hidden" name="Customer_ID" value="<?php echo $Customer->Customer_ID; ?>" />
 				<?php wp_nonce_field(); ?>

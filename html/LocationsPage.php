@@ -24,7 +24,7 @@
 	foreach ($Locations as $key => $Location) { ?>
 		<tr id="list-item-<?php echo $key; ?>" class="list-item">
 			<input type='hidden' name='location[]' value='<?php echo $Locations[$key]; ?>' />
-			<td class="location-delete"><a href="admin.php?page=EWD-OTP-options&Action=EWD_OTP_DeleteLocation&DisplayPage=Locations&Location=<?php echo $Locations[$key]; ?>"><?php _e("Delete", 'EWD_OTP') ?></a></td>
+			<td class="location-delete"><a href="admin.php?page=EWD-OTP-options&OTPAction=EWD_OTP_DeleteLocation&DisplayPage=Locations&Location=<?php echo $Locations[$key]; ?>"><?php _e("Delete", 'EWD_OTP') ?></a></td>
 			<td class="location"><?php echo $Locations[$key]; ?></td>
 		</tr>	
 	<?php } ?>
@@ -32,7 +32,7 @@
 	</table>	
 
 	<h3>Add New Location:</h3>
-	<form method="post" action="admin.php?page=EWD-OTP-options&DisplayPage=Locations&Action=EWD_OTP_UpdateLocations">
+	<form method="post" action="admin.php?page=EWD-OTP-options&DisplayPage=Locations&OTPAction=EWD_OTP_UpdateLocations">
 		<div class="form-field form-required">
 			<label for="Location"><?php _e("New Location", 'EWD_OTP') ?></label>
 			<input name="location[]" id="Location" type="text" size="60" />
