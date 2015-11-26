@@ -5,7 +5,7 @@
 function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Status, $Order_External_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $Order_Payment_Price, $Order_Payment_Completed, $Order_PayPal_Receipt_Number, $Order_Internal_Status, $WooCommerce_ID = 0) {
 	global $wpdb;
 	global $EWD_OTP_orders_table_name, $EWD_OTP_order_statuses_table_name, $EWD_OTP_fields_table_name, $EWD_OTP_fields_meta_table_name;
-		
+	
 	$wpdb->insert( $EWD_OTP_orders_table_name, 
 		array( 'Order_Name' => $Order_Name,
 			'Order_Number' => $Order_Number,
@@ -24,7 +24,7 @@ function Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email, $Order_Stat
 			'WooCommerce_ID' => $WooCommerce_ID,
 			'Order_Status_Updated' => $Order_Status_Updated)
 	);
-		
+	
 	$Order_ID = $wpdb->insert_id;
 		
 	$wpdb->insert( $EWD_OTP_order_statuses_table_name, 
@@ -297,11 +297,14 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 
 	// Creates an array of the field names which are going to be inserted into the database
 	// and then turns that array into a string so that it can be used in the query
+	$Fields = array();
 	for ($column = 0; $column < $highestColumnIndex; $column++) {
-		if (!array_key_exists($column, $Custom_Fields)) {$Fields[] = $Allowed_Fields[$Titles[$column]];}
-		if ($Allowed_Fields[$Titles[$column]] == "Order_Status") {$Status_Column = $column;}
-		if ($Allowed_Fields[$Titles[$column]] == "Order_Location") {$Location_Column = $column;}
-		if ($Allowed_Fields[$Titles[$column]] == "Order_Number") {$Number_Column = $column;}
+		if ($column < sizeOf($Titles)) {
+			if (!array_key_exists($column, $Custom_Fields)) {$Fields[] = $Allowed_Fields[$Titles[$column]];}
+			if ($Allowed_Fields[$Titles[$column]] == "Order_Status") {$Status_Column = $column;}
+			if ($Allowed_Fields[$Titles[$column]] == "Order_Location") {$Location_Column = $column;}
+			if ($Allowed_Fields[$Titles[$column]] == "Order_Number") {$Number_Column = $column;}
+		}
 	}
 	$FieldsString = implode(",", $Fields);
 		

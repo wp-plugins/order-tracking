@@ -174,6 +174,9 @@ Premium Features
 10. The 'Streamlined' tracking graphic
 
 == Changelog ==
+= 2.6.13 =
+- Added the ability to have custom fields in the customer-order form
+
 = 2.6.12 =
 - Removed the reliance on closures in the walkthrough, to make the plugin compatible with legacy versions of PHP
 

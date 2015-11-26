@@ -83,6 +83,8 @@ function EWD_OTP_Save_Customer_Order($Success_Message, $Order_Status = "", $Orde
 
 	$Order_Number = __('Order', 'EWD_OTP') . EWD_OTP_RandomString(5);
 
+	$Order_External_Status = $Order_Status;
+	$Order_Internal_Status = "No";
 	$Order_Notes_Public = "";
 	$Order_Notes_Private = "";
 	$Order_Display = "Yes";
@@ -90,8 +92,12 @@ function EWD_OTP_Save_Customer_Order($Success_Message, $Order_Status = "", $Orde
 	$Customer_ID = 0;
 	$Sales_Rep_ID = 0;
 
-	$message = Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email_Address, $Order_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID);
-
+	$Order_Payment_Price = "";
+	$Order_Payment_Completed = "No";
+	$Order_PayPal_Receipt_Number = "";
+	
+	$message = Add_EWD_OTP_Order($Order_Name, $Order_Number, $Order_Email_Address, $Order_Status, $Order_External_Status, $Order_Location, $Order_Notes_Public, $Order_Notes_Private, $Order_Display, $Order_Status_Updated, $Customer_ID, $Sales_Rep_ID, $Order_Payment_Price, $Order_Payment_Completed, $Order_PayPal_Receipt_Number, $Order_Internal_Status);
+	
 	if ($message == __("Order has been successfully created.", 'EWD_OTP')) {
 		Update_EWD_OTP_Customer_Note($Order_Number, $Note);
 		$user_update['Message_Type'] = "Update";
@@ -492,7 +498,8 @@ function Add_Edit_EWD_OTP_Custom_Field() {
 		$Field_Values = stripslashes_deep($_POST['Field_Values']);
 		$Field_Front_End_Display = stripslashes_deep($_POST['Field_Front_End_Display']);
 		$Field_Function = stripslashes_deep($_POST['Field_Function']);
-		$Field_ID = $_POST['Field_ID'];
+		if (isset($_POST['Field_ID'])) {$Field_ID = $_POST['Field_ID'];}
+		else {$Field_ID = "";}
 
 		if (!isset($error)) {
 				/* Pass the data to the appropriate function in Update_Admin_Databases.php to create the custom field */

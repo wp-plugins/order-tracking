@@ -74,7 +74,7 @@ function Insert_Customer_Order_Form($atts) {
 	$ReturnString .= "</div>";
 
 	$Sql = "SELECT * FROM $EWD_OTP_fields_table_name ";
-	$myrows = $wpdb->get_results($Sql);
+	$Fields = $wpdb->get_results($Sql);
 	$Value = "";
 	if (is_array($Fields)) {
 		foreach ($Fields as $Field) {
