@@ -55,7 +55,7 @@ function EWD_OTP_Export_To_Excel() {
 
 
 		// Redirect output to a client’s web browser (Excel5) 
-		if ($Format_Type == "CSV") {
+		if (isset($Format_Type) and $Format_Type == "CSV") {
 			header('Content-Type: application/vnd.ms-excel'); 
 			header('Content-Disposition: attachment;filename="Order_Export.csv"'); 
 			header('Cache-Control: max-age=0'); 

@@ -114,6 +114,7 @@ function Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email,
 					 
 	// Delete the custom field values for the given Order_ID
 	$File_Fields = $wpdb->get_results("SELECT Field_ID FROM $EWD_OTP_fields_table_name WHERE Field_Type='file' and Field_Function='Orders'");
+	$File_Field_IDs = "";
 	foreach ($File_Fields as $File_Field) {$File_Field_IDs .= $File_Field->Field_ID . ",";}
 	$Sql = "DELETE FROM $EWD_OTP_fields_meta_table_name WHERE Order_ID='" . $Order_ID . "'";
 	if (strlen($File_Field_IDs) > 0) {$Sql .= " AND Field_ID NOT IN (" . substr($File_Field_IDs, 0, -1) . ")";}
@@ -145,7 +146,7 @@ function Edit_EWD_OTP_Order($Order_ID, $Order_Name, $Order_Number, $Order_Email,
 					}
 				}
 				if (!isset($InArray) or $InArray) {
-					if ($NoFile != "Yes") {
+					if (!isset($NoFile) or $NoFile != "Yes") {
 						$wpdb->insert($EWD_OTP_fields_meta_table_name,
 							array( 'Field_ID' => $Field->Field_ID,
 								'Order_ID' => $Order_ID,
@@ -268,6 +269,7 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 	}
 
 	// Make sure all columns are acceptable based on the acceptable fields above
+	$Custom_Fields = array();
 	foreach ($Titles as $key => $Title) {
 		if ($Title != "" and !array_key_exists($Title, $Allowed_Fields) and !array_key_exists($Title, $Allowable_Custom_Fields)) {
 			$Error = __("You have a column which is not recognized: ", 'EWD_OTP') . $Title . __(". <br>Please make sure that the column names match the order field labels exactly (without the word order).", 'EWD_OTP');
@@ -284,7 +286,6 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 			unset($Titles[$key]);
 		}
 	}
-	if (!is_array($Custom_Fields)) {$Custom_Fields = array();}
 		
 	// Put the spreadsheet data into a multi-dimensional array to facilitate processing
 	$highestRow = $sheet->getHighestRow();
@@ -326,6 +327,7 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 		}
 
 		if ($Order_ID != "") {
+			$UpdateString = "";
 			foreach ($Values as $key => $value) {$UpdateString .= $Fields[$key] . "='" . $value . "', ";}
 			$wpdb->query($wpdb->prepare("UPDATE $EWD_OTP_orders_table_name SET " . $UpdateString . " Order_Status_Updated='%s' WHERE Order_ID='%d'", $Date, $Order_ID));
 			$Order = $wpdb->get_row("SELECT * FROM $EWD_OTP_orders_table_name WHERE Order_ID='" . $Order_ID . "'");
@@ -342,12 +344,12 @@ function Add_EWD_OTP_Orders_From_Spreadsheet($Excel_File_Name) {
 			}
 		}
 				
-		if (($Order_Email == "Change" or $Order_Email == "Creation") and $Order_Email_Address != "") {}
-				
 		if (isset($Status)) {
+			if (!isset($Location)) {$Location = "";}
 			$wpdb->query($wpdb->prepare("INSERT INTO $EWD_OTP_order_statuses_table_name (Order_ID, Order_Status, Order_Location, Order_Status_Created) VALUES (%d, %s, %s, %s)", $Order_ID, $Status, $Location, $Date));
 		}
 
+		if (!isset($Custom_Fields_To_Insert)) {$Custom_Fields_To_Insert = "";}
 		if (is_array($Custom_Fields_To_Insert)) {
 			foreach ($Custom_Fields_To_Insert as $Field => $Value) {
 				$Trimmed_Field = trim($Field);

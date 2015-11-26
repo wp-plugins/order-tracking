@@ -183,6 +183,7 @@ function EWD_OTP_Send_Email($Order_Email, $Order_Number, $Order_Status, $Order_N
     $Statuses_Array = get_option("EWD_OTP_Statuses_Array");
 	$Email_Messages_Array = get_option("EWD_OTP_Email_Messages_Array");
 
+	$Message_Name = "";
 	if (is_array($Statuses_Array)) {
 		foreach ($Statuses_Array as $Status_Array_Item) {
 			if ($Order_Status == $Status_Array_Item['Status']){$Message_Name = $Status_Array_Item['Message'];}
@@ -203,7 +204,8 @@ function EWD_OTP_Send_Email($Order_Email, $Order_Number, $Order_Status, $Order_N
 	$Order_Info = $wpdb->get_row($wpdb->prepare("SELECT Order_ID, Customer_ID, Sales_Rep_ID FROM $EWD_OTP_orders_table_name WHERE Order_Number='%s'", $Order_Number));
 	$Customer_Name = $wpdb->get_var($wpdb->prepare("SELECT Customer_Name FROM $EWD_OTP_customers WHERE Customer_ID='%d'", $Order_Info->Customer_ID));
 	$Sales_Rep = $wpdb->get_row($wpdb->prepare("SELECT Sales_Rep_First_Name, Sales_Rep_Last_Name FROM $EWD_OTP_sales_reps WHERE Sales_Rep_ID='%d'", $Order_Info->Sales_Rep_ID));
-	$Sales_Rep_Name = $Sales_Rep->Sales_Rep_First_Name . " " . $Sales_Rep->Sales_Rep_Last_Name;
+	if (is_object($Sales_Rep)) {$Sales_Rep_Name = $Sales_Rep->Sales_Rep_First_Name . " " . $Sales_Rep->Sales_Rep_Last_Name;}
+	else {$Sales_Rep_Name = "";}
 	$Tracking_Link = $Tracking_Page . "?Tracking_Number=" . $Order_Number . "&Order_Email=" . $Order_Email;
 
 	$Message_Body = str_replace("[order-number]", $Order_Number, $Message_Body);
@@ -329,7 +331,7 @@ function Add_Orders_From_Spreadsheet() {
         }
 		/* Move the file and store the URL to pass it onwards*/ 	 	
 		else {				 
-				 	  $msg .= $_FILES['Orders_Spreadsheet']['name'];
+				 	  $msg = $_FILES['Orders_Spreadsheet']['name'];
 						//for security reason, we force to remove all uploaded file
 						$target_path = ABSPATH . "wp-content/plugins/order-tracking/order-sheets/";
 						//plugins_url("order-tracking/product-sheets/");
@@ -567,7 +569,7 @@ function EWD_OTP_Handle_File_Upload($Field_Name) {
 		}
 		/* Move the file and store the URL to pass it onwards*/ 	 	
 		else {				 
-				 	  $msg .= $_FILES[$Field_Name]['name'];
+				 	  $msg = $_FILES[$Field_Name]['name'];
 						//for security reason, we force to remove all uploaded file
 						$target_path = ABSPATH . 'wp-content/uploads/order-tracking-uploads/';
 						

@@ -5,7 +5,7 @@
 	if (!is_array($Email_Messages_Array)) {$Email_Messages_Array = array();}
 ?>
 <div class="wrap">
-<form method="post" action="admin.php?page=EWD-OTP-options&DisplayPage=Statuses&Action=EWD_OTP_UpdateStatuses">
+<form method="post" action="admin.php?page=EWD-OTP-options&DisplayPage=Statuses&OTPAction=EWD_OTP_UpdateStatuses">
 	<div id="icon-options-general" class="icon32"><br /></div>
 	<h2>Statuses</h2>
 
@@ -37,7 +37,7 @@
 			<input type='hidden' name='status_percentages[]' value='<?php echo $Status_Array_Item['Percentage']; ?>' />
 			<input type='hidden' name='status_messages[]' value='<?php echo urlencode($Status_Array_Item['Message']); ?>' />
 			<input type='hidden' name='status_internals[]' value='<?php echo urlencode($Status_Array_Item['Internal']); ?>' />
-			<td class="status-delete"><a href="admin.php?page=EWD-OTP-options&Action=EWD_OTP_DeleteStatus&DisplayPage=Statuses&Status=<?php echo urlencode($Status_Array_Item['Status']); ?>"><?php _e("Delete", 'EWD_OTP') ?></a></td>
+			<td class="status-delete"><a href="admin.php?page=EWD-OTP-options&OTPAction=EWD_OTP_DeleteStatus&DisplayPage=Statuses&Status=<?php echo urlencode($Status_Array_Item['Status']); ?>"><?php _e("Delete", 'EWD_OTP') ?></a></td>
 			<td class="status"><?php echo $Status_Array_Item['Status']; ?></td>
 			<td class="status-completed"><?php echo $Status_Array_Item['Percentage']; ?></td>
 			<td class="status-message"><?php echo $Status_Array_Item['Message']; ?></td>

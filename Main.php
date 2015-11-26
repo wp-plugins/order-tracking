@@ -7,7 +7,7 @@ Author: Etoile Web Design
 Author URI: http://www.EtoileWebDesign.com/order-tracking/
 Terms and Conditions: http://www.etoilewebdesign.com/plugin-terms-and-conditions/
 Text Domain: EWD_OTP
-Version: 2.6.11
+Version: 2.6.12
 */
 
 global $EWD_OTP_db_version;
@@ -27,8 +27,9 @@ $EWD_OTP_db_version = "2.6.7";
 define( 'EWD_OTP_CD_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'EWD_OTP_CD_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
-/* define('WP_DEBUG', true);
-$wpdb->show_errors();  */
+/*define('WP_DEBUG', true);
+error_reporting(E_ALL);
+$wpdb->show_errors(); */
 
 /* When plugin is activated */
 register_activation_hook(__FILE__,'Install_EWD_OTP');
@@ -161,7 +162,10 @@ function Run_EWD_OTP_Tutorial() {
 }
 	
 if (get_option("EWD_OTP_Run_Tutorial") == "Yes" and $_GET['page'] == 'EWD-OTP-options') {
-	add_action( 'admin_enqueue_scripts', function( $page ) {
+	add_action( 'admin_enqueue_scripts', 'EWD_OTP_Set_Pointers', 10, 1);
+}
+
+function EWD_OTP_Set_Pointers($page) {
 	  $Pointers = EWD_OTP_Return_Pointers();
 	
 	  //Arguments: pointers php file, version (dots will be replaced), prefix
@@ -181,7 +185,6 @@ if (get_option("EWD_OTP_Run_Tutorial") == "Yes" and $_GET['page'] == 'EWD-OTP-op
 	    'pointers' => $pointers
 	  );
 	  wp_localize_script( 'ewd_otp_admin_pointers', 'MyAdminPointers', $data );
-	} );
 	update_option("EWD_OTP_Run_Tutorial", "No");
 }
 
